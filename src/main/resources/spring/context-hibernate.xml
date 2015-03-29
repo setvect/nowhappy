@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<context:component-scan base-package="com.setvect.nowhappy" >
+	</context:component-scan>
+
+	<!-- 환경설정 기본정보를 globals.properties 에서 참조하도록 propertyConfigurer 설정 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/config/config.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- H2 DB Start -->
+	<bean id="org.h2.tools.Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start"
+		destroy-method="stop">
+		<constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092" />
+	</bean>
+
+	<bean id="org.h2.tools.Server-WebServer" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start">
+		<constructor-arg value="-web,-webAllowOthers,-webPort,8082" />
+	</bean>
+
+	<!-- DB Connection -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" lazy-init="true"
+		depends-on="org.h2.tools.Server">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="org.baeldung.spring.persistence.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${com.setvect.nowhappy.db.dialect}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				<prop key="current_session_context_class">thread</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.setvect.nowhappy.ctmemo.vo.CtmemoVo</value>
+			</list>
+		</property> 
+	</bean>
+	
+	<jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
+		<jdbc:script location="classpath:/db/init.sql"/>
+	</jdbc:initialize-database>	
+
+	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${com.setvect.nowhappy.db.driver}" />
+		<property name="url" value="${com.setvect.nowhappy.db.url}" />
+		<property name="username" value="${com.setvect.nowhappy.db.user}" />
+		<property name="password" value="${com.setvect.nowhappy.db.password}" />
+	</bean>
+
+	<!-- Transaction -->
+	<bean id="hibernateTxManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<tx:advice id="hibernateTxAdvice" transaction-manager="hibernateTxManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="Exception" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="dao" expression="execution(* com.setvect.nowhappy..*Dao.*(..))" />
+		<aop:pointcut id="serivce" expression="execution(* com.setvect.nowhappy..*Service.*(..))" />
+		<aop:pointcut id="controller" expression="execution(* com.setvect.nowhappy..*Controller.*(..))" />
+
+		<aop:advisor advice-ref="hibernateTxAdvice" order="2" pointcut-ref="dao" />
+		<aop:advisor advice-ref="hibernateTxAdvice" order="2" pointcut-ref="serivce" />
+		<aop:advisor advice-ref="hibernateTxAdvice" order="2" pointcut-ref="controller" />
+	</aop:config>
+</beans>
+

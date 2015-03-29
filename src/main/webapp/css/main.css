@@ -1,0 +1,116 @@
+@charset "utf-8";
+/* Reset */
+html,body{width:100%;height:100%;}
+html{overflow-y:scroll}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,form,fieldset,p,button{margin:0;padding:0}
+body,h1,h2,h3,h4,input,button{font-family:'Dotum',Dotum,Helvetica,'Apple SD Gothic Neo',Sans-serif;font-size:12px;color:#383d41}
+body{background-color:#fff;*word-break:break-all;-ms-word-break:break-all}
+img,fieldset,iframe{border:0 none}
+li{list-style:none}
+input,select,button{vertical-align:middle}
+img{vertical-align:top}
+i,em,address{font-style:normal}
+label,button{cursor:pointer}
+button{margin:0;padding:0}
+a{text-decoration:none}
+a:hover{text-decoration:underline}
+button *{position:relative}
+button img{left:-3px;*left:auto}
+html:first-child select{height:20px;padding-right:6px}
+option{padding-right:6px}
+hr{display:none}
+legend{*width:0}
+table{border-collapse:collapse;border-spacing:0}
+
+.memo {
+	padding: 5px;
+	position: absolute;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}     
+
+.memo {
+	font-size: 13px;
+}
+
+.memo .itemContent{
+	clear: both;
+}
+
+.memo .itemContent span{
+	color: red;
+	background-color: yellow;
+}
+
+.memo span .styleBtn {
+}
+.memo span input {
+	padding: 0 1px;
+	float: right;
+	margin-left: 2px;
+}
+
+.clearable{
+  background: #fff url(images/icoX.gif) no-repeat right -10px center;
+  border: 1px solid #999;
+  padding: 3px 18px 3px 4px;     /* Use the same right padding (18) in jQ! */
+  border-radius: 3px;
+  transition: background 0.4s;
+}
+.clearable.x  { background-position: right 5px center; } /* (jQ) Show icon */
+.clearable.onX{ cursor: pointer; }              /* (jQ) hover cursor style */
+
+
+.tool input{
+	padding: 0;
+}
+.palette{
+	width: 60px;
+	position: absolute;
+	display: none;
+	z-index: 99999999999;
+}
+.palette li{
+	float: left;
+}
+.palette div{
+	padding: 4px;
+	width: 10px;
+	height: 10px;
+	cursor: pointer;
+}
+.palette .text_area div	{
+	background-color: #ee98de;
+}
+
+/* 검색 안된 메모 스타일 */
+.not_search{
+	opacity: .3;
+}
+
+/* 메모장 적용 스타일 */
+._ct_bgstyle_1{
+	border: 1px solid #a9abb0;
+	background-color: #ffffff;
+}
+._ct_bgstyle_2{
+	border: 1px solid #a9abb0;
+	background-color: #e0ffff;
+}
+._ct_bgstyle_3{
+	border: 1px solid #a9abb0;
+	background-color: #6495ed;
+}
+
+._ct_fontstyle_1{
+	border: 1px solid #a9abb0;
+	color: black;
+}
+._ct_fontstyle_2{
+	border: 1px solid #a9abb0;
+	color: red;
+}
+._ct_fontstyle_3{
+	border: 1px solid #a9abb0;
+	color: blue;
+}
