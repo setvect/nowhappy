@@ -67,7 +67,7 @@
 		
 		// 전체 메모장을 불러온다.
 		this.loadAllMemo = function(){
-			$.get(instance.contextRoot + "/listAllCtmemo.json", function(memoList) {
+			$.get(instance.contextRoot + "/ctmemo/listAllCtmemo.json", function(memoList) {
 				$("._list").html("");
 				$.each(memoList, function() {
 					instance.memoMap[this.ctmemoSeq] = this;
@@ -109,7 +109,7 @@
 
 		// 새로운 메모를 생성한다.
 		this.newMemo = function(){
-			$.get(instance.contextRoot + "/newMemo.json", function(memo) {
+			$.get(instance.contextRoot + "/ctmemo/newMemo.json", function(memo) {
 				instance.memoMap[memo.ctmemoSeq] = memo;
 				instance.currentMemoSeq = memo.ctmemoSeq;
 				instance.editMemo();
@@ -127,7 +127,7 @@
 		this.saveMemo = function(){
 			var memo = instance.memoMap[instance.currentMemoSeq];
 			memo.content = $("._contentInput").val();
-			$.post(instance.contextRoot + "/saveMemo.do", memo, function() {
+			$.post(instance.contextRoot + "/ctmemo/saveMemo.do", memo, function() {
 				instance.loadAllMemo();
 				$.mobile.navigate("#list_page");
 			});			
@@ -135,7 +135,7 @@
 		
 		// 메모 삭제
 		this.deleteMemo = function(){
-			$.post(instance.contextRoot + "/deleteMemo.do", {ctmemoSeq: instance.currentMemoSeq}, function( data ) {
+			$.post(instance.contextRoot + "/ctmemo/deleteMemo.do", {ctmemoSeq: instance.currentMemoSeq}, function( data ) {
 				instance.deleteQueue.push(instance.currentMemoSeq);
 				instance.undeleteDisplay();
 				instance.loadAllMemo();
@@ -146,7 +146,7 @@
 		// 마지막 삭제 취소
 		this.undeleteMemo = function(){
 			var seq = instance.deleteQueue.pop();
-			$.post(instance.contextRoot + "/undelete.json", {ctmemoSeq: seq}, function( memo ) {
+			$.post(instance.contextRoot + "/ctmemo/undelete.json", {ctmemoSeq: seq}, function( memo ) {
 				instance.loadAllMemo();
 				instance.undeleteDisplay();
 			});	

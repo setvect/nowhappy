@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.ServletRequest;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,7 @@ import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.service.CtmemoService;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
 
+@Controller
 public class CtmemoController {
 
 	@Inject
