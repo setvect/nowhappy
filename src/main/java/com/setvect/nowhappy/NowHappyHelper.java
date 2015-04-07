@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.setvect.common.date.DateUtil;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
-import com.setvect.util.date.DateUtil;
 
 public class NowHappyHelper {
 
