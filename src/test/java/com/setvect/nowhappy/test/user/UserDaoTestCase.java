@@ -33,7 +33,7 @@ public class UserDaoTestCase extends MainTestBase {
 
 		UserSearchCondition condition = new UserSearchCondition(1);
 		GenericPage<UserVo> list = dao.listUser(condition);
-		Assert.assertThat(list.getList().size(), CoreMatchers.is(1));
+		Assert.assertThat(list.getList().size(), CoreMatchers.is(2));
 
 		condition.setSearchName("복슬");
 		list = dao.listUser(condition);
@@ -42,17 +42,18 @@ public class UserDaoTestCase extends MainTestBase {
 		condition.setSearchName("복실");
 		list = dao.listUser(condition);
 		Assert.assertThat(list.getList().size(), CoreMatchers.is(0));
-		
+
 		String name = "내사랑";
 		user.setName(name);
 		dao.updateUser(user);
 
 		UserVo vo = dao.getUser(user.getUserId());
 		Assert.assertThat(name, CoreMatchers.is(vo.getName()));
-
+		
+		condition = new UserSearchCondition(1);
 		dao.deleteUser(user.getUserId());
 		list = dao.listUser(condition);
-		Assert.assertThat(list.getList().size(), CoreMatchers.is(0));
+		Assert.assertThat(list.getList().size(), CoreMatchers.is(1));
 
 	}
 }
