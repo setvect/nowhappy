@@ -10,4 +10,8 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
+
+	<!-- 설정 정보 로딩  -->	
+	<bean id="envirmentInit" class="com.setvect.nowhappy.boot.EnvirmentInit" >
+	</bean>	
 </beans>

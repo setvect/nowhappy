@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.setvect.nowhappy.NowHappyConstant;
-import com.setvect.nowhappy.NowHappyHelper;
+import com.setvect.nowhappy.ApplicationConstant;
+import com.setvect.nowhappy.ApplicationHelper;
 import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.service.CtmemoService;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
@@ -49,7 +49,7 @@ public class CtmemoController {
 
 	private void init() {
 		if (!init) {
-			List<CtmemoVo> samples = NowHappyHelper.getSampleData();
+			List<CtmemoVo> samples = ApplicationHelper.getSampleData();
 			for (CtmemoVo v : samples) {
 				ctmemoService.insertCtmemo(v);
 			}
@@ -108,8 +108,8 @@ public class CtmemoController {
 	@ResponseBody
 	public Map<String, List<String>> listUsagestyle() {
 		Map<String, List<String>> m = new HashMap<String, List<String>>();
-		m.put("font", NowHappyConstant.Style.FONTSTYLE_LIST);
-		m.put("bg", NowHappyConstant.Style.BGSTYLE_LIST);
+		m.put("font", ApplicationConstant.Style.FONTSTYLE_LIST);
+		m.put("bg", ApplicationConstant.Style.BGSTYLE_LIST);
 		return m;
 	}
 

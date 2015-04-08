@@ -7,7 +7,7 @@ import java.util.List;
 import com.setvect.common.date.DateUtil;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
 
-public class NowHappyHelper {
+public class ApplicationHelper {
 
 	/**
 	 * 서비스 시작 직후 등록하기위한 샘플데이터 제공
@@ -20,8 +20,8 @@ public class NowHappyHelper {
 		CtmemoVo ctmemo = new CtmemoVo();
 		ctmemo.setCtmemoSeq(1);
 		ctmemo.setContent("내용1\n복슬이");
-		ctmemo.setBgCss(NowHappyConstant.Style.BGSTYLE_1);
-		ctmemo.setFontCss(NowHappyConstant.Style.FONTSTYLE_1);
+		ctmemo.setBgCss(ApplicationConstant.Style.BGSTYLE_1);
+		ctmemo.setFontCss(ApplicationConstant.Style.FONTSTYLE_1);
 		ctmemo.setWidth(160);
 		ctmemo.setHeight(130);
 		ctmemo.setPositionX(220);
@@ -35,8 +35,8 @@ public class NowHappyHelper {
 		ctmemo = new CtmemoVo();
 		ctmemo.setCtmemoSeq(2);
 		ctmemo.setContent("내용2");
-		ctmemo.setBgCss(NowHappyConstant.Style.BGSTYLE_2);
-		ctmemo.setFontCss(NowHappyConstant.Style.FONTSTYLE_2);
+		ctmemo.setBgCss(ApplicationConstant.Style.BGSTYLE_2);
+		ctmemo.setFontCss(ApplicationConstant.Style.FONTSTYLE_2);
 		ctmemo.setWidth(160);
 		ctmemo.setHeight(150);
 		ctmemo.setPositionX(100);
@@ -51,8 +51,8 @@ public class NowHappyHelper {
 		ctmemo.setCtmemoSeq(2);
 		ctmemo.setContent("처음 느낀 그대 눈빛은 혼자만의 오해였던가요\n" + "해맑은 미소로 나를 바보로 만들었소\n" + "내 곁을 떠나가던 날\n" + "가슴에 품었던 분홍빛의\n"
 				+ "수많은 추억들이 푸르게 바래졌소 ");
-		ctmemo.setBgCss(NowHappyConstant.Style.BGSTYLE_2);
-		ctmemo.setFontCss(NowHappyConstant.Style.FONTSTYLE_2);
+		ctmemo.setBgCss(ApplicationConstant.Style.BGSTYLE_2);
+		ctmemo.setFontCss(ApplicationConstant.Style.FONTSTYLE_2);
 		ctmemo.setWidth(160);
 		ctmemo.setHeight(150);
 		ctmemo.setPositionX(300);

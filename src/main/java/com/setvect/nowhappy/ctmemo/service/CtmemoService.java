@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.setvect.nowhappy.NowHappyConstant;
+import com.setvect.nowhappy.ApplicationConstant;
 import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.dao.CtmemoDao;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
@@ -47,8 +47,8 @@ public class CtmemoService {
 	public CtmemoVo newMemo() {
 		CtmemoVo ctmemo = new CtmemoVo();
 		ctmemo.setContent(" ");
-		ctmemo.setBgCss(NowHappyConstant.Style.BGSTYLE_1);
-		ctmemo.setFontCss(NowHappyConstant.Style.FONTSTYLE_1);
+		ctmemo.setBgCss(ApplicationConstant.Style.BGSTYLE_1);
+		ctmemo.setFontCss(ApplicationConstant.Style.FONTSTYLE_1);
 		ctmemo.setWidth(150);
 		ctmemo.setHeight(150);
 		ctmemo.setPositionX(1);

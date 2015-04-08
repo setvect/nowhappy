@@ -11,7 +11,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
-import com.setvect.nowhappy.NowHappyConstant;
+import com.setvect.nowhappy.ApplicationConstant;
 
 /**
  * 회원
@@ -35,7 +35,7 @@ public class UserVo implements Serializable {
 	/**
 	 * MD5로 암호화
 	 * 
-	 * @see NowHappyConstant#PASSWD_ALGORITHM
+	 * @see ApplicationConstant#PASSWD_ALGORITHM
 	 */
 	@Column(name = "PASSWD")
 	private String passwd;

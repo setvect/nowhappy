@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.setvect.nowhappy.NowHappyConstant;
+import com.setvect.nowhappy.ApplicationConstant;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
 import com.setvect.nowhappy.ctmemo.web.CtmemoController;
 import com.setvect.nowhappy.test.MainTestBase;
@@ -54,8 +54,8 @@ public class CtmemoControllerTestCase extends MainTestBase {
 		Assert.assertThat(result.size(), CoreMatchers.is(4));
 
 		Map<String, List<String>> styleList = controller.listUsagestyle();
-		Assert.assertThat(styleList.get("font"), CoreMatchers.is(NowHappyConstant.Style.FONTSTYLE_LIST));
-		Assert.assertThat(styleList.get("bg"), CoreMatchers.is(NowHappyConstant.Style.BGSTYLE_LIST));
+		Assert.assertThat(styleList.get("font"), CoreMatchers.is(ApplicationConstant.Style.FONTSTYLE_LIST));
+		Assert.assertThat(styleList.get("bg"), CoreMatchers.is(ApplicationConstant.Style.BGSTYLE_LIST));
 
 	}
 }
