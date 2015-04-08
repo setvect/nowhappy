@@ -12,6 +12,7 @@ import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.dao.CtmemoDao;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
 import com.setvect.nowhappy.test.MainTestBase;
+import com.setvect.nowhappy.test.UnitTestUtil;
 
 public class CtmemoDaoTestCase extends MainTestBase {
 
@@ -22,7 +23,7 @@ public class CtmemoDaoTestCase extends MainTestBase {
 	public void test() throws InterruptedException {
 		System.out.println(dao);
 
-		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
+		CtmemoVo ctmemo = UnitTestUtil.getCtmemoTestData();
 		dao.insertCtmemo(ctmemo);
 
 		CtmemoVo getmemo = dao.getCtmemo(ctmemo.getCtmemoSeq());

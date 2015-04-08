@@ -12,6 +12,7 @@ import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.service.CtmemoService;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
 import com.setvect.nowhappy.test.MainTestBase;
+import com.setvect.nowhappy.test.UnitTestUtil;
 
 public class CtmemoServiceTestCase extends MainTestBase {
 	@Inject
@@ -19,7 +20,7 @@ public class CtmemoServiceTestCase extends MainTestBase {
 
 	@Test
 	public void test() {
-		CtmemoVo ctmemo = CtmemoTestUtil.getCtmemoTestData();
+		CtmemoVo ctmemo = UnitTestUtil.getCtmemoTestData();
 		service.insertCtmemo(ctmemo);
 
 		CtmemoVo getmemo = service.getCtmemo(ctmemo.getCtmemoSeq());

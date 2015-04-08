@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.nowhappy.test.MainTestBase;
+import com.setvect.nowhappy.test.UnitTestUtil;
 import com.setvect.nowhappy.user.dao.UserDao;
 import com.setvect.nowhappy.user.vo.UserSearchCondition;
 import com.setvect.nowhappy.user.vo.UserVo;
@@ -19,13 +20,7 @@ public class UserDaoTestCase extends MainTestBase {
 
 	@Test
 	public void test() throws InterruptedException {
-		UserVo user = new UserVo();
-		user.setUserId("mylove");
-		user.setName("복슬이");
-		user.setPasswd("1234pw");
-		user.setEmail("test@test.com");
-		user.setAdminF(true);
-		user.setDeleteF(false);
+		UserVo user = UnitTestUtil.getUserTestData();
 		dao.insertUser(user);
 
 		UserVo u = dao.getUser(user.getUserId());
@@ -49,11 +44,12 @@ public class UserDaoTestCase extends MainTestBase {
 
 		UserVo vo = dao.getUser(user.getUserId());
 		Assert.assertThat(name, CoreMatchers.is(vo.getName()));
-		
+
 		condition = new UserSearchCondition(1);
 		dao.deleteUser(user.getUserId());
 		list = dao.listUser(condition);
 		Assert.assertThat(list.getList().size(), CoreMatchers.is(1));
 
 	}
+
 }
