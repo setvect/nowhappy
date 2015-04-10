@@ -16,7 +16,7 @@ import com.setvect.nowhappy.user.dao.UserService;
 import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
- * 환경설정>운영자 관리 메뉴 컨트롤러
+ * 로그인 
  */
 @Controller
 public class LoginController {
