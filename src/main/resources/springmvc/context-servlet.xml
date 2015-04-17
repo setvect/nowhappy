@@ -19,4 +19,9 @@
 
 	<mvc:annotation-driven />
 
+	<!-- 로그인 세선 체크 -->
+	<mvc:interceptors>
+		<bean class="com.setvect.nowhappy.SessionCheckInterceptor"/>
+	</mvc:interceptors>	
+	
 </beans>

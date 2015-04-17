@@ -42,7 +42,7 @@ public class ApplicationConstant {
 		public static final String USER_SESSION_KEY = "_user_session_key";
 		/** 리턴 URL 파라미터 이름 */
 		public static final String RETURN_URL = "returnUrl";
-		
+
 		/** 로그인 상태 유지 시간(단위: sec) */
 		public final static int COOKIE_TIME = EnvirmentProperty.getInt("com.setvect.nowhappy.login.cookie_time");
 
@@ -62,6 +62,14 @@ public class ApplicationConstant {
 
 			IMAGE_EXT = EnvirmentProperty.getList("com.setvect.literatureboy.image_ext");
 		}
+	}
+
+	/**
+	 * 전역적으로 사용되는
+	 * request.setAttribute()에 Key값.
+	 */
+	public static class WebAttributeKey {
+		public static final String LOAD_PAGE = "LOAD_PAGE";
 	}
 
 	/** 패스워드 암호화 알고리즘 */

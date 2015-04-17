@@ -1,0 +1,21 @@
+[범례]
+-- 이슈 명명 규칙 --
+	NEW_yyyyMMdd: NEW - Job  			  - 새로 진행할 작업 일자 
+	PBM_yyyyMMdd: PBM - Problem  		- 문제 발견 일자 
+	REF_yyyyMMdd: REF - Refactoring	- 소스 개선 사항	
+	ISS_yyyyMMdd: ISS - Issue				- 이슈사항
+
+[메모]
+jdbc:h2:tcp://localhost:9092/E:/workspace_git/nowhappy/db/nowhappy_db
+nowhappy_user
+nowhappy_pass
+
+81dc9bdb52d04dc20036dbd8313ed055 = 1234
+
+[진행 해야되는 것]
+
+
+[완료된 것]
+
+
+[안하기로 한 것]

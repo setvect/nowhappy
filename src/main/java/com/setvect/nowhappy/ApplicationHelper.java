@@ -4,14 +4,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FilenameUtils;
+
 import com.setvect.common.date.DateUtil;
+import com.setvect.common.http.CookieProcess;
+import com.setvect.common.util.SerializerUtil;
+import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
+import com.setvect.nowhappy.user.vo.UserVo;
 
 public class ApplicationHelper {
 
 	/**
 	 * 서비스 시작 직후 등록하기위한 샘플데이터 제공
 	 * 테스트 용도로 사용할 메소드.
+	 * 
 	 * @return
 	 */
 	public static List<CtmemoVo> getSampleData() {
@@ -64,4 +73,6 @@ public class ApplicationHelper {
 		result.add(ctmemo);
 		return result;
 	}
+
+	
 }
