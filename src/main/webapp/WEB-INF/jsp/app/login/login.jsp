@@ -3,7 +3,7 @@
 	$(function(){
 		$("._loginBtn").on("click", function(){
 			var param = $("._loginForm").serialize();
-			$.post(mainCtrl.getUrl("app/login/action.do"), param, function(result){
+			$.post(mainCtrl.getUrl("/app/login/action.do"), param, function(result){
 				console.log(result);
 			});
 			return false;
