@@ -46,6 +46,7 @@
 			<list>
 				<value>com.setvect.nowhappy.ctmemo.vo.CtmemoVo</value>
 				<value>com.setvect.nowhappy.user.vo.UserVo</value>
+				<value>com.setvect.nowhappy.comment.vo.Comment</value>
 			</list>
 		</property>
 	</bean>

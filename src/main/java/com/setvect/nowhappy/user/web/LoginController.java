@@ -7,17 +7,18 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.setvect.common.util.SerializerUtil;
-import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationConstant;
 import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
 import com.setvect.nowhappy.user.dao.UserService;
 import com.setvect.nowhappy.user.vo.UserVo;
+import com.setvect.nowhappy.util.StringEtcUtil;
 
 /**
  * 로그인 처리
@@ -53,7 +54,7 @@ public class LoginController {
 			result.put(WebAttributeKey.PROCESS_RESULT, false);
 			return result;
 		}
-		String passwdEncode = StringUtilAd.encodePassword(passwd, ApplicationConstant.PASSWD_ALGORITHM);
+		String passwdEncode = StringEtcUtil.encodePassword(passwd, ApplicationConstant.PASSWD_ALGORITHM);
 		loginStat = user.getPasswd().equals(passwdEncode);
 		if (!loginStat) {
 			result.put(WebAttributeKey.PROCESS_RESULT, false);
@@ -65,7 +66,7 @@ public class LoginController {
 		user.setPasswd(null);
 
 		String cookieData = SerializerUtil.makeBase64Encode(user);
-		boolean statusSave = StringUtilAd.isNotEmpty(request.getParameter("statusSave"));
+		boolean statusSave = StringUtils.isNotEmpty(request.getParameter("statusSave"));
 
 		// iis에서는 줄바꿈 문제가 있으면 쿠키가 셋팅이 안된다. 그래서 줄 바꿈을 제거
 		cookieData = cookieData.replaceAll("\r", "");

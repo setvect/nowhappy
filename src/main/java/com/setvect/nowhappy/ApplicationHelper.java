@@ -11,7 +11,6 @@ import org.apache.commons.io.FilenameUtils;
 import com.setvect.common.date.DateUtil;
 import com.setvect.common.http.CookieProcess;
 import com.setvect.common.util.SerializerUtil;
-import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
 import com.setvect.nowhappy.user.vo.UserVo;
 

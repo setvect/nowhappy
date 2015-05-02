@@ -4,12 +4,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationConstant;
+import com.setvect.nowhappy.util.StringEtcUtil;
 
 /**
  * 로그아웃
@@ -29,10 +30,10 @@ public class LogoutController {
 		loginCookie.setPath("/");
 		response.addCookie(loginCookie);
 		String returnUrl = "";
-		returnUrl = StringUtilAd.null2str(returnUrl, "/");
+		returnUrl = StringEtcUtil.null2str(returnUrl, "/");
 
 		String referer = request.getHeader("Referer");
-		if (StringUtilAd.isNotEmpty(referer) && referer.contains("/m/")) {
+		if (StringUtils.isNotEmpty(referer) && referer.contains("/m/")) {
 			mav.setViewName("redirect:/m/");
 		}
 		else {

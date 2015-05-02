@@ -3,10 +3,10 @@ package com.setvect.nowhappy;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.setvect.common.http.CookieProcess;
 import com.setvect.common.util.SerializerUtil;
-import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.user.vo.UserVo;
 
 public class ApplicationUtil {
@@ -21,7 +21,7 @@ public class ApplicationUtil {
 	public static void checkAllowUploadFile(String fileName) throws ApplicationException {
 		String ext = FilenameUtils.getExtension(fileName).toLowerCase();
 
-		int a = StringUtilAd.indexOfAny(ext, ApplicationConstant.WebCommon.ALLOW_UPLOAD_FILE);
+		int a = StringUtils.indexOfAny(ext, ApplicationConstant.WebCommon.ALLOW_UPLOAD_FILE);
 		if (a == -1) {
 			throw new ApplicationException("[" + fileName + "] 은 허가된 파일이 아닙니다.");
 		}
@@ -38,7 +38,7 @@ public class ApplicationUtil {
 		UserVo user = null;
 		CookieProcess cookie = new CookieProcess(request);
 		String encode = cookie.get(ApplicationConstant.WebCommon.USER_COOKIE_KEY);
-		if (!StringUtilAd.isEmpty(encode)) {
+		if (!StringUtils.isEmpty(encode)) {
 			encode = encode.replaceAll("  ", "\n");
 			try {
 				user = (UserVo) SerializerUtil.restoreBase64Decode(encode);
