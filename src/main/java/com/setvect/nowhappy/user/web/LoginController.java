@@ -1,5 +1,8 @@
 package com.setvect.nowhappy.user.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +40,9 @@ public class LoginController {
 	 */
 	@RequestMapping("/app/login/action.do")
 	@ResponseBody
-	public boolean process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Map<String, Object> process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Map<String, Object> result = new HashMap<String, Object>();
 
 		String userId = request.getParameter("userId");
 		String passwd = request.getParameter("passwd");
@@ -45,12 +50,14 @@ public class LoginController {
 		UserVo user = userService.getUser(userId);
 		boolean loginStat = false;
 		if (user == null) {
-			return false;
+			result.put(WebAttributeKey.PROCESS_RESULT, false);
+			return result;
 		}
 		String passwdEncode = StringUtilAd.encodePassword(passwd, ApplicationConstant.PASSWD_ALGORITHM);
 		loginStat = user.getPasswd().equals(passwdEncode);
 		if (!loginStat) {
-			return false;
+			result.put(WebAttributeKey.PROCESS_RESULT, false);
+			return result;
 		}
 
 		// 로그인 성공
@@ -72,8 +79,8 @@ public class LoginController {
 
 		response.addCookie(loginCookie);
 		String rtnUrl = request.getParameter(ApplicationConstant.WebCommon.RETURN_URL);
-		request.setAttribute(WebAttributeKey.LOAD_PAGE, rtnUrl);
-		return true;
-
+		result.put(WebAttributeKey.PROCESS_RESULT, true);
+		result.put(WebAttributeKey.LOAD_PAGE, rtnUrl);
+		return result;
 	}
 }

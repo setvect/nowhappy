@@ -1,10 +1,20 @@
+<%@page import="com.setvect.nowhappy.ApplicationConstant.WebAttributeKey"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <script type="text/javascript">
 	$(function(){
 		$("._loginBtn").on("click", function(){
 			var param = $("._loginForm").serialize();
 			$.post(mainCtrl.getUrl("/app/login/action.do"), param, function(result){
-				console.log(result);
+				var login = result["<%=WebAttributeKey.PROCESS_RESULT%>"];
+				if(login){
+					var loadPage = result["<%=WebAttributeKey.LOAD_PAGE%>"]
+					var page = loadPage == null ? "/home.do" : loadPage;
+					var url = mainCtrl.getUrl(page);
+					location.href = url;
+				}
+				else{
+					alert("틀렸다. 넌 누구냐?")
+				}
 			});
 			return false;
 		});

@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
 import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
@@ -38,7 +39,7 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 		// user = userService.getUser("setvect");
 		// }
 
-		request.setAttribute(ApplicationConstant.WebCommon.USER_SESSION_KEY, user);
+		request.setAttribute(WebAttributeKey.USER_SESSION_KEY, user);
 		return true;
 	}
 

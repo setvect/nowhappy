@@ -38,8 +38,6 @@ public class ApplicationConstant {
 		/** 로그인 쿠키 키값 */
 		public static final String USER_COOKIE_KEY = "_user_cookie_key";
 
-		/** 로그인 attribute 키값 */
-		public static final String USER_SESSION_KEY = "_user_session_key";
 		/** 리턴 URL 파라미터 이름 */
 		public static final String RETURN_URL = "returnUrl";
 
@@ -70,6 +68,9 @@ public class ApplicationConstant {
 	 */
 	public static class WebAttributeKey {
 		public static final String LOAD_PAGE = "LOAD_PAGE";
+		public static final String PROCESS_RESULT = "PROCESS_RESULT";
+		/** 로그인 attribute 키값 */
+		public static final String USER_SESSION_KEY = "_user_session_key";
 	}
 
 	/** 패스워드 암호화 알고리즘 */
