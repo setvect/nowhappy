@@ -15,18 +15,31 @@
 		var moduleName = "<%=module%>";
 		var listUrl = mainCtrl.getUrl("/app/comment/list.json");
 		var deleteUrl = mainCtrl.getUrl("/app/comment/delete.do");
-		
-		var param = {};
-		param["moduleName"] = moduleName;
-	  $http.get(listUrl, {params: param}).success(function(response) {
-	  	$scope.loginId = "<%=userId%>";
-		  $scope.item = response.list;
-		  $scope.remove = function(index){
-			  var deleteItem = $scope.item[index];
-			  console.log(deleteItem);
-			  $scope.item.splice (index, 1);
-		  };
-	  });			
+	  $scope.loginId = "<%=userId%>";
+	  $scope.list = [];
+
+	  $scope.more = function(){
+		  var param = {};
+		  param["moduleName"] = moduleName;
+		  $http.get(listUrl, {params: param}).success(function(response) {
+			  $scope.list = $scope.list.concat(response.list);
+			  console.log($scope.list);
+			  $scope.totalCount = response.totalCount;
+			  $scope.currentItem = $scope.list.length;
+		  });
+	  };
+
+	  $scope.remove = function(index){
+		  var deleteItem = $scope.list[index];
+		  $http.get(deleteUrl, {params: {commentSeq: deleteItem.commentSeq}}).success(function(response) {
+		  	if(response){
+		  		$scope.list.splice (index, 1);
+		  	}
+		  });
+	  };
+	  
+	  $scope.more();
+	  
 	});	
 	
 	var injector = angular.injector(['ng', 'commentApp'])
@@ -52,16 +65,15 @@
 <%
 	}
 %>
-	<div>
-		<ul data-ng-controller="commentList">
-			<li data-ng-repeat="x in item">
+	<div data-ng-controller="commentList">
+		<ul>
+			<li data-ng-repeat="x in list">
 				{{x.content}} 
 				{{x.regDateDiff}}
 				{{x.userId}}
 				<a href="#" data-ng-click="remove($index)" data-ng-if="x.userId == loginId" class="btn btn-default btn-xs">삭제</a>
 			</li>
 		</ul>
-		<a href="#" class="btn btn-default  btn-lg btn-block btn-xs">더 불러오기</a>
+		<a href="#" data-ng-click="more()"  class="btn btn-default  btn-lg btn-block btn-xs">더 불러오기({{currentItem}}/{{totalCount}})</a>
 	</div>
 </div>
-ddddddddd

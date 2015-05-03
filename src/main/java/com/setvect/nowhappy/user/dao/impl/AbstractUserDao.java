@@ -37,14 +37,13 @@ public abstract class AbstractUserDao implements UserDao {
 
 		q = " from UserVo " + getUserWhere(search) + " order by userId ";
 		query = session.createQuery(q);
-		query.setFirstResult(search.getStartNumber());
-		query.setMaxResults(search.getPagePerItemCount());
+		// query.setFirstResult(search.getStartNumber());
+		// query.setMaxResults(search.getPagePerItemCount());
 
 		@SuppressWarnings("unchecked")
 		List<UserVo> resultList = query.list();
 
-		GenericPage<UserVo> resultPage = new GenericPage<UserVo>(resultList, search.getCurrentPage(), totalCount,
-				search.getPageUnit(), search.getPagePerItemCount());
+		GenericPage<UserVo> resultPage = new GenericPage<UserVo>(resultList, search.getStartCursor(), totalCount);
 		return resultPage;
 	}
 

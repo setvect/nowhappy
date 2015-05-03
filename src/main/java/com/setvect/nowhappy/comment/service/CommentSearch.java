@@ -13,8 +13,8 @@ public class CommentSearch extends SearchListVo {
 
 	private final CommentModule moduleName;
 
-	public CommentSearch(int currentPage, CommentModule moduleName) {
-		super(currentPage);
+	public CommentSearch(CommentModule moduleName, int startCursor, int endCursor) {
+		super(startCursor, endCursor);
 		this.moduleName = moduleName;
 	}
 

@@ -14,8 +14,8 @@ public class UserSearchCondition extends SearchListVo {
 	private String searchName;
 	private String searchId;
 
-	public UserSearchCondition(int currentPage) {
-		super(currentPage);
+	public UserSearchCondition(int startCursor, int endCursor) {
+		super(startCursor, endCursor);
 	}
 
 	/**

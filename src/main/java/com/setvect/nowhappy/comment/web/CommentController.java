@@ -26,6 +26,8 @@ import com.setvect.nowhappy.user.vo.UserVo;
  */
 @Controller
 public class CommentController {
+	/** 한 페이지당 표시 항목 갯수 */
+	private static final int PAGE_PER_ITEM = 5;
 	public static final String ATTR_MODULE_NAME = "MODULE_NAME";
 
 	/**
@@ -66,8 +68,8 @@ public class CommentController {
 	public GenericPage<Comment> list(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String mn = request.getParameter("moduleName");
 		CommentModule moduleName = CommentModule.valueOf(mn);
-		int currentPage = Integer.parseInt(StringUtilAd.null2str(request.getParameter("currentPage"), "1"));
-		CommentSearch pageCondition = new CommentSearch(currentPage, moduleName);
+		int startCursor = Integer.parseInt(StringUtilAd.null2str(request.getParameter("startCursor"), "1"));
+		CommentSearch pageCondition = new CommentSearch(moduleName, startCursor, startCursor + PAGE_PER_ITEM);
 		GenericPage<Comment> page = commentService.getCommentPagingList(pageCondition);
 
 		return page;

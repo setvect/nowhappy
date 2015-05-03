@@ -25,7 +25,7 @@ public class UserServiceTestCase extends MainTestBase {
 		UserVo getuser = service.getUser(user.getUserId());
 		Assert.assertThat(user, CoreMatchers.is(getuser));
 
-		UserSearchCondition condition = new UserSearchCondition(1);
+		UserSearchCondition condition = new UserSearchCondition(1, 1);
 		GenericPage<UserVo> list = service.listUser(condition);
 		Assert.assertThat(list.getTotalCount(), CoreMatchers.is(2));
 

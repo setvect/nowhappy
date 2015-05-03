@@ -1,4 +1,4 @@
-package com.setvect.nowhappy.util;
+package com.setvect.common.util;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -6,15 +6,17 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 /**
+ * anyframe.common.util.StringUtil에서 사용하고 있는 Methd Delegate
+ * 
  * @version $Id$
  */
-public class StringEtcUtil {
+public class StringUtilAd extends StringUtils {
 
 	/**
 	 * @param word
@@ -24,7 +26,7 @@ public class StringEtcUtil {
 	public static String getSqlString(String word) {
 
 		word = null2str(word);
-		word = StringUtils.replace(word, "'", "''");
+		word = replace(word, "'", "''");
 		word = word.trim();
 		return new String("'" + word + "'");
 	}
@@ -36,7 +38,7 @@ public class StringEtcUtil {
 	 */
 	public static String getSqlStringLike(String word) {
 		word = null2str(word);
-		word = StringUtils.replace(word, "'", "''");
+		word = replace(word, "'", "''");
 		word = word.trim();
 		return new String("'%" + word + "%'");
 	}
@@ -48,7 +50,7 @@ public class StringEtcUtil {
 	 */
 	public static String getSqlStringLikeLeft(String word) {
 		word = null2str(word);
-		word = StringUtils.replace(word, "'", "''");
+		word = replace(word, "'", "''");
 		word = word.trim();
 		return new String("'%" + word + "'");
 	}
@@ -60,7 +62,7 @@ public class StringEtcUtil {
 	 */
 	public static String getSqlStringLikeRight(String word) {
 		word = null2str(word);
-		word = StringUtils.replace(word, "'", "''");
+		word = replace(word, "'", "''");
 		word = word.trim();
 		return new String("'" + word + "%'");
 	}
@@ -75,14 +77,14 @@ public class StringEtcUtil {
 	public static String toForm(String src) {
 		String strBuffer = src;
 		if (src == null)
-			return StringUtils.EMPTY;
-		strBuffer = StringUtils.replace(strBuffer, "<", "&lt;");
-		strBuffer = StringUtils.replace(strBuffer, ">", "&gt;");
-		strBuffer = StringUtils.replace(strBuffer, "\"", "&quot;");
-		strBuffer = StringUtils.replace(strBuffer, "\'", "&#039;");
+			return EMPTY;
+		strBuffer = replace(strBuffer, "<", "&lt;");
+		strBuffer = replace(strBuffer, ">", "&gt;");
+		strBuffer = replace(strBuffer, "\"", "&quot;");
+		strBuffer = replace(strBuffer, "\'", "&#039;");
 
 		// &#33324의 글자를 보존 하기 위해서
-		strBuffer = StringUtils.replace(strBuffer, "&amp;#", "&#");
+		strBuffer = replace(strBuffer, "&amp;#", "&#");
 		return strBuffer;
 	}
 
@@ -95,17 +97,17 @@ public class StringEtcUtil {
 	 */
 	public static String toText(String src) {
 		String strBuffer = null2str(src, "");
-		strBuffer = StringUtils.replace(strBuffer, "&", "&amp;");
-		strBuffer = StringUtils.replace(strBuffer, "<", "&lt;");
-		strBuffer = StringUtils.replace(strBuffer, ">", "&gt;");
-		strBuffer = StringUtils.replace(strBuffer, "\"", "&quot;");
-		strBuffer = StringUtils.replace(strBuffer, "\'", "&#039;");
-		strBuffer = StringUtils.replace(strBuffer, " ", "&nbsp;");
+		strBuffer = replace(strBuffer, "&", "&amp;");
+		strBuffer = replace(strBuffer, "<", "&lt;");
+		strBuffer = replace(strBuffer, ">", "&gt;");
+		strBuffer = replace(strBuffer, "\"", "&quot;");
+		strBuffer = replace(strBuffer, "\'", "&#039;");
+		strBuffer = replace(strBuffer, " ", "&nbsp;");
 		// strBuffer.replaceAll(" ", "&nbsp;");
-		strBuffer = StringUtils.replace(strBuffer, "\n", "<br>");
+		strBuffer = replace(strBuffer, "\n", "<br>");
 
 		// &#33324의 글자를 보존 하기 위해서
-		strBuffer = StringUtils.replace(strBuffer, "&amp;#", "&#");
+		strBuffer = replace(strBuffer, "&amp;#", "&#");
 		return strBuffer;
 	}
 
@@ -118,10 +120,10 @@ public class StringEtcUtil {
 	 */
 	public static String toBr(String src) {
 		if (src == null) {
-			return StringUtils.EMPTY;
+			return StringUtilAd.EMPTY;
 		}
 		String strBuffer = src;
-		return StringUtils.replace(strBuffer, "\n", "<br>");
+		return replace(strBuffer, "\n", "<br>");
 	}
 
 	/**
