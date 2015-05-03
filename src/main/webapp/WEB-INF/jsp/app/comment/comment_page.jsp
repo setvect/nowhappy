@@ -6,33 +6,26 @@
 <%
 	UserVo user = (UserVo)request.getAttribute(WebAttributeKey.USER_SESSION_KEY);
 	boolean login = user != null;
+	String userId = login ? user.getUserId() : "";
 	CommentModule module = (CommentModule)request.getAttribute(CommentController.ATTR_MODULE_NAME); 
 %>
 <script type="text/javascript">
 	var app = angular.module('commentApp', []);
 	app.controller('commentList', function($scope, $http) {
-
 		var moduleName = "<%=module%>";
-		var listUrl = mainCtrl.getUrl("/app/comment/list.do");
+		var listUrl = mainCtrl.getUrl("/app/comment/list.json");
+		var deleteUrl = mainCtrl.getUrl("/app/comment/delete.do");
+		
 		var param = {};
 		param["moduleName"] = moduleName;
-		
-		console.log(listUrl);
-		console.log(param);
-		
-		console.log($scope);
 	  $http.get(listUrl, {params: param}).success(function(response) {
-	  	console.log(response.list);
+	  	$scope.loginId = "<%=userId%>";
 		  $scope.item = response.list;
 		  $scope.remove = function(index){
 			  var deleteItem = $scope.item[index];
+			  console.log(deleteItem);
 			  $scope.item.splice (index, 1);
 		  };
-		  $scope.now= function(index){
-			  var choiceItem = $scope.item[index];
-			  console.log(choiceItem);
-			  choiceItem.regDate = new Date();
-		  };		  
 	  });			
 	});	
 	
@@ -64,8 +57,9 @@
 			<li data-ng-repeat="x in item">
 				{{x.content}} 
 				{{x.regDateDiff}}
+				{{x.userId}}
+				<a href="#" data-ng-click="remove($index)" data-ng-if="x.userId == loginId" class="btn btn-default btn-xs">삭제</a>
 			</li>
-			<li>aaaaa <a href="#" class="btn btn-default btn-xs">삭제</a></li>
 		</ul>
 		<a href="#" class="btn btn-default  btn-lg btn-block btn-xs">더 불러오기</a>
 	</div>

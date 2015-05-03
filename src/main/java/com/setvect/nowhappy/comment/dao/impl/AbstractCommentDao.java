@@ -64,7 +64,7 @@ public abstract class AbstractCommentDao implements CommentDao {
 		session.flush();
 	}
 
-	public void removeComment(int commentSeq) {
+	public void deleteComment(int commentSeq) {
 		Session session = sessionFactory.getCurrentSession();
 		session.delete(getComment(commentSeq));
 		session.flush();

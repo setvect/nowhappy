@@ -40,6 +40,6 @@ public interface CommentDao {
 	 * @param commentSeq
 	 *            일련번호
 	 */
-	public void removeComment(int commentSeq);
+	public void deleteComment(int commentSeq);
 
 }

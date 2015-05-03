@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
+import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.comment.service.CommentModule;
 import com.setvect.nowhappy.comment.service.CommentSearch;
 import com.setvect.nowhappy.comment.service.CommentService;
 import com.setvect.nowhappy.comment.vo.Comment;
+import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
  * 이메일 주소 알아 내기
@@ -59,8 +61,7 @@ public class CommentController {
 	 * @return
 	 * @throws IOException
 	 */
-	// TODO JSON으로 변경
-	@RequestMapping("/app/comment/list.do")
+	@RequestMapping("/app/comment/list.json")
 	@ResponseBody
 	public GenericPage<Comment> list(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String mn = request.getParameter("moduleName");
@@ -71,4 +72,34 @@ public class CommentController {
 
 		return page;
 	}
+
+	/**
+	 * 코멘트 삭제
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/comment/delete.do")
+	@ResponseBody
+	public boolean delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		int commentSeq = Integer.parseInt(request.getParameter("commentSeq"));
+		Comment comment = commentService.getComment(commentSeq);
+		if (comment == null) {
+			return false;
+		}
+		UserVo user = ApplicationUtil.getLoginSession(request);
+		if (user == null) {
+			return false;
+		}
+		if (!comment.getUserId().equals(user.getUserId())) {
+			return false;
+		}
+
+		// 자기가 쓴 comment
+		commentService.deleteComment(commentSeq);
+		return true;
+	}
+
 }

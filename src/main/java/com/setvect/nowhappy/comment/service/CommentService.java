@@ -32,8 +32,8 @@ public class CommentService {
 		commentDao.updateComment(comment);
 	}
 
-	public void removeComment(int commentSeq) {
-		commentDao.removeComment(commentSeq);
+	public void deleteComment(int commentSeq) {
+		commentDao.deleteComment(commentSeq);
 	}
 
 }
