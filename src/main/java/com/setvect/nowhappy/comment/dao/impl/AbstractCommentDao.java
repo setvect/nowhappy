@@ -37,7 +37,7 @@ public abstract class AbstractCommentDao implements CommentDao {
 		q = " from Comment " + getWhereClause(pageCondition) + " order by commentSeq desc";
 		query = session.createQuery(q);
 		query.setFirstResult(pageCondition.getStartCursor());
-		query.setMaxResults(pageCondition.getEndCursor());
+		query.setMaxResults(pageCondition.getReturnCount());
 
 		@SuppressWarnings("unchecked")
 		List<Comment> resultList = query.list();

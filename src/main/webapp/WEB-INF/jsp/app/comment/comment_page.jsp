@@ -21,6 +21,7 @@
 	  $scope.more = function(){
 		  var param = {};
 		  param["moduleName"] = moduleName;
+		  param["startCursor"] = $scope.list.length;
 		  $http.get(listUrl, {params: param}).success(function(response) {
 			  $scope.list = $scope.list.concat(response.list);
 			  console.log($scope.list);

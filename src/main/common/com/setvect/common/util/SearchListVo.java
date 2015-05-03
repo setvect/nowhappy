@@ -13,22 +13,22 @@ public class SearchListVo implements Serializable {
 
 	/** 시작 커서 위치 */
 	private int startCursor;
-	/** 종료 커서 위치 */
-	private int endCursor;
+	/** 가져올 항목 갯수 */
+	private int returnCount;
 
 	/**
 	 * @param startCursor
-	 *            시작 지점 (1부터 시작)
-	 * @param endCursor
-	 *            종료 커서 위치
+	 *            시작 지점 (0부터 시작)
+	 * @param returnCount
+	 *            가져올 항목 갯수
 	 */
-	public SearchListVo(int startCursor, int endCursor) {
+	public SearchListVo(int startCursor, int returnCount) {
 		this.startCursor = startCursor;
-		this.endCursor = endCursor;
+		this.returnCount = returnCount;
 	}
 
 	/**
-	 * @return 시작 지점. (1부터 시작)
+	 * @return 시작 커서 위치. (0부터 시작)
 	 */
 	public int getStartCursor() {
 		return this.startCursor;
@@ -36,7 +36,7 @@ public class SearchListVo implements Serializable {
 
 	/**
 	 * @param startCursor
-	 *            현 페이지. 1부터 시작
+	 *            시작 커서 위치. (0부터 시작)
 	 */
 	public void setStartCursor(int startCursor) {
 		this.startCursor = startCursor;
@@ -45,16 +45,16 @@ public class SearchListVo implements Serializable {
 	/**
 	 * @return the endCursor
 	 */
-	public int getEndCursor() {
-		return endCursor;
+	public int getReturnCount() {
+		return returnCount;
 	}
 
 	/**
 	 * @param endCursor
 	 *            the endCursor to set
 	 */
-	public void setEndCursor(int endCursor) {
-		this.endCursor = endCursor;
+	public void setReturnCount(int endCursor) {
+		this.returnCount = endCursor;
 	}
 
 	/*

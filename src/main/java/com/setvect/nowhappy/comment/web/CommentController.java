@@ -68,8 +68,10 @@ public class CommentController {
 	public GenericPage<Comment> list(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String mn = request.getParameter("moduleName");
 		CommentModule moduleName = CommentModule.valueOf(mn);
-		int startCursor = Integer.parseInt(StringUtilAd.null2str(request.getParameter("startCursor"), "1"));
-		CommentSearch pageCondition = new CommentSearch(moduleName, startCursor, startCursor + PAGE_PER_ITEM);
+		String cursor = StringUtilAd.null2str(request.getParameter("startCursor"), "0");
+		int startCursor = Integer.parseInt(cursor);
+
+		CommentSearch pageCondition = new CommentSearch(moduleName, startCursor, PAGE_PER_ITEM);
 		GenericPage<Comment> page = commentService.getCommentPagingList(pageCondition);
 
 		return page;
