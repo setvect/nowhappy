@@ -1,7 +1,6 @@
 package com.setvect.nowhappy.comment.web;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
@@ -24,9 +24,7 @@ import com.setvect.nowhappy.comment.vo.Comment;
  */
 @Controller
 public class CommentController {
-
-	public static final String ATTR_LIST = "LIST";
-	public static final String ATTR_EXIST = "EXIST";
+	public static final String ATTR_MODULE_NAME = "MODULE_NAME";
 
 	/**
 	 * 서브 명령어 정의
@@ -44,23 +42,33 @@ public class CommentController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/comment.do")
-	public String process(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-		CommentModule moduleName = CommentModule.valueOf(request.getParameter("moduleName"));
-		String moduleItemId = request.getParameter("moduleId");
-		int currentPage = Integer.parseInt(StringUtilAd.null2str(request.getParameter("currentPage"), "1"));
-		CommentSearch pageCondition = new CommentSearch(currentPage, moduleName, moduleItemId);
-		GenericPage<Comment> page = commentService.getCommentPagingList(pageCondition);
-		List<Comment> list = page.getList();
-		request.setAttribute(ATTR_LIST, list);
-
-		// 맨 끝까지 로드가 되었는지 확인
-		int loadCount = currentPage * pageCondition.getPagePerItemCount();
-		boolean exist = loadCount < page.getTotalCount();
-		request.setAttribute(ATTR_EXIST, exist);
-
+	@RequestMapping("/app/comment/page.do")
+	public String page(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String mn = request.getParameter("moduleName");
+		CommentModule moduleName = CommentModule.valueOf(mn);
+		request.setAttribute(ATTR_MODULE_NAME, moduleName);
 		// TODO 페이지 변경 로직 추가(메인, 게시판)
-		return "/app/comment/list";
+		return "/app/comment/comment_page";
+	}
+
+	/**
+	 * 코멘트 조회 목록
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	// TODO JSON으로 변경
+	@RequestMapping("/app/comment/list.do")
+	@ResponseBody
+	public GenericPage<Comment> list(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String mn = request.getParameter("moduleName");
+		CommentModule moduleName = CommentModule.valueOf(mn);
+		int currentPage = Integer.parseInt(StringUtilAd.null2str(request.getParameter("currentPage"), "1"));
+		CommentSearch pageCondition = new CommentSearch(currentPage, moduleName);
+		GenericPage<Comment> page = commentService.getCommentPagingList(pageCondition);
+
+		return page;
 	}
 }

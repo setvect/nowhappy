@@ -13,19 +13,13 @@ public class CommentSearch extends SearchListVo {
 
 	private final CommentModule moduleName;
 
-	private final String moduleItemId;
-
-	public CommentSearch(int currentPage, CommentModule moduleName, String moduleItemId) {
+	public CommentSearch(int currentPage, CommentModule moduleName) {
 		super(currentPage);
 		this.moduleName = moduleName;
-		this.moduleItemId = moduleItemId;
 	}
 
 	public CommentModule getModuleName() {
 		return moduleName;
 	}
 
-	public String getModuleItemId() {
-		return moduleItemId;
-	}
 }

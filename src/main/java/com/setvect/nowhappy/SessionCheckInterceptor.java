@@ -26,7 +26,7 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws UnsupportedEncodingException, IOException {
 		String currentUrl = request.getRequestURI();
-		LOGGER.info("[Connect] IP: " + request.getRemoteAddr() + ", " + request.getHeader("User-Agent"));
+		// LOGGER.info("[Connect] IP: " + request.getRemoteAddr() + ", " + request.getHeader("User-Agent"));
 
 		// 로그인 권한 체크
 

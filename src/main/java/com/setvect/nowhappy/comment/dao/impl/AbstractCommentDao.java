@@ -48,10 +48,8 @@ public abstract class AbstractCommentDao implements CommentDao {
 	}
 
 	private String getWhereClause(CommentSearch pageCondition) {
-		String where = " where moduleName = " + StringUtilAd.getSqlString(pageCondition.getModuleName().name())
-				+ " and moduleId = " + StringUtilAd.getSqlString(pageCondition.getModuleItemId());
+		String where = " where moduleName = " + StringUtilAd.getSqlString(pageCondition.getModuleName().name());
 		return where;
-
 	}
 
 	public void createComment(Comment comment) {
