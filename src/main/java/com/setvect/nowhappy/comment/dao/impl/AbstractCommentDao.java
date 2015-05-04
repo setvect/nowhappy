@@ -22,11 +22,13 @@ public abstract class AbstractCommentDao implements CommentDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@Override
 	public Comment getComment(int commentSeq) {
 		Session session = sessionFactory.getCurrentSession();
 		return (Comment) session.get(Comment.class, commentSeq);
 	}
 
+	@Override
 	public GenericPage<Comment> getCommentPagingList(CommentSearch pageCondition) {
 		Session session = sessionFactory.getCurrentSession();
 
@@ -52,12 +54,14 @@ public abstract class AbstractCommentDao implements CommentDao {
 		return where;
 	}
 
+	@Override
 	public void insertComment(Comment comment) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(comment);
 		session.flush();
 	}
 
+	@Override
 	public void updateComment(Comment comment) {
 		Session session = sessionFactory.getCurrentSession();
 		session.update(comment);

@@ -47,6 +47,11 @@
 				<value>com.setvect.nowhappy.ctmemo.vo.CtmemoVo</value>
 				<value>com.setvect.nowhappy.user.vo.UserVo</value>
 				<value>com.setvect.nowhappy.comment.vo.Comment</value>
+				
+				<value>com.setvect.nowhappy.board.vo.BoardVo</value>
+				<value>com.setvect.nowhappy.board.vo.BoardArticleVo</value>
+				
+				<value>com.setvect.nowhappy.attach.vo.AttachFileVo</value>
 			</list>
 		</property>
 	</bean>

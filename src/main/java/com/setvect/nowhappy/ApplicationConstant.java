@@ -76,4 +76,23 @@ public class ApplicationConstant {
 	/** 패스워드 암호화 알고리즘 */
 	public final static String PASSWD_ALGORITHM = "MD5";
 
+	/**
+	 * 파일 업로드 관련 상수
+	 */
+	public static class FileUpload {
+		/** 웹루트 기준으로 첨부파일 저장 경로 */
+		public static final String ATTACH_PATH = EnvirmentProperty.getString("com.setvect.nowhappy.attach.upload_path");
+		/** 웹루트 기준으로 이미지 파일 저장 경로 */
+		public static final String IMAGE_PATH = EnvirmentProperty.getString("com.setvect.nowhappy.image.upload_path");
+		/** 섬네일 이미지 저장 경로 */
+		public static final String THUMBNAIL_PATH = EnvirmentProperty
+				.getString("com.setvect.nowhappy.image.thumbnail_path");
+
+		/** 첨부파일 업로드 한계 사이즈(byte) */
+		public static final int ATTACH_LIMIT_SIZE = EnvirmentProperty.getInt("com.setvect.nowhappy.attach.limit_size") * 1024;
+		/** 첨부파일 업로드 한계 사이즈(byte) */
+		public static final int IMAGE_LIMIT_SIZE = EnvirmentProperty.getInt("com.setvect.nowhappy.image.limit_size") * 1024;
+
+	}
+
 }

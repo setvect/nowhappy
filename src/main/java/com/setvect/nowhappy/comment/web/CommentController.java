@@ -81,7 +81,7 @@ public class CommentController {
 	 */
 	@RequestMapping("/app/comment/list.json")
 	@ResponseBody
-	public GenericPage<Comment> list(HttpServletRequest request, HttpServletResponse response) {
+	public GenericPage<Comment> list(HttpServletRequest request) {
 		String mn = request.getParameter("moduleName");
 		CommentModule moduleName = CommentModule.valueOf(mn);
 		String cursor = StringUtilAd.null2str(request.getParameter("startCursor"), "0");

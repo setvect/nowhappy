@@ -1,8 +1,11 @@
+<%@page import="com.setvect.nowhappy.user.vo.UserVo"%>
 <%@page import="com.setvect.nowhappy.ApplicationConstant.WebAttributeKey"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	String loadPage = (String)request.getAttribute(WebAttributeKey.LOAD_PAGE);
+	UserVo user = (UserVo)request.getAttribute(WebAttributeKey.USER_SESSION_KEY);
+	boolean login = user != null;
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -45,7 +48,11 @@
 	var mainCtrl= new pageActionContrller("<c:url value="/"/>");
 	
 	$(function(){
-		mainCtrl.loadPage("<%=loadPage%>");
+<%-- 		mainCtrl.loadPage("<%=loadPage%>"); --%>
+		mainCtrl.loadPage("/app/board_manager/page.do");
+		$("._boardManager").on("click", function(){
+			mainCtrl.loadPage("/app/board_manager/page.do");
+		});
 	});
 	
 </script>
@@ -64,22 +71,29 @@
 					<li><a href="#">글</a></li>
 					<li><a href="#">꿈</a></li>
 					<li><a href="#">꿈</a></li>
+<%
+	if(login && user.isAdminF()){
+%>					
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Manager<span	class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby="themes">
-							<li><a href="#">게시판관리</a></li>
+							<li><a href="#" class="_boardManager">게시판관리</a></li>
 							<li class="divider"></li>
 							<li><a href="#">ㅁㅁ</a></li>
 							<li><a href="#">ㅍㅍ</a></li>
 						</ul>
 					</li>
+<%
+	}
+%>					
 				</ul>
 			</div>
 		</div>
 	</div>
 
-	<div class="container _mainAear">
-		<!-- page load -->
+	<div class="container">
+		<div class="page-header _mainAear">
+		</div>
 	</div>
 	
 </body>

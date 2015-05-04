@@ -1,15 +1,11 @@
 package com.setvect.common.util;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * 페이지 정보를 계산하기위해 사용
  */
-public class SearchListVo implements Serializable {
-	/** */
-	private static final long serialVersionUID = 4784964094940288037L;
+public class SearchListVo {
 
 	/** 시작 커서 위치 */
 	private int startCursor;

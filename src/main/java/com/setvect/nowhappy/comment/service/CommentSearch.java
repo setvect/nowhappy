@@ -8,8 +8,6 @@ import com.setvect.common.util.SearchListVo;
  * @version $Id$
  */
 public class CommentSearch extends SearchListVo {
-	/** */
-	private static final long serialVersionUID = -996725466547025276L;
 
 	private final CommentModule moduleName;
 
