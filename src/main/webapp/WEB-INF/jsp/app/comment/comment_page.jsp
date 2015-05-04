@@ -11,20 +11,21 @@
 %>
 <script type="text/javascript">
 	var app = angular.module('commentApp', []);
-	app.controller('commentList', function($scope, $http) {
+	app.controller('commentController', function($scope, $http) {
 		var moduleName = "<%=module%>";
+		var getUrl = mainCtrl.getUrl("/app/comment/get.json");
 		var listUrl = mainCtrl.getUrl("/app/comment/list.json");
 		var deleteUrl = mainCtrl.getUrl("/app/comment/delete.do");
+		var addUrl = mainCtrl.getUrl("/app/comment/add.do");
+		
 	  $scope.loginId = "<%=userId%>";
 	  $scope.list = [];
-
 	  $scope.more = function(){
 		  var param = {};
 		  param["moduleName"] = moduleName;
 		  param["startCursor"] = $scope.list.length;
 		  $http.get(listUrl, {params: param}).success(function(response) {
 			  $scope.list = $scope.list.concat(response.list);
-			  console.log($scope.list);
 			  $scope.totalCount = response.totalCount;
 			  $scope.currentItem = $scope.list.length;
 		  });
@@ -39,8 +40,29 @@
 		  });
 	  };
 	  
+	  $scope.add = function(){
+	  	console.log($scope.content);
+	  	if($scope.content == null || $scope.content.trim() == ""){
+	  		alert("내용을 써라");
+	  		return; 
+	  	}
+	  	
+	  	var param = {};
+	  	param["moduleName"] = moduleName;
+	  	param["content"] =  $scope.content.trim();
+	  	
+		  $http.get(addUrl, {params: param}).success(function(response) {
+		  	if(response == -1){
+		  		return;
+		  	}
+		  	
+		  	$http.get(getUrl, {params: {commentSeq : response}}).success(function(response) {
+		  		console.log(response);
+		  		$scope.list.unshift(response);
+		  	});
+		  });	  	
+	  };
 	  $scope.more();
-	  
 	});	
 	
 	var injector = angular.injector(['ng', 'commentApp'])
@@ -50,23 +72,16 @@
 	});		
 </script>
 
-<div data-ng-app="commentApp" >
-<%
-	if(login){
-%>
-	<div class="well bs-component">
+<div data-ng-app="commentApp"  data-ng-controller="commentController">
+	<div class="well bs-component" data-ng-if="x.userId != ''">
 		<div class="input-group">
-			<textarea class="form-control" rows="1"></textarea>
+			<textarea class="form-control" rows="1" data-ng-model="$parent.content"></textarea>
 			<span class="input-group-btn">
-				<button class="btn btn-default" type="button">등록</button>
+				<button class="btn btn-default" type="button" data-ng-click="add()">등록</button>
 			</span>
 		</div>
-		<!-- /input-group -->
 	</div>
-<%
-	}
-%>
-	<div data-ng-controller="commentList">
+	<div>
 		<ul>
 			<li data-ng-repeat="x in list">
 				{{x.content}} 

@@ -1,12 +1,14 @@
 package com.setvect.nowhappy.comment.web;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -47,12 +49,26 @@ public class CommentController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/app/comment/page.do")
-	public String page(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public String page(HttpServletRequest request, HttpServletResponse response) {
 		String mn = request.getParameter("moduleName");
 		CommentModule moduleName = CommentModule.valueOf(mn);
 		request.setAttribute(ATTR_MODULE_NAME, moduleName);
 		// TODO 페이지 변경 로직 추가(메인, 게시판)
 		return "/app/comment/comment_page";
+	}
+
+	/**
+	 * 항목 하나를 가져옴
+	 * 
+	 * @param param
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/comment/get.json")
+	@ResponseBody
+	public Comment get(@ModelAttribute Comment param) {
+		Comment comment = commentService.getComment(param.getCommentSeq());
+		return comment;
 	}
 
 	/**
@@ -65,7 +81,7 @@ public class CommentController {
 	 */
 	@RequestMapping("/app/comment/list.json")
 	@ResponseBody
-	public GenericPage<Comment> list(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public GenericPage<Comment> list(HttpServletRequest request, HttpServletResponse response) {
 		String mn = request.getParameter("moduleName");
 		CommentModule moduleName = CommentModule.valueOf(mn);
 		String cursor = StringUtilAd.null2str(request.getParameter("startCursor"), "0");
@@ -87,9 +103,8 @@ public class CommentController {
 	 */
 	@RequestMapping("/app/comment/delete.do")
 	@ResponseBody
-	public boolean delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		int commentSeq = Integer.parseInt(request.getParameter("commentSeq"));
-		Comment comment = commentService.getComment(commentSeq);
+	public boolean delete(@ModelAttribute Comment param, HttpServletRequest request) {
+		Comment comment = commentService.getComment(param.getCommentSeq());
 		if (comment == null) {
 			return false;
 		}
@@ -102,8 +117,32 @@ public class CommentController {
 		}
 
 		// 자기가 쓴 comment
-		commentService.deleteComment(commentSeq);
+		commentService.deleteComment(param.getCommentSeq());
 		return true;
+	}
+
+	/**
+	 * 코멘트 추가
+	 * 
+	 * @param request
+	 * @param response
+	 * @return 추가한 코멘트 아이디
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/comment/add.do")
+	@ResponseBody
+	public int add(@ModelAttribute Comment comment, HttpServletRequest request) {
+		UserVo user = ApplicationUtil.getLoginSession(request);
+		if (user == null) {
+			return -1;
+		}
+
+		comment.setUserId(user.getUserId());
+		comment.setModuleId("non-id");
+		comment.setRegDate(new Date());
+
+		commentService.insertComment(comment);
+		return comment.getCommentSeq();
 	}
 
 }

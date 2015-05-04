@@ -6,14 +6,19 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.setvect.common.util.SerializerUtil;
 import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
+import com.setvect.nowhappy.user.dao.UserService;
 import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
@@ -22,6 +27,9 @@ import com.setvect.nowhappy.user.vo.UserVo;
  */
 public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SessionCheckInterceptor.class);
+
+	@Autowired
+	private UserService userService;
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws UnsupportedEncodingException, IOException {
@@ -35,9 +43,24 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 		UserVo user = ApplicationUtil.getLoginSession(request);
 
 		// 개발중에는 자동 로그인
-		// if(user == null){
-		// user = userService.getUser("setvect");
-		// }
+		if (user == null) {
+			user = userService.getUser("setvect");
+
+			// 로그인 성공
+			// 비밀번호는 노출 되지 않게 하기 위함
+			user.setPasswd(null);
+
+			String cookieData = SerializerUtil.makeBase64Encode(user);
+
+			// iis에서는 줄바꿈 문제가 있으면 쿠키가 셋팅이 안된다. 그래서 줄 바꿈을 제거
+			cookieData = cookieData.replaceAll("\r", "");
+			cookieData = cookieData.replaceAll("\n", "");
+
+			Cookie loginCookie = new Cookie(ApplicationConstant.WebCommon.USER_COOKIE_KEY, cookieData);
+			loginCookie.setPath("/");
+			response.addCookie(loginCookie);
+
+		}
 
 		request.setAttribute(WebAttributeKey.USER_SESSION_KEY, user);
 		return true;

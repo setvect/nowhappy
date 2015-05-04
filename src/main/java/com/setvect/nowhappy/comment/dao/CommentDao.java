@@ -28,7 +28,7 @@ public interface CommentDao {
 	 * @param comment
 	 *            코멘트 저장
 	 */
-	public void createComment(Comment comment);
+	public void insertComment(Comment comment);
 
 	/**
 	 * @param comment

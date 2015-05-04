@@ -52,7 +52,7 @@ public abstract class AbstractCommentDao implements CommentDao {
 		return where;
 	}
 
-	public void createComment(Comment comment) {
+	public void insertComment(Comment comment) {
 		Session session = sessionFactory.getCurrentSession();
 		session.save(comment);
 		session.flush();

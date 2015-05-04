@@ -24,8 +24,8 @@ public class CommentService {
 		return commentDao.getCommentPagingList(pageCondition);
 	}
 
-	public void createComment(Comment comment) {
-		commentDao.createComment(comment);
+	public void insertComment(Comment comment) {
+		commentDao.insertComment(comment);
 	}
 
 	public void updateComment(Comment comment) {
