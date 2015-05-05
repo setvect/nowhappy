@@ -48,4 +48,18 @@ public class ApplicationUtil {
 		}
 		return user;
 	}
+
+	/**
+	 * 로그인 한 사람이 admin이면 true 리턴
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static boolean isAdmin(HttpServletRequest request) {
+		UserVo user = ApplicationUtil.getLoginSession(request);
+		if(user == null){
+			return false;
+		}
+		return user.isAdminF();
+	}
 }

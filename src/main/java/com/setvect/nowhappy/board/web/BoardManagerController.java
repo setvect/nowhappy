@@ -1,20 +1,25 @@
 package com.setvect.nowhappy.board.web;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
+import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.board.service.BoardManagerSearch;
 import com.setvect.nowhappy.board.service.BoardService;
 import com.setvect.nowhappy.board.vo.BoardVo;
+import com.setvect.nowhappy.comment.vo.Comment;
+import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
  * 게시판 관리
@@ -56,4 +61,59 @@ public class BoardManagerController {
 		GenericPage<BoardVo> page = boardService.getBoardPagingList(pageCondition);
 		return page;
 	}
+
+	/**
+	 * 게시판 생성
+	 * 
+	 * @param request
+	 * @param response
+	 * @return 추가한 코멘트 아이디
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/board_manager/add.do")
+	@ResponseBody
+	public boolean add(@ModelAttribute BoardVo param, HttpServletRequest request) {
+		if (!ApplicationUtil.isAdmin(request)) {
+			return false;
+		}
+		boardService.insertBoard(param);
+		return true;
+	}
+
+	/**
+	 * 게시판 수정
+	 * 
+	 * @param request
+	 * @param response
+	 * @return 추가한 코멘트 아이디
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/board_manager/update.do")
+	@ResponseBody
+	public boolean update(@ModelAttribute BoardVo param, HttpServletRequest request) {
+		if (!ApplicationUtil.isAdmin(request)) {
+			return false;
+		}
+		boardService.updateBoard(param);
+		return true;
+	}
+
+	/**
+	 * 게시판 삭제
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/board_manager/delete.do")
+	@ResponseBody
+	public boolean delete(@ModelAttribute BoardVo param, HttpServletRequest request) {
+		if (!ApplicationUtil.isAdmin(request)) {
+			return false;
+		}
+		boardService.deleteBoard(param.getBoardCode());
+		return true;
+	}
+
 }
