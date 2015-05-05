@@ -10,6 +10,7 @@ public class GenericPage<T> {
 	private List<T> objects;
 	private int startCursor;
 	private int totalCount;
+	private int returnCount;
 
 	/**
 	 * @param objects
@@ -23,6 +24,21 @@ public class GenericPage<T> {
 		this.objects = objects;
 		this.startCursor = startCursor;
 		this.totalCount = totalCount;
+	}
+
+	/**
+	 * @param objects
+	 *            리스트
+	 * @param startCursor
+	 *            시작 항목(1부터 시작)
+	 * @param totalCount
+	 *            전체 항목 수
+	 */
+	public GenericPage(List<T> objects, int startCursor, int totalCount, int returnCount) {
+		this.objects = objects;
+		this.startCursor = startCursor;
+		this.totalCount = totalCount;
+		this.returnCount = returnCount;
 	}
 
 	public List<T> getList() {
@@ -41,6 +57,26 @@ public class GenericPage<T> {
 	 */
 	public int getTotalCount() {
 		return totalCount;
+	}
+
+	/**
+	 * @return the returnCount
+	 */
+	public int getReturnCount() {
+		return returnCount;
+	}
+
+	/**
+	 * 전체 페이지 개수
+	 * 
+	 * @return the returnCount
+	 */
+	public int getPageCount() {
+		if (returnCount == 0) {
+			return 0;
+		}
+		int page = (int) Math.ceil((double) totalCount / returnCount);
+		return page;
 	}
 
 }

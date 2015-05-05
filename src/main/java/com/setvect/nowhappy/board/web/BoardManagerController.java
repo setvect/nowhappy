@@ -1,7 +1,6 @@
 package com.setvect.nowhappy.board.web;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +17,6 @@ import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.board.service.BoardManagerSearch;
 import com.setvect.nowhappy.board.service.BoardService;
 import com.setvect.nowhappy.board.vo.BoardVo;
-import com.setvect.nowhappy.comment.vo.Comment;
-import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
  * 게시판 관리

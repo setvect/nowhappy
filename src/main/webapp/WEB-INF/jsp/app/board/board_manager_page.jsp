@@ -18,6 +18,8 @@
 		$scope.list = [];
 		$scope.readItem = null;
 		$scope.pageNumber = 1;
+		$scope.pageCount = 0;
+		$scope.pageItem = [];
 
 		$scope.page = function(pageNumber){
 		  var param = {};
@@ -26,6 +28,11 @@
 		  $http.get(listUrl, {params: param}).success(function(response) {
 			  $scope.list = response.list;
 			  $scope.view = "list";
+			  $scope.pageCount = response.pageCount;
+			  $scope.pageItem = [];
+			  for(var i= 0; i< $scope.pageCount; i++){
+				  $scope.pageItem.push(i + 1);
+			  }
 		  });
 	  };
 	  
@@ -54,7 +61,6 @@
 	  };
 	  
 	  $scope.writeOrUpdateSummit = function(){
-	  	console.log($scope.readItem);
 	  	var url = $scope.view == "write" ? addUrl : updateUrl; 
 
   		$http.get(url, {params: $scope.readItem}).success(function(response) {
@@ -122,13 +128,9 @@
 		</div>
 		<div class="text-center">
 			<ul class="pagination pagination-sm">
-				<li><a href="#">«</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#">»</a></li>
+				<li data-ng-repeat="n in pageItem track by $index">
+					<a href="#" style="background-color: {{pageNumber == n ? 'olive':''}}" data-ng-click="page(n)">{{n}}</a>
+				</li>
 			</ul>
 		</div>
 		<a href="#" class="btn btn-default" data-ng-click="write(readItem)">만들기</a> 
@@ -222,9 +224,6 @@
 		<button type="button" class="btn btn-default" data-ng-click="listback()">취소</button>
 		<button type="button" class="btn btn-default" data-ng-click="writeOrUpdateSummit()">완료</button>
 	</div>
-
-
-
 
 
 </div>

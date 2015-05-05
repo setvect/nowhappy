@@ -50,7 +50,7 @@ public abstract class AbstractBoardDao implements BoardDao {
 		List<BoardVo> resultList = query.list();
 
 		GenericPage<BoardVo> resultPage = new GenericPage<BoardVo>(resultList, pageCondition.getStartCursor(),
-				totalCount);
+				totalCount, pageCondition.getReturnCount());
 		return resultPage;
 	}
 
@@ -102,24 +102,24 @@ public abstract class AbstractBoardDao implements BoardDao {
 
 	// TODO 목록 검색시 불필요한 항목(내용 TEXT)까지 가져오는 경우 발생. 성능 문제 발생시 수정
 	@Override
-	public GenericPage<BoardArticleVo> getArticlePagingList(BoardArticleSearch pageCondtion) {
+	public GenericPage<BoardArticleVo> getArticlePagingList(BoardArticleSearch pageCondition) {
 		Session session = sessionFactory.getCurrentSession();
 
-		String q = "select count(*) from BoardArticleVo " + getArticleWhereClause(pageCondtion);
+		String q = "select count(*) from BoardArticleVo " + getArticleWhereClause(pageCondition);
 		Query query = session.createQuery(q);
 		int totalCount = ((Long) query.uniqueResult()).intValue();
 
-		q = " from BoardArticleVo " + getArticleWhereClause(pageCondtion) + getOrder(pageCondtion);
+		q = " from BoardArticleVo " + getArticleWhereClause(pageCondition) + getOrder(pageCondition);
 
 		query = session.createQuery(q);
-		query.setFirstResult(pageCondtion.getStartCursor());
-		query.setMaxResults(pageCondtion.getReturnCount());
+		query.setFirstResult(pageCondition.getStartCursor());
+		query.setMaxResults(pageCondition.getReturnCount());
 
 		@SuppressWarnings("unchecked")
 		List<BoardArticleVo> resultList = query.list();
 
 		GenericPage<BoardArticleVo> resultPage = new GenericPage<BoardArticleVo>(resultList,
-				pageCondtion.getStartCursor(), totalCount);
+				pageCondition.getStartCursor(), totalCount, pageCondition.getReturnCount());
 		return resultPage;
 	}
 
