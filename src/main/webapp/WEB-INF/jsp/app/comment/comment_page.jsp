@@ -67,12 +67,13 @@
 	
 	var injector = angular.injector(['ng', 'commentApp'])
 	injector.invoke(function($rootScope, $compile, $document) {
-	  $compile($document)($rootScope);
+		var appNode = $(".commentNode")[0];
+	  $compile(appNode)($rootScope);
 	  $rootScope.$digest();
 	});		
 </script>
 
-<div data-ng-app="commentApp"  data-ng-controller="commentController">
+<div class="commentNode" data-ng-app="commentApp"  data-ng-controller="commentController">
 	<div class="well bs-component" data-ng-if="x.userId != ''">
 		<div class="input-group">
 			<textarea class="form-control" rows="1" data-ng-model="$parent.content"></textarea>

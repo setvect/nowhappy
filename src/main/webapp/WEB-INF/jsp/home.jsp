@@ -17,7 +17,7 @@
 <link href="<c:url value="/css/bootstrap1.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/bootswatch.min.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/custom.css"/>" rel="stylesheet">
-<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.2.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootstrap.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootswatch.js"/>"></script>
@@ -48,17 +48,35 @@
 	var mainCtrl= new pageActionContrller("<c:url value="/"/>");
 	
 	$(function(){
-<%-- 		mainCtrl.loadPage("<%=loadPage%>"); --%>
+		mainCtrl.loadPage("<%=loadPage%>");
 		mainCtrl.loadPage("/app/board_manager/page.do");
 		$("._boardManager").on("click", function(){
 			mainCtrl.loadPage("/app/board_manager/page.do");
-		});
+		}); 
 	});
 	
+	var menuApp = angular.module('menuApp', []);
+	menuApp.controller('menuController', function($scope, $http) {
+		var listUrl = mainCtrl.getUrl("/app/board_manager/list.json");
+
+		$scope.list = [];
+		
+		$scope.loadBoadMenu = function(){
+		  var param = {};
+		  param["pageNumber"] = 1;
+		  param["pagePerItem"] = 100;
+		  $http.get(listUrl, {params: param}).success(function(response) {
+				console.log(response);
+		  	$scope.list = response.list;
+		  });
+	  };
+	  
+	  $scope.loadBoadMenu(1);
+	});
 </script>
 </head>
 <body>
-	<div class="navbar navbar-default navbar-fixed-top">
+	<div class="navbar navbar-default navbar-fixed-top" data-ng-app="menuApp"  data-ng-controller="menuController">
 		<div class="container">
 			<div class="navbar-header">
 				<a href="../" class="navbar-brand">Now Happy</a>
@@ -79,8 +97,9 @@
 						<ul class="dropdown-menu" aria-labelledby="themes">
 							<li><a href="#" class="_boardManager">게시판관리</a></li>
 							<li class="divider"></li>
-							<li><a href="#">ㅁㅁ</a></li>
-							<li><a href="#">ㅍㅍ</a></li>
+							<li data-ng-repeat="x in list">
+								<a href="#">{{x.name}}</a>
+							</li>
 						</ul>
 					</li>
 <%

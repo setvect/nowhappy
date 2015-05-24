@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,9 +53,12 @@ public class BoardManagerController {
 	@ResponseBody
 	public GenericPage<BoardVo> list(HttpServletRequest request) {
 		String pg = StringUtilAd.null2str(request.getParameter("pageNumber"), "1");
+
 		int pageNumber = Integer.parseInt(pg);
-		int startCursor = (pageNumber - 1) * PAGE_PER_ITEM;
-		BoardManagerSearch pageCondition = new BoardManagerSearch(startCursor, PAGE_PER_ITEM);
+		String t = request.getParameter("pagePerItem");
+		int pagePerItem = StringUtils.isEmpty(t) ? PAGE_PER_ITEM : Integer.parseInt(t);
+		int startCursor = (pageNumber - 1) * pagePerItem;
+		BoardManagerSearch pageCondition = new BoardManagerSearch(startCursor, pagePerItem);
 		GenericPage<BoardVo> page = boardService.getBoardPagingList(pageCondition);
 		return page;
 	}

@@ -7,8 +7,8 @@
 	UserVo user = (UserVo)request.getAttribute(WebAttributeKey.USER_SESSION_KEY);
 %>
 <script type="text/javascript">
-	var app = angular.module('boardMangerApp', []);
-	app.controller('boardManagerController', function($scope, $http) {
+	var appBoardManager = angular.module('boardMangerApp', []);
+	appBoardManager.controller('boardManagerController', function($scope, $http) {
 		var listUrl = mainCtrl.getUrl("/app/board_manager/list.json");
 		var addUrl = mainCtrl.getUrl("/app/board_manager/add.do");
 		var updateUrl = mainCtrl.getUrl("/app/board_manager/update.do");
@@ -85,12 +85,12 @@
 	
 	var injector = angular.injector(['ng', 'boardMangerApp'])
 	injector.invoke(function($rootScope, $compile, $document) {
-	  $compile($document)($rootScope);
+		var appNode = $(".boardManger")[0];
+	  $compile(appNode)($rootScope);
 	  $rootScope.$digest();
 	});		
 </script>
-<div data-ng-app="boardMangerApp"  data-ng-controller="boardManagerController">
-	
+<div class="boardManger" data-ng-app="boardMangerApp"  data-ng-controller="boardManagerController">
 	<!-- 목록 폼 -->
 	<div data-ng-show="view =='list'">
 		<div class="panel panel-default">
