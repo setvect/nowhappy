@@ -57,7 +57,7 @@
 	</bean>
 
 	<jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
-		<jdbc:script location="classpath:/db/init.sql" />
+		<jdbc:script location="classpath:/db/init.sql" encoding="utf-8"/>
 	</jdbc:initialize-database>
 
 	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">

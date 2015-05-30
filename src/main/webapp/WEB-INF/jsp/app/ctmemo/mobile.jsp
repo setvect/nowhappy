@@ -162,7 +162,6 @@
 		// history back 되어도 검색 filter 결과를 유지하기 위해 쓴 꼼수
 		$( window ).on( "navigate", function( event, data ) {
 			if(data.state.hash == "#list_page"){
-				console.log("list event")
 				$("#myFilter").change();
 			}
 		});

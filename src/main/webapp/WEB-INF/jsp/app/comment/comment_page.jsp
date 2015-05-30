@@ -41,7 +41,6 @@
 	  };
 	  
 	  $scope.add = function(){
-	  	console.log($scope.content);
 	  	if($scope.content == null || $scope.content.trim() == ""){
 	  		alert("내용을 써라");
 	  		return; 
@@ -57,7 +56,6 @@
 		  	}
 		  	
 		  	$http.get(getUrl, {params: {commentSeq : response}}).success(function(response) {
-		  		console.log(response);
 		  		$scope.list.unshift(response);
 		  	});
 		  });	  	

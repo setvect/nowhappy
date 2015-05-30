@@ -41,15 +41,18 @@
 		 */
 		this.getUrl = function(url){
 			return this.contextPath + url;
-		}
+		};
 	};
 	
 	// 전역 변수
 	var mainCtrl= new pageActionContrller("<c:url value="/"/>");
 	
 	$(function(){
-		mainCtrl.loadPage("<%=loadPage%>");
-		mainCtrl.loadPage("/app/board_manager/page.do");
+<%-- 		mainCtrl.loadPage("<%=loadPage%>"); --%>
+// 		mainCtrl.loadPage("/app/board_manager/page.do");
+		mainCtrl.loadPage("/app/board/page.do?boardCode=BDAAAA01");
+		
+		
 		$("._boardManager").on("click", function(){
 			mainCtrl.loadPage("/app/board_manager/page.do");
 		}); 
@@ -66,10 +69,16 @@
 		  param["pageNumber"] = 1;
 		  param["pagePerItem"] = 100;
 		  $http.get(listUrl, {params: param}).success(function(response) {
-				console.log(response);
 		  	$scope.list = response.list;
 		  });
 	  };
+		
+		/**
+		 * 게시판 불러옴 
+		 */
+	  $scope.loadBoard = function(boardCode){
+	  	mainCtrl.loadPage("/app/board/page.do?boardCode=" + boardCode);
+	  };	  
 	  
 	  $scope.loadBoadMenu(1);
 	});
@@ -98,7 +107,7 @@
 							<li><a href="#" class="_boardManager">게시판관리</a></li>
 							<li class="divider"></li>
 							<li data-ng-repeat="x in list">
-								<a href="#">{{x.name}}</a>
+								<a href="#" data-ng-click="loadBoard(x.boardCode)">{{x.name}}</a>
 							</li>
 						</ul>
 					</li>
