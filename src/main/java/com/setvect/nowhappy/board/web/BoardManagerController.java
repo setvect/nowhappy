@@ -62,6 +62,23 @@ public class BoardManagerController {
 		GenericPage<BoardVo> page = boardService.getBoardPagingList(pageCondition);
 		return page;
 	}
+	
+
+	/**
+	 * 게시판 내용
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/board_manager/read.json")
+	@ResponseBody
+	public BoardVo read(HttpServletRequest request) {
+		String boardCode = request.getParameter("boardCode");
+		BoardVo board = boardService.getBoard(boardCode);
+		return board;
+	}
 
 	/**
 	 * 게시판 생성

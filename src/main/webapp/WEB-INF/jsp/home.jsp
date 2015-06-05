@@ -21,6 +21,7 @@
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.2.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootstrap.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootswatch.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/util.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/editor/js/HuskyEZCreator.js"/>"></script>
 <script type="text/javascript">	
 	function pageActionContrller(contextPath){

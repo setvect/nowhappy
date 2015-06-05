@@ -21,7 +21,11 @@
 
 	<!-- 로그인 세선 체크 -->
 	<mvc:interceptors>
-		<bean class="com.setvect.nowhappy.SessionCheckInterceptor"/>
-	</mvc:interceptors>	
+		<bean class="com.setvect.nowhappy.SessionCheckInterceptor" />
+	</mvc:interceptors>
 	
+	<!-- 아래 설정 안 하면 multipart form bind 안됨. -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+<!-- 		<property name="maxUploadSize" value="1000000" /> -->
+	</bean>
 </beans>

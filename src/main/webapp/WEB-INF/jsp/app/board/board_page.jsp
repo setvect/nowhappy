@@ -9,21 +9,47 @@
 %>
 <script type="text/javascript">
 	var appBoardManager = angular.module('boardApp', []);
+	
+	// 첨부파일을 업로드 하기위해... 나도 이해 못함. ㅡㅡ;
+	appBoardManager.directive('fileModel', [ '$parse', function($parse) {
+		return {
+			restrict : 'A',
+			link : function(scope, element, attrs) {
+				var model = $parse(attrs.fileModel);
+				var modelSetter = model.assign;
+
+				element.bind('change', function() {
+					scope.$apply(function() {
+						modelSetter(scope, element[0].files[0]);
+					});
+				});
+			}
+		};
+	} ]);
+	
+	
 	appBoardManager.controller('boardController', function($scope, $http) {
 		$scope.view = "list";
+		$scope.auth = {};
+		 
 		$scope.list = [];
 		$scope.readItem = null;
 		$scope.pageNumber = 1;
 		$scope.pageCount = 0;
 		$scope.pageItem = [];
 		
-		$scope.boardCode = "<%=request.getParameter("boardCode")%>"; 
+		$scope.boardCode = "<%=request.getParameter("boardCode")%>";
+		$scope.boardInfo;
 		
 		var listUrl = mainCtrl.getUrl("/app/board/list.json");
 		var addUrl = mainCtrl.getUrl("/app/board/add.do");
 		var updateUrl = mainCtrl.getUrl("/app/board/update.do");
 		var deleteUrl = mainCtrl.getUrl("/app/board/delete.do");
-		
+		var loadAuthUrl = mainCtrl.getUrl("/app/board/loadAuth.json");
+		var readBoardManager = mainCtrl.getUrl("/app/board_manager/read.json");
+  	
+		var oEditors = [];
+  	
 		$scope.page = function(pageNumber){
 		  var param = {};
 		  $scope.pageNumber = pageNumber;
@@ -34,8 +60,7 @@
 			  $scope.view = "list";
 			  $scope.pageCount = response.pageCount;
 			  $scope.pageItem = [];
-			  console.log(response);
-			  
+
 			  for(var i= 0; i< $scope.pageCount; i++){
 				  $scope.pageItem.push(i + 1);
 			  }
@@ -49,8 +74,78 @@
 	  $scope.read = function(article){
 	  	$scope.readItem = angular.copy(article);
 	  	$scope.view = "read";
-	  };	  
-		
+	  };
+	  
+	  $scope.write = function(){
+	  	$scope.readItem = {};
+	  	$scope.view = "write";
+	  	$scope.htmlText();
+	  }
+
+	  $scope.writeOrUpdateSummit = function(){
+	  	var url = $scope.view == "write" ? addUrl : updateUrl; 
+
+	  	var content = oEditors.getById["content"].getIR();
+	  	
+	  	if(removeTags(content.trim()) == ""){
+	  		alert("내용을 입력해 주세요");
+	  		return;
+	  	}
+	  	
+	  	// 에디터의 내용을 에디터 생성시에 사용했던 textarea에 넣어 줍니다.
+	  	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+	  	var fd = new FormData();
+
+	  	console.log($scope.readItem.title);
+	  	console.log("@@@@@@@@@@@@@@@@@");
+	  	console.log($scope.readItem.attachFile);
+	  	
+	  	fd.append("title", $scope.readItem.title);
+	  	fd.append("content", content.trim());
+	  	fd.append("attachFile", $scope.readItem.attachFile[0]);
+	  	fd.append("attachFile", $scope.readItem.attachFile[1]);
+	  	
+  		$http.post(url, fd, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).success(function(response) {
+		  	if(response){
+		  		$scope.page($scope.pageNumber);
+		  	}
+		  });
+	  };
+	  
+	  $scope.loadAuth = function(article){
+	  	var param = {};
+	  	if(article != null){
+	  		param["articleSeq"] = article.articleSeq;
+	  		param["boardCode"] = $scope.boardCode;
+	  	}
+	  	
+	  	$http.get(loadAuthUrl, {params: param}).success(function(response) {
+		  	$scope.auth.write = response.write;
+		  	$scope.auth.edit = response.edit;
+	  	});
+	  };
+	  
+	  // 게시판 설정정보 load
+	  $scope.loadBoard = function(){
+	  	var param = {};
+	  	param["boardCode"] = $scope.boardCode;
+	  	
+	  	$http.get(readBoardManager, {params: param}).success(function(response) {
+	  		$scope.boardInfo = response;
+	  	});
+	  };
+	  
+	  $scope.htmlText = function(){
+	  	nhn.husky.EZCreator.createInIFrame({
+	  		oAppRef: oEditors,
+	  		elPlaceHolder: "content",
+				sSkinURI : mainCtrl.getUrl("/editor/SmartEditor2Skin.html"),
+	  		fCreator: "createSEditorInIFrame"
+	  	});
+	  };
+	  
+	  $scope.loadBoard();
+	  $scope.loadAuth();
 	  $scope.page(1);
 	});	
 	
@@ -82,6 +177,7 @@
 				</li>
 			</ul>
 		</div>
+		<a href="#" class="btn btn-default" data-ng-click="write()" data-ng-show="auth.write">글쓰기</a>
 	</div>
 	
 	<!-- 읽기 폼 -->
@@ -97,4 +193,55 @@
 		<a href="#" data-ng-click="remove(readItem)" class="btn btn-default">삭제</a> 
 		<a href="#" data-ng-click="listback()"class="btn btn-default">목록</a>
 	</div>
+	
+	
+	<!-- 등록 폼 -->
+	<div data-ng-show="view =='write' || view =='update' ">
+		<div class="well bs-component">
+			<form class="form-horizontal">
+				<fieldset>
+					<legend>쓰기</legend>
+					<div class="form-group">
+						<label for="title" class="col-lg-2 control-label">제목</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="title" data-ng-model="readItem.title" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="textArea" class="col-lg-2 control-label">내용</label>
+						<div class="col-lg-10">
+							<textarea id="content" rows="10" cols="100" style="width: 100%; height: 300px; display: none;" data-ng-model="readItem.content"></textarea>
+						</div>
+					</div>
+					<div class="form-group" data-ng-show="boardInfo.encodeF">
+						<label for="encrypt" class="col-lg-2 control-label">암호코드</label>
+						<div class="col-lg-10">
+							<input type="text" class="form-control" id="encrypt" data-ng-model="readItem.encrypt">
+						</div>
+					</div>
+					<div class="form-group" data-ng-show="boardInfo.attachF">
+						<label for="encrypt" class="col-lg-2 control-label">첨부파일</label>
+						<div class="col-lg-10">
+							<input type="file" class="form-control" file-model="readItem.attachFile[0]"> 
+							<input type="file" class="form-control" file-model="readItem.attachFile[1]">
+							<input type="file" class="form-control" file-model="readItem.attachFile[2]">
+							<ul>
+								<li>aaa.jpg <input type="checkbox" />삭제</li>
+								<li>bbb.jpg <input type="checkbox" />삭제</li>
+							</ul>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-10 col-lg-offset-2">
+							<button type="submit" class="btn btn-default" data-ng-click="writeOrUpdateSummit()">쓰기</button>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>	
+	
+	
+	
+	
 </div>

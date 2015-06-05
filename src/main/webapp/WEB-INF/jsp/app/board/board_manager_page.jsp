@@ -133,7 +133,7 @@
 				</li>
 			</ul>
 		</div>
-		<a href="#" class="btn btn-default" data-ng-click="write(readItem)">만들기</a> 
+		<a href="#" class="btn btn-default" data-ng-click="write()">만들기</a> 
 	</div>
 	
 	<!-- 읽기 폼 -->
