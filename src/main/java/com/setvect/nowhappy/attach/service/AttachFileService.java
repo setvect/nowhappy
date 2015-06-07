@@ -40,7 +40,7 @@ public class AttachFileService {
 	 *            사용자 ID
 	 * @return 업로드한 첨부파일 정보
 	 */
-	public AttachFileVo process(String baseDir, MultipartFile attachFile, AttachFileModule moduleName, int moduleId,
+	public AttachFileVo process(File baseDir, MultipartFile attachFile, AttachFileModule moduleName, int moduleId,
 			String userId) {
 		if (attachFile == null) {
 			return null;
@@ -68,7 +68,7 @@ public class AttachFileService {
 	 *            사용자 ID
 	 * @return 업로드한 첨부파일 정보
 	 */
-	public List<AttachFileVo> process(String baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName,
+	public List<AttachFileVo> process(File baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName,
 			int moduleId, String userId) {
 		return process(baseDir, attachFiles, moduleName, String.valueOf(moduleId), userId);
 	}
@@ -88,7 +88,7 @@ public class AttachFileService {
 	 *            사용자 ID
 	 * @return 업로드한 첨부파일 정보
 	 */
-	public List<AttachFileVo> process(String baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName,
+	public List<AttachFileVo> process(File baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName,
 			String moduleId, String userId) {
 
 		if (attachFiles == null || attachFiles.length == 0) {

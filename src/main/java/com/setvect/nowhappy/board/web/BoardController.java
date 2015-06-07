@@ -2,19 +2,17 @@ package com.setvect.nowhappy.board.web;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,14 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
-import com.setvect.nowhappy.ApplicationConstant.FileUpload;
 import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.attach.service.AttachFileModule;
 import com.setvect.nowhappy.attach.service.AttachFileService;
-import com.setvect.nowhappy.attach.vo.AttachFileVo;
 import com.setvect.nowhappy.board.service.BoardArticleSearch;
 import com.setvect.nowhappy.board.service.BoardService;
 import com.setvect.nowhappy.board.vo.BoardArticleVo;
+import com.setvect.nowhappy.user.vo.UserVo;
+import com.setvect.nowhappy.util.StringEncrypt;
 
 /**
  * 게시물
@@ -87,59 +85,29 @@ public class BoardController {
 	 * @param request
 	 * @param response
 	 * @return 추가한 코멘트 아이디
+	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	@RequestMapping("/app/board/add.do")
 	@ResponseBody
-	public boolean add(@ModelAttribute BoardArticleVo article, HttpServletRequest request) {
-		String title = request.getParameter("title");
-		System.out.println("title: " + title);
-
+	public boolean add(@ModelAttribute BoardArticleVo article, HttpServletRequest request)
+			throws FileNotFoundException, IOException {
 		if (!ApplicationUtil.isAdmin(request)) {
 			return false;
 		}
+		processEncrypt(request, article);
+
+		UserVo user = ApplicationUtil.getLoginSession(request);
+		article.setUserId(user.getUserId());
+		article.setEmail(user.getEmail());
+		article.setName(user.getName());
+
+		article.setRegDate(new Date());
+		article.setIp(request.getRemoteAddr());
+
 		boardService.insertArticle(article);
+		saveAttachFile(request, article);
 		return true;
-	}
-
-	/**
-	 * 첨부파일 저장
-	 * 
-	 * @param request
-	 * @param article
-	 *            관계 글
-	 * @throws IOException
-	 * @throws FileNotFoundException
-	 */
-	private void saveAttachFile(HttpServletRequest request, BoardArticleVo article) throws IOException,
-			FileNotFoundException {
-		String destDir = request.getSession().getServletContext().getRealPath(FileUpload.ATTACH_PATH);
-
-		File saveDir = new File(destDir, article.getBoardCode());
-		if (!saveDir.exists()) {
-			saveDir.mkdirs();
-		}
-
-		MultipartFile[] attachFiles = article.getAttachFile();
-		if (attachFiles == null) {
-			return;
-		}
-		for (MultipartFile file : attachFiles) {
-			if (StringUtilAd.isEmpty(file.getOriginalFilename())) {
-				continue;
-			}
-			String fileName = "upload." + FilenameUtils.getExtension(file.getOriginalFilename());
-
-			File destination = File.createTempFile("file", fileName, saveDir);
-			FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(destination));
-			AttachFileVo attach = new AttachFileVo();
-			attach.setModuleName(AttachFileModule.BOARD);
-			attach.setModuleId(String.valueOf(article.getArticleSeq()));
-			attach.setOriginalName(file.getOriginalFilename());
-			attach.setSaveName(destination.getName());
-			attach.setSize((int) file.getSize());
-			attachFileService.createAttachFile(attach);
-		}
 	}
 
 	/**
@@ -195,5 +163,43 @@ public class BoardController {
 		result.put("write", true);
 		result.put("edit", true);
 		return result;
+	}
+
+	/**
+	 * 암호화 글 처리
+	 * 
+	 * @param request
+	 * @param article
+	 */
+	private void processEncrypt(HttpServletRequest request, BoardArticleVo article) {
+		String encode = request.getParameter("encode");
+
+		// 암호화 글
+		if (!StringUtilAd.isEmpty(encode)) {
+			article.setContent(StringEncrypt.encodeJ(article.getContent(), encode));
+			article.setEncodeF(true);
+		}
+		else {
+			article.setEncodeF(false);
+		}
+	}
+
+	/**
+	 * 첨부파일 저장
+	 * 
+	 * @param request
+	 * @param article
+	 *            관계 글
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 */
+	private void saveAttachFile(HttpServletRequest request, BoardArticleVo article) throws IOException,
+			FileNotFoundException {
+		String destDir = request.getSession().getServletContext().getRealPath("/");
+		File destPath = new File(destDir);
+		MultipartFile[] attachFiles = article.getAttachFile();
+		UserVo user = ApplicationUtil.getLoginSession(request);
+		attachFileService.process(destPath, attachFiles, AttachFileModule.BOARD, article.getArticleSeq(),
+				user.getUserId());
 	}
 }

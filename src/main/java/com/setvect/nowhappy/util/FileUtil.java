@@ -1,11 +1,19 @@
 package com.setvect.nowhappy.util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -130,6 +138,72 @@ public class FileUtil extends FileUtils {
 			}
 			List<File> c = getSubFiles(dir, includeExt);
 			files.addAll(c);
+		}
+	}
+
+	/**
+	 * file download method
+	 * 
+	 * @param file
+	 *            다운로드할 파일 경로
+	 * 
+	 * @param downloadFileName
+	 *            Download file name from client computer
+	 * @param request
+	 *            Request object
+	 * @param response
+	 *            Response object
+	 */
+	public static void fileDown(File file, String downloadFileName, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String encodeCharSet = request.getCharacterEncoding();
+		BufferedInputStream fin = null;
+		BufferedOutputStream outs = null;
+		int read = 0;
+		byte[] b = new byte[1024];
+		// 버퍼 클리어
+		response.reset();
+		try {
+			if (file.exists()) {
+				fin = new BufferedInputStream(new FileInputStream(file));
+				outs = new BufferedOutputStream(response.getOutputStream());
+				response.setContentType("application/x-force-download");
+
+				// 한글 깨짐 현상은 java.net.URLEncoder.encode()를 쓰면 해결 됨
+				// response.setHeader("Content-Disposition", option + ";
+				// filename=" + java.net.URLEncoder.encode(orgFileName) + ";");
+
+				response.setHeader("Content-Type", "application/octet-stream; charset=" + encodeCharSet + "\"");
+
+				response.setHeader("Content-Disposition",
+						"attachment;filename=" + URLEncoder.encode(downloadFileName, encodeCharSet) + ";");
+
+				response.setHeader("Content-Length", "" + file.length());
+				response.setHeader("Pragma", "no-cache;");
+				response.setHeader("Expires", "-1;");
+
+				while ((read = fin.read(b)) != -1) {
+					outs.write(b, 0, read);
+				}
+			}
+			else {
+				throw new IOException("not exist : " + file);
+			}
+		} catch (IOException e) {
+			throw e;
+		} finally {
+			if (outs != null) {
+				try {
+					outs.close();
+				} catch (IOException e) {
+				}
+			}
+			if (fin != null) {
+				try {
+					fin.close();
+				} catch (IOException e) {
+				}
+			}
 		}
 	}
 }

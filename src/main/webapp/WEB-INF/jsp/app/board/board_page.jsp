@@ -1,3 +1,4 @@
+<%@page import="com.setvect.nowhappy.attach.service.AttachFileModule"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@page import="com.setvect.nowhappy.comment.service.CommentModule"%>
 <%@page import="com.setvect.nowhappy.comment.web.CommentController"%>
@@ -37,6 +38,7 @@
 		$scope.pageNumber = 1;
 		$scope.pageCount = 0;
 		$scope.pageItem = [];
+		$scope.attachList = [];
 		
 		$scope.boardCode = "<%=request.getParameter("boardCode")%>";
 		$scope.boardInfo;
@@ -48,6 +50,8 @@
 		var loadAuthUrl = mainCtrl.getUrl("/app/board/loadAuth.json");
 		var readBoardManager = mainCtrl.getUrl("/app/board_manager/read.json");
   	
+		var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json");
+		
 		var oEditors = [];
   	
 		$scope.page = function(pageNumber){
@@ -73,6 +77,14 @@
 
 	  $scope.read = function(article){
 	  	$scope.readItem = angular.copy(article);
+	  	var param = {};
+  		param["moduleName"] = "<%=AttachFileModule.BOARD%>";
+  		param["moduleId"] = article.articleSeq;
+	  	
+	  	$http.get(listAttachFileUrl, {params: param}).success(function(response) {
+	  		$scope.attachList = response;
+	  	});	  	
+	  	
 	  	$scope.view = "read";
 	  };
 	  
@@ -96,14 +108,13 @@
 	  	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	  	var fd = new FormData();
 
-	  	console.log($scope.readItem.title);
-	  	console.log("@@@@@@@@@@@@@@@@@");
-	  	console.log($scope.readItem.attachFile);
-	  	
+	  	fd.append("boardCode", $scope.boardCode);
 	  	fd.append("title", $scope.readItem.title);
 	  	fd.append("content", content.trim());
-	  	fd.append("attachFile", $scope.readItem.attachFile[0]);
-	  	fd.append("attachFile", $scope.readItem.attachFile[1]);
+	  	
+	  	$.each($scope.readItem.attachFile, function(index, value) {
+		  	fd.append("attachFile", value);
+	  	}); 	  	
 	  	
   		$http.post(url, fd, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).success(function(response) {
 		  	if(response){
@@ -187,6 +198,13 @@
 				<h5>{{readItem.title}}</h5>
 				<p>{{readItem.content}}</p>
 				<span>{{readItem.regDate | date:'yyyy.MM.dd'}}</span>
+				<ul>
+					<li data-ng-repeat="f in attachList track by $index">
+						첨부파일{{$index + 1}}: 
+						<a href="<%=request.getContextPath()%>/download.do?s={{f.savePathEncode}}&amp;d={{f.originalNameEncode}}">{{f.originalName}} ({{(f.size / 1024.0) | number:0}}k)</a>
+					</li>
+				</ul>
+
 			</div>
 		</div>
 		<a href="#" data-ng-click="update(readItem)" class="btn btn-default">수정</a> 
@@ -216,7 +234,7 @@
 					<div class="form-group" data-ng-show="boardInfo.encodeF">
 						<label for="encrypt" class="col-lg-2 control-label">암호코드</label>
 						<div class="col-lg-10">
-							<input type="text" class="form-control" id="encrypt" data-ng-model="readItem.encrypt">
+							<input type="text" class="form-control" name="encrypt" id="encrypt" data-ng-model="readItem.encrypt">
 						</div>
 					</div>
 					<div class="form-group" data-ng-show="boardInfo.attachF">

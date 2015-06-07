@@ -183,28 +183,6 @@ public class AttachFileVo {
 		this.regDate = regDate;
 	}
 
-	/**
-	 * @return the user
-	 */
-	public UserVo getUser() {
-		return user;
-	}
-
-	/**
-	 * @param user
-	 *            the user to set
-	 */
-	public void setUser(UserVo user) {
-		this.user = user;
-	}
-
-	/**
-	 * @return 등록자 이름
-	 */
-	public String getUserName() {
-		return user.getName();
-	}
-
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

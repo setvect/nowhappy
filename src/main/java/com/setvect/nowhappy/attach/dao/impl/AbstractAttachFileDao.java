@@ -29,7 +29,7 @@ public abstract class AbstractAttachFileDao implements AttachFileDao {
 	public List<AttachFileVo> listAttachFile(AttachFileModule moduleName, String moduleItemId) {
 		Session session = sessionFactory.getCurrentSession();
 
-		String q = " from AttachFile where moduleName = ? and moduleId = ? order by attachFileSeq ";
+		String q = " from AttachFileVo where moduleName = ? and moduleId = ? order by attachFileSeq ";
 		Query query = session.createQuery(q);
 
 		query.setString(0, moduleName.name());
