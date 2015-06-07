@@ -77,15 +77,18 @@
 
 	  $scope.read = function(article){
 	  	$scope.readItem = angular.copy(article);
+			$scope.loadAttachFile(article);
+	  	$scope.view = "read";
+	  };
+	  
+	  $scope.loadAttachFile = function(article){
 	  	var param = {};
   		param["moduleName"] = "<%=AttachFileModule.BOARD%>";
   		param["moduleId"] = article.articleSeq;
 	  	
 	  	$http.get(listAttachFileUrl, {params: param}).success(function(response) {
 	  		$scope.attachList = response;
-	  	});	  	
-	  	
-	  	$scope.view = "read";
+	  	});	  
 	  };
 	  
 	  $scope.write = function(){
@@ -93,6 +96,14 @@
 	  	$scope.view = "write";
 	  	$scope.htmlText();
 	  }
+	  
+	  $scope.update = function(article){
+	  	// deep copy
+	  	$scope.readItem = angular.copy(article);
+	  	$scope.attachList = [];
+	  	$scope.loadAttachFile(article);
+	  	$scope.view = "update";
+	  };
 
 	  $scope.writeOrUpdateSummit = function(){
 	  	var url = $scope.view == "write" ? addUrl : updateUrl; 
@@ -244,8 +255,9 @@
 							<input type="file" class="form-control" file-model="readItem.attachFile[1]">
 							<input type="file" class="form-control" file-model="readItem.attachFile[2]">
 							<ul>
-								<li>aaa.jpg <input type="checkbox" />삭제</li>
-								<li>bbb.jpg <input type="checkbox" />삭제</li>
+								<li data-ng-repeat="f in attachList track by $index">
+									{{f.originalName}}  <input type="checkbox" value="{{f.attachFileSeq}}"/>삭제
+								</li>
 							</ul>
 						</div>
 					</div>
