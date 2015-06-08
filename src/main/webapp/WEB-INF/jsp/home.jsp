@@ -17,7 +17,8 @@
 <link href="<c:url value="/css/bootstrap1.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/bootswatch.min.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/custom.css"/>" rel="stylesheet">
-<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.js"></script>
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.2.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootstrap.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootswatch.js"/>"></script>

@@ -9,7 +9,7 @@
 	
 %>
 <script type="text/javascript">
-	var appBoardManager = angular.module('boardApp', []);
+	var appBoardManager = angular.module('boardApp', ['ngSanitize']);
 	
 	// 첨부파일을 업로드 하기위해... 나도 이해 못함. ㅡㅡ;
 	appBoardManager.directive('fileModel', [ '$parse', function($parse) {
@@ -28,8 +28,9 @@
 		};
 	} ]);
 	
-	
-	appBoardManager.controller('boardController', function($scope, $http) {
+	appBoardManager.controller('boardController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
+    $scope.trustAsHtml = $sce.trustAsHtml;
+     
 		$scope.view = "list";
 		$scope.auth = {};
 		 
@@ -94,7 +95,7 @@
 	  $scope.write = function(){
 	  	$scope.readItem = {};
 	  	$scope.view = "write";
-	  	$scope.htmlText();
+	  	oEditors.getById["content"].setContents("");
 	  }
 	  
 	  $scope.update = function(article){
@@ -103,18 +104,17 @@
 	  	$scope.attachList = [];
 	  	$scope.loadAttachFile(article);
 	  	$scope.view = "update";
+			oEditors.getById["content"].setContents([article.content]);
 	  };
 
 	  $scope.writeOrUpdateSummit = function(){
 	  	var url = $scope.view == "write" ? addUrl : updateUrl; 
-
 	  	var content = oEditors.getById["content"].getIR();
 	  	
 	  	if(removeTags(content.trim()) == ""){
 	  		alert("내용을 입력해 주세요");
 	  		return;
 	  	}
-	  	
 	  	// 에디터의 내용을 에디터 생성시에 사용했던 textarea에 넣어 줍니다.
 	  	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	  	var fd = new FormData();
@@ -123,9 +123,11 @@
 	  	fd.append("title", $scope.readItem.title);
 	  	fd.append("content", content.trim());
 	  	
-	  	$.each($scope.readItem.attachFile, function(index, value) {
-		  	fd.append("attachFile", value);
-	  	}); 	  	
+			if($scope.readItem.attachFile != null){	  	
+		  	$.each($scope.readItem.attachFile, function(index, value) {
+			  	fd.append("attachFile", value);
+		  	}); 	  	
+			}
 	  	
   		$http.post(url, fd, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).success(function(response) {
 		  	if(response){
@@ -169,7 +171,8 @@
 	  $scope.loadBoard();
 	  $scope.loadAuth();
 	  $scope.page(1);
-	});	
+  	$scope.htmlText();
+	}]);	
 	
 	var injector = angular.injector(['ng', 'boardApp'])
 	injector.invoke(function($rootScope, $compile, $document) {
@@ -207,7 +210,7 @@
 		<div class="bs-component">
 			<div class="jumbotron">
 				<h5>{{readItem.title}}</h5>
-				<p>{{readItem.content}}</p>
+				<p data-ng-bind-html="trustAsHtml(readItem.content)"></p>
 				<span>{{readItem.regDate | date:'yyyy.MM.dd'}}</span>
 				<ul>
 					<li data-ng-repeat="f in attachList track by $index">
@@ -263,6 +266,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-lg-10 col-lg-offset-2">
+							<button type="submit" class="btn btn-default" data-ng-click="listback()">취소</button>
 							<button type="submit" class="btn btn-default" data-ng-click="writeOrUpdateSummit()">쓰기</button>
 						</div>
 					</div>
