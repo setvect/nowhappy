@@ -116,15 +116,25 @@ public class BoardController {
 	 * @param request
 	 * @param response
 	 * @return 추가한 코멘트 아이디
+	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	@RequestMapping("/app/board/update.do")
 	@ResponseBody
-	public boolean update(@ModelAttribute BoardArticleVo article, HttpServletRequest request) {
+	public boolean update(@ModelAttribute BoardArticleVo param, HttpServletRequest request)
+			throws FileNotFoundException, IOException {
 		if (!ApplicationUtil.isAdmin(request)) {
 			return false;
 		}
+		processEncrypt(request, param);
+		BoardArticleVo article = boardService.getArticle(param.getArticleSeq());
+		article.setTitle(param.getTitle());
+		article.setContent(param.getContent());
+		article.setAttachFile(param.getAttachFile());
+		
 		boardService.updateArticle(article);
+		saveAttachFile(request, article);
+		// TODO 삭제 선택 파일 삭제 처리
 		return true;
 	}
 

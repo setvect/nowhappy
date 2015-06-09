@@ -119,6 +119,7 @@
 	  	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	  	var fd = new FormData();
 
+	  	fd.append("articleSeq", $scope.readItem.articleSeq);
 	  	fd.append("boardCode", $scope.boardCode);
 	  	fd.append("title", $scope.readItem.title);
 	  	fd.append("content", content.trim());
