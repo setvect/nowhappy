@@ -23,6 +23,7 @@ import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.attach.service.AttachFileModule;
 import com.setvect.nowhappy.attach.service.AttachFileService;
+import com.setvect.nowhappy.attach.vo.AttachFileVo;
 import com.setvect.nowhappy.board.service.BoardArticleSearch;
 import com.setvect.nowhappy.board.service.BoardService;
 import com.setvect.nowhappy.board.vo.BoardArticleVo;
@@ -131,11 +132,32 @@ public class BoardController {
 		article.setTitle(param.getTitle());
 		article.setContent(param.getContent());
 		article.setAttachFile(param.getAttachFile());
-		
+
 		boardService.updateArticle(article);
 		saveAttachFile(request, article);
-		// TODO 삭제 선택 파일 삭제 처리
+		deleteFile(request);
+		
 		return true;
+	}
+
+	/**
+	 * 삭제 선택 파일 삭제 처리
+	 * 
+	 * @param request
+	 */
+	private void deleteFile(HttpServletRequest request) {
+		String[] deleteSeq = request.getParameterValues("deleteattachFileSeq");
+		for (String s : deleteSeq) {
+			int seq = Integer.parseInt(s);
+
+			AttachFileVo file = attachFileService.getAttachFile(seq);
+			if (file != null) {
+				String destDir = request.getSession().getServletContext().getRealPath("/");
+				File osFile = new File(destDir, file.getSavePath());
+				osFile.delete();
+			}
+			attachFileService.deleteFile(seq);
+		}
 	}
 
 	/**

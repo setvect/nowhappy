@@ -129,12 +129,18 @@
 			  	fd.append("attachFile", value);
 		  	}); 	  	
 			}
-	  	
+
+			$("input[name='deleteattachFileSeq']").each(function(idx, node){
+				if($(node).is(":checked")){
+					fd.append("deleteattachFileSeq", $(node).val());
+				}
+			});
+			
   		$http.post(url, fd, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).success(function(response) {
 		  	if(response){
 		  		$scope.page($scope.pageNumber);
 		  	}
-		  });
+		  });			
 	  };
 	  
 	  $scope.loadAuth = function(article){
@@ -260,7 +266,7 @@
 							<input type="file" class="form-control" file-model="readItem.attachFile[2]">
 							<ul>
 								<li data-ng-repeat="f in attachList track by $index">
-									{{f.originalName}}  <input type="checkbox" value="{{f.attachFileSeq}}"/>삭제
+									{{f.originalName}}  <input type="checkbox" value="{{f.attachFileSeq}}" name="deleteattachFileSeq"/>삭제
 								</li>
 							</ul>
 						</div>
