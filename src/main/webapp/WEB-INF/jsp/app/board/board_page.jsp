@@ -54,7 +54,7 @@
 		var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json");
 		
 		var oEditors = [];
-  	
+		
 		$scope.page = function(pageNumber){
 		  var param = {};
 		  $scope.pageNumber = pageNumber;
@@ -94,6 +94,9 @@
 	  
 	  $scope.write = function(){
 	  	$scope.readItem = {};
+			// Controller에서 VO Bind를 하기 위해.
+	  	$scope.readItem.articleSeq = 0;
+	  	$scope.attachList = [];
 	  	$scope.view = "write";
 	  	oEditors.getById["content"].setContents("");
 	  }
@@ -118,13 +121,13 @@
 	  	// 에디터의 내용을 에디터 생성시에 사용했던 textarea에 넣어 줍니다.
 	  	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	  	var fd = new FormData();
-
+	  	
 	  	fd.append("articleSeq", $scope.readItem.articleSeq);
 	  	fd.append("boardCode", $scope.boardCode);
 	  	fd.append("title", $scope.readItem.title);
 	  	fd.append("content", content.trim());
 	  	
-			if($scope.readItem.attachFile != null){	  	
+			if($scope.readItem.attachFile != null){
 		  	$.each($scope.readItem.attachFile, function(index, value) {
 			  	fd.append("attachFile", value);
 		  	}); 	  	
@@ -135,8 +138,11 @@
 					fd.append("deleteattachFileSeq", $(node).val());
 				}
 			});
+			var headers = {headers: {'Content-Type': undefined}};
+			console.log("AAAAAAAAA");
+			console.log(headers);
 			
-  		$http.post(url, fd, {transformRequest: angular.identity, headers: {'Content-Type': undefined}}).success(function(response) {
+  		$http.post(url, fd, headers).success(function(response) {
 		  	if(response){
 		  		$scope.page($scope.pageNumber);
 		  	}
@@ -281,8 +287,5 @@
 			</form>
 		</div>
 	</div>	
-	
-	
-	
 	
 </div>

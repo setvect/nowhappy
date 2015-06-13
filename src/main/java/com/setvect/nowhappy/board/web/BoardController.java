@@ -147,6 +147,9 @@ public class BoardController {
 	 */
 	private void deleteFile(HttpServletRequest request) {
 		String[] deleteSeq = request.getParameterValues("deleteattachFileSeq");
+		if(deleteSeq ==null){
+			return;
+		}
 		for (String s : deleteSeq) {
 			int seq = Integer.parseInt(s);
 
