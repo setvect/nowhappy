@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="routerApp">
+<head>
+<meta charset="UTF-8">
+<title>라우터 데모 엡</title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+<!-- ngRoute 모듈을 사용하기 위해 추가한다. -->
+<script type="text/javascript" src="routerApp.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="navbar">
+			<div class="navbar-inner">
+				<a class="brand" href="#">라우터 셈플</a>
+				<ul class="nav">
+					<li><a href="#home">홈</a></li>
+					<!-- #(해쉬태그)를 이용하여 URL 경로를 변경한다. HTML5에서는 History API를 이용하여 #없이 라우팅 처리가 가능하다. 라우트 설정 시 홈 화면과 연결할 #home에 해당하는 라우트 url은 home이다. -->
+					<li><a href="#userList">사용자 관리</a></li>
+				</ul>
+			</div>
+		</div>
+		<div ng-view="aaa"></div>
+<!-- 		<ng-view></ng-view> -->
+		<!--  ngView 지시자를 이용하여 URL 경로가 변경될 시 해당 URL 경로에 해당하는 HTML 조각을 삽입할 곳을 지정한다. -->
+	</div>
+</body>
+</html>
+
+
+
+
+
+

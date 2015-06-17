@@ -1,0 +1,24 @@
+<table class="table table-striped table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>이름</th>
+			<th>E-Mail</th>
+			<th>가입 날짜</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="user in userList">
+			<!-- $scope의 userList 배열 요소의 개수만큼 <tr>요소를 생성한다. <tr>요소 내부에서는 user를 통하여 각 배열 요소의 값을 접근할 수 있다. -->
+			<td>{{ $index + 1 }}</td>
+			<!-- ngRepeat 지시자에서 제공하는 $index를 이용하여 각 배열 요소의 인덱스 값에 접근한다. -->
+			<td>{{ user.name }}</td>
+			<td>{{ user.email }}</td>
+			<td>{{ user.regDate }}</td>
+		</tr>
+		<tr ng-show="!userList.length">
+			<!-- userList 배열 요소 개수가 0이거나 배열 값이 없을 시 해당 <tr>요소가 보인다. -->
+			<td colspan="6" style="text-align: center"><span class="text-warning">데이터가 없습니다.</span></td>
+		</tr>
+	</tbody>
+</table>

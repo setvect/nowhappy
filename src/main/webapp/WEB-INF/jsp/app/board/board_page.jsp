@@ -6,7 +6,6 @@
 <%@page import="com.setvect.nowhappy.ApplicationConstant.WebAttributeKey"%>
 <%
 	UserVo user = (UserVo)request.getAttribute(WebAttributeKey.USER_SESSION_KEY);
-	
 %>
 <script type="text/javascript">
 	var appBoardManager = angular.module('boardApp', ['ngSanitize']);
@@ -139,14 +138,24 @@
 				}
 			});
 			var headers = {headers: {'Content-Type': undefined}};
-			console.log("AAAAAAAAA");
-			console.log(headers);
-			
   		$http.post(url, fd, headers).success(function(response) {
 		  	if(response){
 		  		$scope.page($scope.pageNumber);
 		  	}
 		  });			
+	  };
+	  
+	  $scope.remove = function(article){
+	  	if(!confirm("삭제할거야?")){
+	  		return;
+	  	}
+	  	
+	  	var param = {};
+  		param["articleSeq"] = article.articleSeq;
+	  	
+	  	$http.get(deleteUrl, {params: param}).success(function(response) {
+	  		$scope.page($scope.pageNumber);
+	  	});	  	
 	  };
 	  
 	  $scope.loadAuth = function(article){
@@ -187,12 +196,10 @@
   	$scope.htmlText();
 	}]);	
 	
-	var injector = angular.injector(['ng', 'boardApp'])
-	injector.invoke(function($rootScope, $compile, $document) {
-		var appNode = $(".boardNode")[0];
-	  $compile(appNode)($rootScope);
-	  $rootScope.$digest();
-	});		
+	angular.element(document).ready(function(){
+		angular.bootstrap($(".boardNode")[0], ['boardApp'])
+	});
+	
 </script>
 <div class="boardNode" data-ng-app="boardApp"  data-ng-controller="boardController">
 	<!-- 목록 폼 -->
@@ -287,5 +294,4 @@
 			</form>
 		</div>
 	</div>	
-	
 </div>
