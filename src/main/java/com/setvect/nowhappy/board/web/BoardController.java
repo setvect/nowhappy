@@ -54,6 +54,30 @@ public class BoardController {
 	public String page(HttpServletRequest request, HttpServletResponse response) {
 		return "/app/board/board_page";
 	}
+	
+
+	/**
+	 * @param req
+	 * @param res
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/board/list.do")
+	public String list(HttpServletRequest request, HttpServletResponse response) {
+		return "/app/board/views/board_list";
+	}
+
+	/**
+	 * @param req
+	 * @param res
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/board/write.do")
+	public String write(HttpServletRequest request, HttpServletResponse response) {
+		return "/app/board/views/board_write";
+	}
+
 
 	/**
 	 * 게시물 목록

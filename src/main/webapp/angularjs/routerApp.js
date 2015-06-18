@@ -10,7 +10,7 @@ angular.module('routerApp', [ 'ngRoute' ]).config(function($routeProvider) {
 	});
 }).controller('userListCtrl', function($scope) {
 	console.log("bbbbb");
-	$scope.userList = [ {
+	$scope.userList = [ { 
 		name : '미나',
 		email : 'mina@gmail.com',
 		regDate : '2012-03-12'

@@ -8,10 +8,10 @@
 	UserVo user = (UserVo)request.getAttribute(WebAttributeKey.USER_SESSION_KEY);
 %>
 <script type="text/javascript">
-	var appBoardManager = angular.module('boardApp', ['ngSanitize']);
+	var appBoard = angular.module('boardApp', ['ngSanitize', 'ngRoute']);
 	
 	// 첨부파일을 업로드 하기위해... 나도 이해 못함. ㅡㅡ;
-	appBoardManager.directive('fileModel', [ '$parse', function($parse) {
+	appBoard.directive('fileModel', [ '$parse', function($parse) {
 		return {
 			restrict : 'A',
 			link : function(scope, element, attrs) {
@@ -27,10 +27,21 @@
 		};
 	} ]);
 	
-	appBoardManager.controller('boardController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
+	appBoard.config(function($routeProvider) {
+		$routeProvider.when('/list', {
+			templateUrl : mainCtrl.getUrl("/app/board/list.do"),
+			controller : 'boardListController' 
+		}).when('/write', {
+			templateUrl : mainCtrl.getUrl("/app/board/write.do"),
+			controller : 'boardWriteController' 
+		}).otherwise({
+			redirectTo : '/list'
+		});
+	});
+	
+	appBoard.controller('boardController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
     $scope.trustAsHtml = $sce.trustAsHtml;
      
-		$scope.view = "list";
 		$scope.auth = {};
 		 
 		$scope.list = [];
@@ -43,7 +54,6 @@
 		$scope.boardCode = "<%=request.getParameter("boardCode")%>";
 		$scope.boardInfo;
 		
-		var listUrl = mainCtrl.getUrl("/app/board/list.json");
 		var addUrl = mainCtrl.getUrl("/app/board/add.do");
 		var updateUrl = mainCtrl.getUrl("/app/board/update.do");
 		var deleteUrl = mainCtrl.getUrl("/app/board/delete.do");
@@ -52,27 +62,8 @@
   	
 		var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json");
 		
-		var oEditors = [];
-		
-		$scope.page = function(pageNumber){
-		  var param = {};
-		  $scope.pageNumber = pageNumber;
-		  param["pageNumber"] = $scope.pageNumber;
-		  param["boardCode"] = $scope.boardCode; 
-		  $http.get(listUrl, {params: param}).success(function(response) {
-			  $scope.list = response.list;
-			  $scope.view = "list";
-			  $scope.pageCount = response.pageCount;
-			  $scope.pageItem = [];
-
-			  for(var i= 0; i< $scope.pageCount; i++){
-				  $scope.pageItem.push(i + 1);
-			  }
-		  });
-	  };
-	  
 	  $scope.listback = function(){
-	  	$scope.view = "list";	  	
+	  	location.href="#/list"	  	
 	  };
 
 	  $scope.read = function(article){
@@ -92,12 +83,7 @@
 	  };
 	  
 	  $scope.write = function(){
-	  	$scope.readItem = {};
-			// Controller에서 VO Bind를 하기 위해.
-	  	$scope.readItem.articleSeq = 0;
-	  	$scope.attachList = [];
-	  	$scope.view = "write";
-	  	oEditors.getById["content"].setContents("");
+			location.href = "#write";
 	  }
 	  
 	  $scope.update = function(article){
@@ -181,6 +167,39 @@
 	  	});
 	  };
 	  
+	  console.log("root");
+	  $scope.loadBoard();
+	  $scope.loadAuth();
+	}]);
+	
+	appBoard.controller('boardListController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
+	  console.log("list");
+		var listUrl = mainCtrl.getUrl("/app/board/list.json");
+		
+		$scope.page = function(pageNumber){
+		  var param = {};
+		  $scope.pageNumber = pageNumber;
+		  param["pageNumber"] = $scope.pageNumber;
+		  param["boardCode"] = $scope.boardCode; 
+		  $http.get(listUrl, {params: param}).success(function(response) {
+			  $scope.list = response.list;
+			  $scope.view = "list";
+			  $scope.pageCount = response.pageCount;
+			  $scope.pageItem = [];
+
+			  for(var i= 0; i< $scope.pageCount; i++){
+				  $scope.pageItem.push(i + 1);
+			  }
+		  });
+	  };
+	  
+	  $scope.page(1);
+	}]);	
+
+	appBoard.controller('boardWriteController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
+	  console.log("write");
+	  var oEditors = [];
+	  
 	  $scope.htmlText = function(){
 	  	nhn.husky.EZCreator.createInIFrame({
 	  		oAppRef: oEditors,
@@ -189,109 +208,24 @@
 	  		fCreator: "createSEditorInIFrame"
 	  	});
 	  };
-	  
-	  $scope.loadBoard();
-	  $scope.loadAuth();
-	  $scope.page(1);
-  	$scope.htmlText();
+	  $scope.htmlText();
+		$scope.readItem = {};
+		// Controller에서 VO Bind를 하기 위해.
+		$scope.readItem.articleSeq = 0;
+		$scope.attachList = [];
+		$scope.view = "write";
 	}]);	
 	
+	
+
+	
+	
+	 
 	angular.element(document).ready(function(){
 		angular.bootstrap($(".boardNode")[0], ['boardApp'])
 	});
 	
 </script>
-<div class="boardNode" data-ng-app="boardApp"  data-ng-controller="boardController">
-	<!-- 목록 폼 -->
-	<div data-ng-show="view =='list'">
-		<div class="panel panel-default">
-			<!-- Table -->
-			<table class="table">
-				<tbody>
-					<tr data-ng-repeat="x in list">
-						<td><a href="#" data-ng-click="read(list[$index])">{{x.title}}</a></td>
-						<td class="date">{{x.regDate | date:'yyyy.MM.dd'}}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="text-center">
-			<ul class="pagination pagination-sm">
-				<li data-ng-repeat="n in pageItem track by $index">
-					<a href="#" style="background-color: {{pageNumber == n ? 'olive':''}}" data-ng-click="page(n)">{{n}}</a>
-				</li>
-			</ul>
-		</div>
-		<a href="#" class="btn btn-default" data-ng-click="write()" data-ng-show="auth.write">글쓰기</a>
-	</div>
-	
-	<!-- 읽기 폼 -->
-	<div data-ng-show="view =='read'">
-		<div class="bs-component">
-			<div class="jumbotron">
-				<h5>{{readItem.title}}</h5>
-				<p data-ng-bind-html="trustAsHtml(readItem.content)"></p>
-				<span>{{readItem.regDate | date:'yyyy.MM.dd'}}</span>
-				<ul>
-					<li data-ng-repeat="f in attachList track by $index">
-						첨부파일{{$index + 1}}: 
-						<a href="<%=request.getContextPath()%>/download.do?s={{f.savePathEncode}}&amp;d={{f.originalNameEncode}}">{{f.originalName}} ({{(f.size / 1024.0) | number:0}}k)</a>
-					</li>
-				</ul>
-
-			</div>
-		</div>
-		<a href="#" data-ng-click="update(readItem)" class="btn btn-default">수정</a> 
-		<a href="#" data-ng-click="remove(readItem)" class="btn btn-default">삭제</a> 
-		<a href="#" data-ng-click="listback()"class="btn btn-default">목록</a>
-	</div>
-	
-	
-	<!-- 등록 폼 -->
-	<div data-ng-show="view =='write' || view =='update' ">
-		<div class="well bs-component">
-			<form class="form-horizontal">
-				<fieldset>
-					<legend>쓰기</legend>
-					<div class="form-group">
-						<label for="title" class="col-lg-2 control-label">제목</label>
-						<div class="col-lg-10">
-							<input type="text" class="form-control" id="title" data-ng-model="readItem.title" required>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="textArea" class="col-lg-2 control-label">내용</label>
-						<div class="col-lg-10">
-							<textarea id="content" rows="10" cols="100" style="width: 100%; height: 300px; display: none;" data-ng-model="readItem.content"></textarea>
-						</div>
-					</div>
-					<div class="form-group" data-ng-show="boardInfo.encodeF">
-						<label for="encrypt" class="col-lg-2 control-label">암호코드</label>
-						<div class="col-lg-10">
-							<input type="text" class="form-control" name="encrypt" id="encrypt" data-ng-model="readItem.encrypt">
-						</div>
-					</div>
-					<div class="form-group" data-ng-show="boardInfo.attachF">
-						<label for="encrypt" class="col-lg-2 control-label">첨부파일</label>
-						<div class="col-lg-10">
-							<input type="file" class="form-control" file-model="readItem.attachFile[0]"> 
-							<input type="file" class="form-control" file-model="readItem.attachFile[1]">
-							<input type="file" class="form-control" file-model="readItem.attachFile[2]">
-							<ul>
-								<li data-ng-repeat="f in attachList track by $index">
-									{{f.originalName}}  <input type="checkbox" value="{{f.attachFileSeq}}" name="deleteattachFileSeq"/>삭제
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-lg-10 col-lg-offset-2">
-							<button type="submit" class="btn btn-default" data-ng-click="listback()">취소</button>
-							<button type="submit" class="btn btn-default" data-ng-click="writeOrUpdateSummit()">쓰기</button>
-						</div>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-	</div>	
+<div class="boardNode" data-ng-app="boardApp" data-ng-controller="boardController">
+	<ng-view></ng-view>
 </div>
