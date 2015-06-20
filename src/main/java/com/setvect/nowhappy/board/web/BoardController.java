@@ -54,7 +54,6 @@ public class BoardController {
 	public String page(HttpServletRequest request, HttpServletResponse response) {
 		return "/app/board/board_page";
 	}
-	
 
 	/**
 	 * @param req
@@ -78,6 +77,16 @@ public class BoardController {
 		return "/app/board/views/board_write";
 	}
 
+	/**
+	 * @param req
+	 * @param res
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/board/read.do")
+	public String read(HttpServletRequest request, HttpServletResponse response) {
+		return "/app/board/views/board_read";
+	}
 
 	/**
 	 * 게시물 목록
@@ -102,6 +111,23 @@ public class BoardController {
 		pageCondition.setSearchCode(code);
 		GenericPage<BoardArticleVo> page = boardService.getArticlePagingList(pageCondition);
 		return page;
+	}
+
+	/**
+	 * 게시물 본문
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/board/read.json")
+	@ResponseBody
+	public BoardArticleVo read(HttpServletRequest request) {
+		String articleSeqStr = request.getParameter("articleSeq");
+		int articleSeq = Integer.parseInt(articleSeqStr);
+		BoardArticleVo read = boardService.getArticle(articleSeq);
+		return read;
 	}
 
 	/**
@@ -160,7 +186,7 @@ public class BoardController {
 		boardService.updateArticle(article);
 		saveAttachFile(request, article);
 		deleteFile(request);
-		
+
 		return true;
 	}
 
@@ -171,7 +197,7 @@ public class BoardController {
 	 */
 	private void deleteFile(HttpServletRequest request) {
 		String[] deleteSeq = request.getParameterValues("deleteattachFileSeq");
-		if(deleteSeq ==null){
+		if (deleteSeq == null) {
 			return;
 		}
 		for (String s : deleteSeq) {

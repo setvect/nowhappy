@@ -34,6 +34,9 @@
 		}).when('/write', {
 			templateUrl : mainCtrl.getUrl("/app/board/write.do"),
 			controller : 'boardWriteController' 
+		}).when('/read/:articleSeq', {
+			templateUrl : mainCtrl.getUrl("/app/board/read.do"),
+			controller : 'boardReadController' 
 		}).otherwise({
 			redirectTo : '/list'
 		});
@@ -63,15 +66,9 @@
 		var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json");
 		
 	  $scope.listback = function(){
-	  	location.href="#/list"	  	
+	  	location.href="#/list";  	
 	  };
 
-	  $scope.read = function(article){
-	  	$scope.readItem = angular.copy(article);
-			$scope.loadAttachFile(article);
-	  	$scope.view = "read";
-	  };
-	  
 	  $scope.loadAttachFile = function(article){
 	  	var param = {};
   		param["moduleName"] = "<%=AttachFileModule.BOARD%>";
@@ -81,10 +78,6 @@
 	  		$scope.attachList = response;
 	  	});	  
 	  };
-	  
-	  $scope.write = function(){
-			location.href = "#write";
-	  }
 	  
 	  $scope.update = function(article){
 	  	// deep copy
@@ -172,7 +165,7 @@
 	  $scope.loadAuth();
 	}]);
 	
-	appBoard.controller('boardListController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
+	appBoard.controller('boardListController', ['$scope', '$http', function($scope, $http) {
 	  console.log("list");
 		var listUrl = mainCtrl.getUrl("/app/board/list.json");
 		
@@ -196,7 +189,7 @@
 	  $scope.page(1);
 	}]);	
 
-	appBoard.controller('boardWriteController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
+	appBoard.controller('boardWriteController', ['$scope', '$http', function($scope, $http) {
 	  console.log("write");
 	  var oEditors = [];
 	  
@@ -213,12 +206,19 @@
 		// Controller에서 VO Bind를 하기 위해.
 		$scope.readItem.articleSeq = 0;
 		$scope.attachList = [];
-		$scope.view = "write";
 	}]);	
-	
-	
 
-	
+	appBoard.controller('boardReadController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+		var readArticle = mainCtrl.getUrl("/app/board/read.json");
+  	$scope.readItem = null;
+  	var param = {};
+  	param["articleSeq"] = $routeParams.articleSeq;
+	  $http.get(readArticle, {params: param}).success(function(response) {
+		  $scope.readItem = response;
+			$scope.loadAttachFile($scope.readItem);
+		  console.log($scope.readItem);
+	  });
+	}]);	
 	
 	 
 	angular.element(document).ready(function(){
