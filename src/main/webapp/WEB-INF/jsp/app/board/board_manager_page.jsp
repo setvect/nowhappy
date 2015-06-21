@@ -42,7 +42,6 @@
 	  };
 	  
 	  $scope.search = function(){
-	  	console.log("aaa");
 	  	$scope.page(1);
 	  };
 	  

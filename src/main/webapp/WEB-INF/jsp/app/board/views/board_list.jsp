@@ -17,4 +17,3 @@
 		</li>
 	</ul>
 </div>
-<a href="#/write" class="btn btn-default" data-ng-show="auth.write">글쓰기</a>

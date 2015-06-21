@@ -71,6 +71,7 @@ public class ApplicationConstant {
 		public static final String PROCESS_RESULT = "PROCESS_RESULT";
 		/** 로그인 attribute 키값 */
 		public static final String USER_SESSION_KEY = "_user_session_key";
+		public static final String BOARD_LIST_TYPE = "";
 	}
 
 	/** 패스워드 암호화 알고리즘 */
@@ -95,4 +96,15 @@ public class ApplicationConstant {
 
 	}
 
+	/**
+	 * 게시판 환경 설정
+	 */
+	public static class BoardConfig {
+		/** 목록에서 콘텐츠 내용이 보여지는 게시판 코드 */
+		public static final List<String> LIST_CONTENT_VIEW = EnvirmentProperty
+				.getList("com.setvect.nowhappy.board.list_content_view");
+
+		/** 메뉴로 노출 시킬 게시판 코드 */
+		public static final List<String> VIEW_LIST = EnvirmentProperty.getList("com.setvect.nowhappy.board.view_list");
+	}
 }

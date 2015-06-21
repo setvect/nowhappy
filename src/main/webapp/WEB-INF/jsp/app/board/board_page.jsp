@@ -1,3 +1,4 @@
+<%@page import="com.setvect.nowhappy.board.web.BoardListPage"%>
 <%@page import="com.setvect.nowhappy.attach.service.AttachFileModule"%>
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@page import="com.setvect.nowhappy.comment.service.CommentModule"%>
@@ -6,6 +7,8 @@
 <%@page import="com.setvect.nowhappy.ApplicationConstant.WebAttributeKey"%>
 <%
 	UserVo user = (UserVo)request.getAttribute(WebAttributeKey.USER_SESSION_KEY);
+	
+	BoardListPage listPgae = (BoardListPage)request.getAttribute(WebAttributeKey.BOARD_LIST_TYPE);
 %>
 <script type="text/javascript">
 	var appBoard = angular.module('boardApp', ['ngSanitize', 'ngRoute']);
@@ -29,7 +32,7 @@
 	
 	appBoard.config(function($routeProvider) {
 		$routeProvider.when('/list', {
-			templateUrl : mainCtrl.getUrl("/app/board/list.do"),
+			templateUrl : mainCtrl.getUrl("/app/board/list.do?type=<%=listPgae%>"),
 			controller : 'boardListController' 
 		}).when('/write', {
 			templateUrl : mainCtrl.getUrl("/app/board/write.do"),
@@ -59,6 +62,10 @@
 		
 		$scope.boardCode = "<%=request.getParameter("boardCode")%>";
 		$scope.boardInfo;
+		
+		$scope.searchParam = {};
+		$scope.searchParam.option = "title";
+		$scope.searchParam.word = "";
 		
 	  $scope.listback = function(){
 	  	location.href="#/list";  	
@@ -119,6 +126,8 @@
 		  $scope.pageNumber = pageNumber;
 		  param["pageNumber"] = $scope.pageNumber;
 		  param["boardCode"] = $scope.boardCode;
+		  param["searchOption"] = $scope.searchParam.option;
+		  param["searchWord"] = $scope.searchParam.word;
 		  
 			var listUrl = mainCtrl.getUrl("/app/board/list.json");
 		  $http.get(listUrl, {params: param}).success(function(response) {
@@ -131,7 +140,7 @@
 			  }
 			  $scope.listback();
 		  });
-	  };	  
+	  };
 	  
 	  $scope.remove = function(article){
 			var deleteUrl = mainCtrl.getUrl("/app/board/delete.do");
@@ -195,7 +204,17 @@
 	}]);
 	
 	appBoard.controller('boardListController', ['$scope', '$http', function($scope, $http) {
-	  $scope.page(1);
+	  $scope.search = function(){
+	  	$scope.page(1);
+	  };
+	  
+	  $scope.searchCancel = function(){
+	  	$scope.searchParam.option = "title";
+			$scope.searchParam.word = "";
+			$scope.page(1);
+	  };
+
+		$scope.page(1);
 	}]);	
 
 	appBoard.controller('boardWriteController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {

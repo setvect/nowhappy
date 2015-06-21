@@ -20,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
+import com.setvect.nowhappy.ApplicationConstant;
 import com.setvect.nowhappy.ApplicationUtil;
+import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
 import com.setvect.nowhappy.attach.service.AttachFileModule;
 import com.setvect.nowhappy.attach.service.AttachFileService;
 import com.setvect.nowhappy.attach.vo.AttachFileVo;
@@ -52,7 +54,32 @@ public class BoardController {
 	 */
 	@RequestMapping("/app/board/page.do")
 	public String page(HttpServletRequest request, HttpServletResponse response) {
+		settingListPage(request);
+
 		return "/app/board/board_page";
+	}
+
+	/**
+	 * 표시할 게시물 목록 페이지 설정
+	 * 
+	 * @param request
+	 */
+	private void settingListPage(HttpServletRequest request) {
+		String typeValue = request.getParameter("type");
+		String code = request.getParameter("boardCode");
+		BoardListPage listPage = getListType(typeValue, code);
+		request.setAttribute(WebAttributeKey.BOARD_LIST_TYPE, listPage);
+	}
+
+	private BoardListPage getListType(String typeValue, String code) {
+		BoardListPage listPage = null;
+		try {
+			listPage = BoardListPage.valueOf(typeValue);
+		} catch (Exception e) {
+			boolean listConfigView = ApplicationConstant.BoardConfig.LIST_CONTENT_VIEW.contains(code);
+			listPage = listConfigView ? BoardListPage.CONTENT : BoardListPage.NORMAL;
+		}
+		return listPage;
 	}
 
 	/**
@@ -63,7 +90,9 @@ public class BoardController {
 	 */
 	@RequestMapping("/app/board/list.do")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
-		return "/app/board/views/board_list";
+		String typeValue = request.getParameter("type");
+		BoardListPage listPage = getListType(typeValue, null);
+		return listPage.getListUrl();
 	}
 
 	/**
@@ -106,11 +135,33 @@ public class BoardController {
 		int startCursor = (pageNumber - 1) * pagePerItem;
 
 		BoardArticleSearch pageCondition = new BoardArticleSearch(startCursor, pagePerItem);
-
 		String code = request.getParameter("boardCode");
 		pageCondition.setSearchCode(code);
+
+		setSearchCondition(request, pageCondition);
+
 		GenericPage<BoardArticleVo> page = boardService.getArticlePagingList(pageCondition);
 		return page;
+	}
+
+	/**
+	 * 검색 조건 적용
+	 * 
+	 * @param request
+	 * @param pageCondition
+	 */
+	private void setSearchCondition(HttpServletRequest request, BoardArticleSearch pageCondition) {
+		String option = request.getParameter("searchOption");
+		String word = request.getParameter("searchWord");
+
+		if (StringUtils.isNotEmpty(option)) {
+			if (option.equals("title")) {
+				pageCondition.setSearchTitle(word);
+			}
+			else if (option.equals("content")) {
+				pageCondition.setSearchContent(word);
+			}
+		}
 	}
 
 	/**

@@ -1,3 +1,4 @@
+<%@page import="com.setvect.nowhappy.board.web.BoardListPage"%>
 <%@page import="com.setvect.nowhappy.user.vo.UserVo"%>
 <%@page import="com.setvect.nowhappy.ApplicationConstant.WebAttributeKey"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
@@ -53,7 +54,7 @@
 	$(function(){
 <%-- 		mainCtrl.loadPage("<%=loadPage%>"); --%>
 // 		mainCtrl.loadPage("/app/board_manager/page.do");
-		mainCtrl.loadPage("/app/board/page.do?boardCode=BDAAAA01");
+		mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=BDAAAA01");
 		
 		
 		$("._boardManager").on("click", function(){
@@ -80,7 +81,7 @@
 		 * 게시판 불러옴 
 		 */
 	  $scope.loadBoard = function(boardCode){
-	  	mainCtrl.loadPage("/app/board/page.do?boardCode=" + boardCode);
+	  	mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=" + boardCode);
 	  };	  
 	  
 	  $scope.loadBoadMenu(1);
