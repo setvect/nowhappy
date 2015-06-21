@@ -20,11 +20,16 @@
 		$scope.pageNumber = 1;
 		$scope.pageCount = 0;
 		$scope.pageItem = [];
+		
+		$scope.searchOption = "code";
+		$scope.searchWord = "";
 
 		$scope.page = function(pageNumber){
 		  var param = {};
 		  $scope.pageNumber = pageNumber;
 		  param["pageNumber"] = $scope.pageNumber;
+		  param["searchOption"] = $scope.searchOption;
+		  param["searchWord"] = $scope.searchWord;
 		  $http.get(listUrl, {params: param}).success(function(response) {
 			  $scope.list = response.list;
 			  $scope.view = "list";
@@ -34,6 +39,17 @@
 				  $scope.pageItem.push(i + 1);
 			  }
 		  });
+	  };
+	  
+	  $scope.search = function(){
+	  	console.log("aaa");
+	  	$scope.page(1);
+	  };
+	  
+	  $scope.searchCancel = function(){
+	  	$scope.searchOption = "code";
+			$scope.searchWord = "";
+			$scope.page(1);
 	  };
 	  
 	  $scope.listback = function(){
@@ -96,12 +112,13 @@
 		<div class="panel panel-default">
 			<form class="navbar-form navbar-left" role="search">
 				<div class="form-group">
-					<select class="form-control">
-						<option>코드</option>
-						<option>이름</option>
-					</select> <input type="text" class="form-control" placeholder="Search">
+					<select class="form-control" data-ng-model="searchOption">
+						<option value="code">코드</option>
+						<option value="name">이름</option>
+					</select> <input type="text" data-ng-model="searchWord" class="form-control">
 				</div>
-				<button type="submit" class="btn btn-default">검색</button>
+				<button type="submit" class="btn btn-default" data-ng-click="search();">검색</button>
+				<button type="submit" class="btn btn-default" data-ng-click="searchCancel();" data-ng-show="searchWord != ''">검색 취소</button>
 			</form>
 	
 			<!-- Table -->

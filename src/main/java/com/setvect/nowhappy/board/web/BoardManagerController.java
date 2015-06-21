@@ -59,10 +59,32 @@ public class BoardManagerController {
 		int pagePerItem = StringUtils.isEmpty(t) ? PAGE_PER_ITEM : Integer.parseInt(t);
 		int startCursor = (pageNumber - 1) * pagePerItem;
 		BoardManagerSearch pageCondition = new BoardManagerSearch(startCursor, pagePerItem);
+
+		setSearchCondition(request, pageCondition);
+
 		GenericPage<BoardVo> page = boardService.getBoardPagingList(pageCondition);
 		return page;
 	}
-	
+
+	/**
+	 * 검색 조건 적용
+	 * 
+	 * @param request
+	 * @param pageCondition
+	 */
+	private void setSearchCondition(HttpServletRequest request, BoardManagerSearch pageCondition) {
+		String option = request.getParameter("searchOption");
+		String word = request.getParameter("searchWord");
+
+		if (StringUtils.isNotEmpty(option)) {
+			if (option.equals("code")) {
+				pageCondition.setSearchCode(word);
+			}
+			else if (option.equals("name")) {
+				pageCondition.setSearchName(word);
+			}
+		}
+	}
 
 	/**
 	 * 게시판 내용
