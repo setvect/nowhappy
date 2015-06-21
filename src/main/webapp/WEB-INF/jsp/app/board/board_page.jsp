@@ -1,5 +1,5 @@
 <%@page import="com.setvect.nowhappy.attach.service.AttachFileModule"%>
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@page import="com.setvect.nowhappy.comment.service.CommentModule"%>
 <%@page import="com.setvect.nowhappy.comment.web.CommentController"%>
 <%@page import="com.setvect.nowhappy.user.vo.UserVo"%>
@@ -33,6 +33,9 @@
 			controller : 'boardListController' 
 		}).when('/write', {
 			templateUrl : mainCtrl.getUrl("/app/board/write.do"),
+			controller : 'boardWriteController'
+		}).when('/update/:articleSeq', {
+			templateUrl : mainCtrl.getUrl("/app/board/write.do"),
 			controller : 'boardWriteController' 
 		}).when('/read/:articleSeq', {
 			templateUrl : mainCtrl.getUrl("/app/board/read.do"),
@@ -43,33 +46,26 @@
 	});
 	
 	appBoard.controller('boardController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
-    $scope.trustAsHtml = $sce.trustAsHtml;
-     
+		$scope.trustAsHtml = $sce.trustAsHtml;
 		$scope.auth = {};
-		 
 		$scope.list = [];
 		$scope.readItem = null;
 		$scope.pageNumber = 1;
 		$scope.pageCount = 0;
 		$scope.pageItem = [];
 		$scope.attachList = [];
+		$scope.readItem = {};
+		$scope.oEditors = [];
 		
 		$scope.boardCode = "<%=request.getParameter("boardCode")%>";
 		$scope.boardInfo;
-		
-		var addUrl = mainCtrl.getUrl("/app/board/add.do");
-		var updateUrl = mainCtrl.getUrl("/app/board/update.do");
-		var deleteUrl = mainCtrl.getUrl("/app/board/delete.do");
-		var loadAuthUrl = mainCtrl.getUrl("/app/board/loadAuth.json");
-		var readBoardManager = mainCtrl.getUrl("/app/board_manager/read.json");
-  	
-		var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json");
 		
 	  $scope.listback = function(){
 	  	location.href="#/list";  	
 	  };
 
 	  $scope.loadAttachFile = function(article){
+			var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json");
 	  	var param = {};
   		param["moduleName"] = "<%=AttachFileModule.BOARD%>";
   		param["moduleId"] = article.articleSeq;
@@ -78,26 +74,20 @@
 	  		$scope.attachList = response;
 	  	});	  
 	  };
-	  
-	  $scope.update = function(article){
-	  	// deep copy
-	  	$scope.readItem = angular.copy(article);
-	  	$scope.attachList = [];
-	  	$scope.loadAttachFile(article);
-	  	$scope.view = "update";
-			oEditors.getById["content"].setContents([article.content]);
-	  };
 
 	  $scope.writeOrUpdateSummit = function(){
-	  	var url = $scope.view == "write" ? addUrl : updateUrl; 
-	  	var content = oEditors.getById["content"].getIR();
+			var addUrl = mainCtrl.getUrl("/app/board/add.do");
+			var updateUrl = mainCtrl.getUrl("/app/board/update.do");
+			
+	  	var url = $scope.readItem.articleSeq == 0 ? addUrl : updateUrl; 
+	  	var content = $scope.oEditors.getById["content"].getIR();
 	  	
 	  	if(removeTags(content.trim()) == ""){
 	  		alert("내용을 입력해 주세요");
 	  		return;
 	  	}
 	  	// 에디터의 내용을 에디터 생성시에 사용했던 textarea에 넣어 줍니다.
-	  	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+	  	$scope.oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	  	var fd = new FormData();
 	  	
 	  	fd.append("articleSeq", $scope.readItem.articleSeq);
@@ -124,7 +114,27 @@
 		  });			
 	  };
 	  
+		$scope.page = function(pageNumber){
+		  var param = {};
+		  $scope.pageNumber = pageNumber;
+		  param["pageNumber"] = $scope.pageNumber;
+		  param["boardCode"] = $scope.boardCode;
+		  
+			var listUrl = mainCtrl.getUrl("/app/board/list.json");
+		  $http.get(listUrl, {params: param}).success(function(response) {
+			  $scope.list = response.list;
+			  $scope.pageCount = response.pageCount;
+			  $scope.pageItem = [];
+
+			  for(var i= 0; i< $scope.pageCount; i++){
+				  $scope.pageItem.push(i + 1);
+			  }
+			  $scope.listback();
+		  });
+	  };	  
+	  
 	  $scope.remove = function(article){
+			var deleteUrl = mainCtrl.getUrl("/app/board/delete.do");
 	  	if(!confirm("삭제할거야?")){
 	  		return;
 	  	}
@@ -133,7 +143,7 @@
   		param["articleSeq"] = article.articleSeq;
 	  	
 	  	$http.get(deleteUrl, {params: param}).success(function(response) {
-	  		$scope.page($scope.pageNumber);
+	  		location.href="#/list";  	
 	  	});	  	
 	  };
 	  
@@ -144,6 +154,7 @@
 	  		param["boardCode"] = $scope.boardCode;
 	  	}
 	  	
+			var loadAuthUrl = mainCtrl.getUrl("/app/board/loadAuth.json");
 	  	$http.get(loadAuthUrl, {params: param}).success(function(response) {
 		  	$scope.auth.write = response.write;
 		  	$scope.auth.edit = response.edit;
@@ -152,6 +163,8 @@
 	  
 	  // 게시판 설정정보 load
 	  $scope.loadBoard = function(){
+			var readBoardManager = mainCtrl.getUrl("/app/board_manager/read.json");
+	  	
 	  	var param = {};
 	  	param["boardCode"] = $scope.boardCode;
 	  	
@@ -160,67 +173,54 @@
 	  	});
 	  };
 	  
-	  console.log("root");
+	  $scope.loadArticle = function(articleSeq){
+			var readArticle = mainCtrl.getUrl("/app/board/read.json");
+	  	var param = {};
+	  	param["articleSeq"] = articleSeq;
+		  $http.get(readArticle, {params: param}).success(function(response) {
+			  $scope.readItem = response;
+				$scope.loadAttachFile($scope.readItem);
+		  });
+	  };
+	  
+	  $scope.initReadItem = function(){
+	  	$scope.readItem = {};
+			// Controller에서 VO Bind를 하기 위해.
+			$scope.readItem.articleSeq = 0;
+			$scope.attachList = [];
+	  }
+	  
 	  $scope.loadBoard();
 	  $scope.loadAuth();
 	}]);
 	
 	appBoard.controller('boardListController', ['$scope', '$http', function($scope, $http) {
-	  console.log("list");
-		var listUrl = mainCtrl.getUrl("/app/board/list.json");
-		
-		$scope.page = function(pageNumber){
-		  var param = {};
-		  $scope.pageNumber = pageNumber;
-		  param["pageNumber"] = $scope.pageNumber;
-		  param["boardCode"] = $scope.boardCode; 
-		  $http.get(listUrl, {params: param}).success(function(response) {
-			  $scope.list = response.list;
-			  $scope.view = "list";
-			  $scope.pageCount = response.pageCount;
-			  $scope.pageItem = [];
-
-			  for(var i= 0; i< $scope.pageCount; i++){
-				  $scope.pageItem.push(i + 1);
-			  }
-		  });
-	  };
-	  
 	  $scope.page(1);
 	}]);	
 
-	appBoard.controller('boardWriteController', ['$scope', '$http', function($scope, $http) {
-	  console.log("write");
-	  var oEditors = [];
+	appBoard.controller('boardWriteController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+	  if($routeParams.articleSeq != null){
+	  	$scope.loadArticle($routeParams.articleSeq);
+	  }
+	  else{
+			$scope.initReadItem();
+	  }
 	  
 	  $scope.htmlText = function(){
 	  	nhn.husky.EZCreator.createInIFrame({
-	  		oAppRef: oEditors,
+	  		oAppRef: $scope.oEditors,
 	  		elPlaceHolder: "content",
 				sSkinURI : mainCtrl.getUrl("/editor/SmartEditor2Skin.html"),
 	  		fCreator: "createSEditorInIFrame"
 	  	});
 	  };
 	  $scope.htmlText();
-		$scope.readItem = {};
-		// Controller에서 VO Bind를 하기 위해.
-		$scope.readItem.articleSeq = 0;
-		$scope.attachList = [];
 	}]);	
 
 	appBoard.controller('boardReadController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
-		var readArticle = mainCtrl.getUrl("/app/board/read.json");
-  	$scope.readItem = null;
-  	var param = {};
-  	param["articleSeq"] = $routeParams.articleSeq;
-	  $http.get(readArticle, {params: param}).success(function(response) {
-		  $scope.readItem = response;
-			$scope.loadAttachFile($scope.readItem);
-		  console.log($scope.readItem);
-	  });
+		$scope.loadArticle($routeParams.articleSeq);
 	}]);	
 	
-	 
 	angular.element(document).ready(function(){
 		angular.bootstrap($(".boardNode")[0], ['boardApp'])
 	});
