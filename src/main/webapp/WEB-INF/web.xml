@@ -33,6 +33,13 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+
+	<servlet>
+		<servlet-name>ThumbnailServlet</servlet-name>
+		<servlet-class>com.setvect.nowhappy.thumbnail.ThumbnailImageServlet</servlet-class>
+	</servlet>
+	
+	
 	<servlet-mapping>
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.do</url-pattern>
@@ -41,6 +48,11 @@
 		<servlet-name>action</servlet-name>
 		<url-pattern>*.json</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ThumbnailServlet</servlet-name>
+		<url-pattern>/servlet/Thumbnail</url-pattern>
+	</servlet-mapping>
+
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
