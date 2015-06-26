@@ -56,7 +56,7 @@
 		$scope.pageNumber = 1;
 		$scope.pageCount = 0;
 		$scope.pageItem = [];
-		$scope.attachList = [];
+		$scope.attachMapList = {};
 		$scope.readItem = {};
 		$scope.oEditors = [];
 		
@@ -76,9 +76,12 @@
 	  	var param = {};
   		param["moduleName"] = "<%=AttachFileModule.BOARD%>";
   		param["moduleId"] = article.articleSeq;
-	  	
+	  	console.log("!!!!!!!!!!!!!!!!!!");
 	  	$http.get(listAttachFileUrl, {params: param}).success(function(response) {
-	  		$scope.attachList = response;
+	  		console.log("AAAAA");
+	  		console.log($scope.attachMapList);
+	  		$scope.attachMapList[article.articleSeq] = response;
+	  		console.log("BBBBBB");
 	  	});	  
 	  };
 
@@ -188,6 +191,7 @@
 	  	param["articleSeq"] = articleSeq;
 		  $http.get(readArticle, {params: param}).success(function(response) {
 			  $scope.readItem = response;
+			  console.log("SSSSSSSSSSSS");
 				$scope.loadAttachFile($scope.readItem);
 		  });
 	  };
@@ -196,7 +200,7 @@
 	  	$scope.readItem = {};
 			// Controller에서 VO Bind를 하기 위해.
 			$scope.readItem.articleSeq = 0;
-			$scope.attachList = [];
+			$scope.attachMapList = {};
 	  }
 	  
 	  $scope.loadBoard();

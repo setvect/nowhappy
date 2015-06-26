@@ -5,7 +5,7 @@
 		<p data-ng-bind-html="trustAsHtml(readItem.content)"></p>
 		<span>{{readItem.regDate | date:'yyyy.MM.dd'}}</span>
 		<ul>
-			<li data-ng-repeat="f in attachList track by $index">
+			<li data-ng-repeat="f in attachMapList[readItem.articleSeq] track by $index">
 				첨부파일{{$index + 1}}: 
 				<a href="<%=request.getContextPath()%>/download.do?s={{f.savePathEncode}}&amp;d={{f.originalNameEncode}}">{{f.originalName}} ({{(f.size / 1024.0) | number:0}}k)</a>
 			</li>
