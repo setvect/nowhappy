@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -181,6 +182,16 @@ public class AttachFileVo {
 	 */
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
+	}
+
+	/**
+	 * 확장자를 기준으로 이미지 파일 여부 체크
+	 * 
+	 * @return 이미지 파일이면 true
+	 */
+	public boolean isImage() {
+		String ext = FilenameUtils.getExtension(originalName);
+		return ApplicationConstant.WebCommon.IMAGE_EXT.contains(ext.toLowerCase());
 	}
 
 	@Override

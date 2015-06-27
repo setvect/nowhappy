@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.setvect.common.util.StringUtilAd;
+import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.attach.service.AttachFileService;
 import com.setvect.nowhappy.attach.vo.AttachFileVo;
 import com.setvect.nowhappy.util.FileUtil;
@@ -53,6 +54,8 @@ public class AttachFileController {
 		String saveName = StringUtilAd.decodeString(request.getParameter("s"));
 		String downName;
 
+		ApplicationUtil.checkAllowUploadFile(saveName);
+		
 		// 별도의 디코드 파일이 없으면 저장파일 이름을 다운로드
 		if (StringUtilAd.isEmpty(request.getParameter("d"))) {
 			// 다운로도될 파일이름

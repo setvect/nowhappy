@@ -14,6 +14,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.setvect.common.util.StringUtilAd;
+import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.ApplicationConstant.FileUpload;
 import com.setvect.nowhappy.attach.dao.AttachFileDao;
 import com.setvect.nowhappy.attach.vo.AttachFileVo;
@@ -107,6 +108,9 @@ public class AttachFileService {
 			}
 			String fileName = moduleName + "_" + moduleId + "."
 					+ FilenameUtils.getExtension(file.getOriginalFilename());
+			
+			ApplicationUtil.checkAllowUploadFile(file.getOriginalFilename());
+			
 			File destination;
 			try {
 				destination = File.createTempFile("file", fileName, saveDir);

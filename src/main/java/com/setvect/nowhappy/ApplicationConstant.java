@@ -52,13 +52,13 @@ public class ApplicationConstant {
 				"Symbian", "Windows Phone", "webOS", "Opera Mini", "Opera Mobi", "POLARIS", "IEMobile", "lgtelecom",
 				"nokia", "SonyEricsson", "LG", "SAMSUNG", "Samsung" };
 		static {
-			List<String> s = EnvirmentProperty.getList("com.setvect.literatureboy.allow_upload_file");
+			List<String> s = EnvirmentProperty.getList("com.setvect.nowhappy.allow_upload_file");
 			ALLOW_UPLOAD_FILE = new String[s.size()];
 			for (int i = 0; i < s.size(); i++) {
 				ALLOW_UPLOAD_FILE[i] = s.get(i).toLowerCase().trim();
 			}
 
-			IMAGE_EXT = EnvirmentProperty.getList("com.setvect.literatureboy.image_ext");
+			IMAGE_EXT = EnvirmentProperty.getList("com.setvect.nowhappy.image_ext");
 		}
 	}
 

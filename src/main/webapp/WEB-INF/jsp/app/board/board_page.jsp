@@ -76,12 +76,9 @@
 	  	var param = {};
   		param["moduleName"] = "<%=AttachFileModule.BOARD%>";
   		param["moduleId"] = article.articleSeq;
-	  	console.log("!!!!!!!!!!!!!!!!!!");
 	  	$http.get(listAttachFileUrl, {params: param}).success(function(response) {
-	  		console.log("AAAAA");
-	  		console.log($scope.attachMapList);
 	  		$scope.attachMapList[article.articleSeq] = response;
-	  		console.log("BBBBBB");
+	  		console.log(response);
 	  	});	  
 	  };
 
@@ -138,10 +135,14 @@
 			  $scope.pageCount = response.pageCount;
 			  $scope.pageItem = [];
 
+			  for(var i=0; i < $scope.list.length; i++){
+			  	$scope.loadAttachFile($scope.list[i]);
+			  }
+			  
+			  
 			  for(var i= 0; i< $scope.pageCount; i++){
 				  $scope.pageItem.push(i + 1);
 			  }
-			  $scope.listback();
 		  });
 	  };
 	  
@@ -191,7 +192,6 @@
 	  	param["articleSeq"] = articleSeq;
 		  $http.get(readArticle, {params: param}).success(function(response) {
 			  $scope.readItem = response;
-			  console.log("SSSSSSSSSSSS");
 				$scope.loadAttachFile($scope.readItem);
 		  });
 	  };
