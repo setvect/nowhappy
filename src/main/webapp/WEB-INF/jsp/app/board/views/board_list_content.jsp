@@ -7,7 +7,7 @@
 			
 			<div style="float: left; padding: 0 10px">
 				<div data-ng-repeat="f in attachMapList[x.articleSeq] track by $index">
-					<img src="<c:url value="/servlet/Thumbnail"/>?i={{f.url}}&w=290&h=450" alt="{{f.originalName}}" ng-if="f.image"/><br/><br/>
+					<img src="<c:url value="/servlet/Thumbnail"/>?i={{f.url}}&w=290&h=450" alt="{{f.originalName}}" data-ng-if="f.image" data-ng-click="imgPopup(f.url)"/><br/><br/>
 				</div>
 			</div>
 			

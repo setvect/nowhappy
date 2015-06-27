@@ -201,7 +201,21 @@
 			// Controller에서 VO Bind를 하기 위해.
 			$scope.readItem.articleSeq = 0;
 			$scope.attachMapList = {};
-	  }
+	  };
+	  
+	  $scope.imgPopup = function(imgPath){
+	  	var url = mainCtrl.getUrl(imgPath);
+	  	$("._img_popup a").on("click", function(){
+	  		$("._img_popup").dialog("close");
+	  	});
+	  	
+	  	$("._img_popup img").attr("src", url);
+  	 	$("._img_popup").dialog({
+        resizable: false,
+        modal: true,
+        width:'auto'
+			});
+	  };
 	  
 	  $scope.loadBoard();
 	  $scope.loadAuth();
@@ -247,8 +261,10 @@
 	angular.element(document).ready(function(){
 		angular.bootstrap($(".boardNode")[0], ['boardApp'])
 	});
-	
 </script>
 <div class="boardNode" data-ng-app="boardApp" data-ng-controller="boardController">
 	<ng-view></ng-view>
+</div>
+<div class="_img_popup" title="이미지 보기">
+  <a href="#"><img src=""/></a>
 </div>
