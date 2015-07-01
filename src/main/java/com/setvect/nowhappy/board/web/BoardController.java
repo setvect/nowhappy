@@ -178,6 +178,7 @@ public class BoardController {
 		String articleSeqStr = request.getParameter("articleSeq");
 		int articleSeq = Integer.parseInt(articleSeqStr);
 		BoardArticleVo read = boardService.getArticle(articleSeq);
+		boardService.updateArticleIncrementHit(articleSeq);
 		return read;
 	}
 

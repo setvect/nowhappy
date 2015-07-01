@@ -58,8 +58,8 @@
 	$(function(){
 <%-- 		mainCtrl.loadPage("<%=loadPage%>"); --%>
 // 		mainCtrl.loadPage("/app/board_manager/page.do");
-		mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.CONTENT%>&boardCode=BDAAAA01");
-<%-- 	mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=BDAAAA01"); --%>
+<%-- 		mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.CONTENT%>&boardCode=BDAAAA01"); --%>
+	mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=BDAAAA01");
 		
 		
 		$("._boardManager").on("click", function(){
