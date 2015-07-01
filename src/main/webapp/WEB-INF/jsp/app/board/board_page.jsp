@@ -117,8 +117,6 @@
 			});
 			var headers = {headers: {'Content-Type': undefined}};
   		$http.post(url, fd, headers).success(function(response) {
-  			console.log("@@@@@@@@@@@@@@@@");
-  			console.log(response);
 		  	if(response){
 		  		location.href="#/list";
 		  	}
@@ -142,11 +140,10 @@
 			  for(var i=0; i < $scope.list.length; i++){
 			  	$scope.loadAttachFile($scope.list[i]);
 			  }
-			  
-			  
 			  for(var i= 0; i< $scope.pageCount; i++){
 				  $scope.pageItem.push(i + 1);
 			  }
+			  $scope.resizeImg();
 		  });
 	  };
 	  
@@ -197,6 +194,7 @@
 		  $http.get(readArticle, {params: param}).success(function(response) {
 			  $scope.readItem = response;
 				$scope.loadAttachFile($scope.readItem);
+				$scope.resizeImg();
 		  });
 	  };
 	  
@@ -219,6 +217,18 @@
         modal: true,
         width:'auto'
 			});
+	  };
+	  
+	  // 본문에 큰 이미지가 있으면 줄임.
+	  $scope.resizeImg = function(){
+			setTimeout(function(){ 
+				var img = $("._board_content img");
+				img.each(function(idx,node){
+					if(node.clientWidth > 700){
+						$(node).attr("width", 700);
+					}
+				});
+			}, 250);
 	  };
 	  
 	  $scope.loadBoard();
@@ -270,7 +280,7 @@
 		angular.bootstrap($(".boardNode")[0], ['boardApp'])
 	});
 </script>
-<div class="boardNode" data-ng-app="boardApp" data-ng-controller="boardController">
+<div class="boardNode _board_content" data-ng-app="boardApp" data-ng-controller="boardController">
 	<ng-view></ng-view>
 </div>
 <div class="_img_popup" title="이미지 보기">

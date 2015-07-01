@@ -12,7 +12,7 @@
 				</div>
 			</div>
 			
-			<p>{{x.content}}</p>
+			<p data-ng-bind-html="trustAsHtml(x.content)"></p>
 			<span>({{x.regDate | date:'yyyy.MM.dd'}})</span>
 		</div>
 	</div>
