@@ -7,7 +7,6 @@
 <%@page import="com.setvect.nowhappy.ApplicationConstant.WebAttributeKey"%>
 <%
 	UserVo user = (UserVo)request.getAttribute(WebAttributeKey.USER_SESSION_KEY);
-	
 	BoardListPage listPgae = (BoardListPage)request.getAttribute(WebAttributeKey.BOARD_LIST_TYPE);
 %>
 <script type="text/javascript">
@@ -62,6 +61,8 @@
 		
 		$scope.boardCode = "<%=request.getParameter("boardCode")%>";
 		$scope.boardInfo;
+		
+		$scope.user = <%=user != null ? user.isAdminF() : false%>;
 		
 		$scope.searchParam = {};
 		$scope.searchParam.option = "title";
