@@ -116,7 +116,7 @@ public class BoardController {
 	public String read(HttpServletRequest request, HttpServletResponse response) {
 		return "/app/board/views/board_read";
 	}
-	
+
 	/**
 	 * @param req
 	 * @param res
@@ -127,7 +127,7 @@ public class BoardController {
 	public String encode(HttpServletRequest request, HttpServletResponse response) {
 		return "/app/board/views/board_encode";
 	}
-	
+
 	/**
 	 * 게시물 목록
 	 * 
@@ -187,9 +187,16 @@ public class BoardController {
 	@ResponseBody
 	public BoardArticleVo read(HttpServletRequest request) {
 		String articleSeqStr = request.getParameter("articleSeq");
+
 		int articleSeq = Integer.parseInt(articleSeqStr);
-		BoardArticleVo read = boardService.getArticle(articleSeq);
 		boardService.updateArticleIncrementHit(articleSeq);
+
+		BoardArticleVo read = boardService.getArticle(articleSeq);
+		if (read.isEncodeF()) {
+			String encodeString = request.getParameter("encodeString");
+			String content = StringEncrypt.decodeJ(read.getContent(), encodeString);
+			read.setContent(content);
+		}
 		return read;
 	}
 

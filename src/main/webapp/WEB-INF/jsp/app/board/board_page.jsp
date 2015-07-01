@@ -46,7 +46,7 @@
 			controller : 'boardReadController' 
 		}).when('/encode/:articleSeq', {
 			templateUrl : mainCtrl.getUrl("/app/board/encode.do"),
-			controller : 'boardReadController' 
+			controller : 'boardEncodeController' 
 		}).otherwise({
 			redirectTo : '/list'
 		});
@@ -67,11 +67,16 @@
 		$scope.boardCode = "<%=request.getParameter("boardCode")%>";
 		$scope.boardInfo;
 		
+		$scope.encode = {};
+		$scope.encode.encodeString= "";
+		
 		$scope.user = <%=user != null ? user.isAdminF() : false%>;
 		
 		$scope.searchParam = {};
 		$scope.searchParam.option = "title";
 		$scope.searchParam.word = "";
+		
+		
 		
 	  $scope.listback = function(){
 	  	location.href="#/list";  	
@@ -195,6 +200,7 @@
 			var readArticle = mainCtrl.getUrl("/app/board/read.json");
 	  	var param = {};
 	  	param["articleSeq"] = articleSeq;
+	  	param["encodeString"] = $scope.encode.encodeString;
 		  $http.get(readArticle, {params: param}).success(function(response) {
 		  	$scope.readItem = response;
 				$scope.loadAttachFile($scope.readItem);
@@ -279,6 +285,13 @@
 		$scope.loadArticle($routeParams.articleSeq);
 	}]);	
 	
+	appBoard.controller('boardEncodeController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+		$scope.encodeRead = function(){
+			$scope.encode.encodeString = $("#encode").val();
+			console.log($scope.encode.encodeString);
+			location.href="#/read/" + $routeParams.articleSeq;
+		};
+	}]);	
 	angular.element(document).ready(function(){
 		angular.bootstrap($(".boardNode")[0], ['boardApp'])
 	});
