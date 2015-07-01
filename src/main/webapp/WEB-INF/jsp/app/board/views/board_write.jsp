@@ -13,6 +13,7 @@
 					<label for="textArea" class="col-lg-2 control-label">내용</label>
 					<div class="col-lg-10">
 						<textarea id="content" rows="10" cols="100" style="width: 100%; height: 300px; display: none;" data-ng-model="readItem.content"></textarea>
+						<input onclick="$.APP.openImageUpload();" type="button" value="이미지 첨부"/>						
 					</div>
 				</div>
 				<div class="form-group" data-ng-show="boardInfo.encodeF">

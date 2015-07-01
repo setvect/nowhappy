@@ -72,6 +72,8 @@ public class ApplicationConstant {
 		/** 로그인 attribute 키값 */
 		public static final String USER_SESSION_KEY = "_user_session_key";
 		public static final String BOARD_LIST_TYPE = "";
+		public static final String MODE = "mode";
+		public static final String IMAGE_URL = "IMAGE_URL";
 	}
 
 	/** 패스워드 암호화 알고리즘 */

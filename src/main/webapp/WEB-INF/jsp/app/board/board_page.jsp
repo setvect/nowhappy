@@ -12,6 +12,8 @@
 <script type="text/javascript">
 	var appBoard = angular.module('boardApp', ['ngSanitize', 'ngRoute']);
 	
+	var HTML_EDITOR;
+	
 	// 첨부파일을 업로드 하기위해... 나도 이해 못함. ㅡㅡ;
 	appBoard.directive('fileModel', [ '$parse', function($parse) {
 		return {
@@ -79,7 +81,6 @@
   		param["moduleId"] = article.articleSeq;
 	  	$http.get(listAttachFileUrl, {params: param}).success(function(response) {
 	  		$scope.attachMapList[article.articleSeq] = response;
-	  		console.log(response);
 	  	});	  
 	  };
 
@@ -116,8 +117,10 @@
 			});
 			var headers = {headers: {'Content-Type': undefined}};
   		$http.post(url, fd, headers).success(function(response) {
+  			console.log("@@@@@@@@@@@@@@@@");
+  			console.log(response);
 		  	if(response){
-		  		$scope.page($scope.pageNumber);
+		  		location.href="#/list";
 		  	}
 		  });			
 	  };
@@ -251,6 +254,10 @@
 				sSkinURI : mainCtrl.getUrl("/editor/SmartEditor2Skin.html"),
 	  		fCreator: "createSEditorInIFrame"
 	  	});
+	  	
+	  	
+	  	HTML_EDITOR = $scope.oEditors;
+	  	
 	  };
 	  $scope.htmlText();
 	}]);	

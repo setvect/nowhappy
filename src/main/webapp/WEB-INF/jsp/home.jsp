@@ -14,6 +14,7 @@
 <meta charset="utf-8">
 <title>Now Happy</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="contentRoot" content="<c:url value="/"/>">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link href="<c:url value="/css/bootstrap1.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/bootswatch.min.css"/>" rel="stylesheet">
