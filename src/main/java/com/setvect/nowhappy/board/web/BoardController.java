@@ -116,7 +116,18 @@ public class BoardController {
 	public String read(HttpServletRequest request, HttpServletResponse response) {
 		return "/app/board/views/board_read";
 	}
-
+	
+	/**
+	 * @param req
+	 * @param res
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/board/encode.do")
+	public String encode(HttpServletRequest request, HttpServletResponse response) {
+		return "/app/board/views/board_encode";
+	}
+	
 	/**
 	 * 게시물 목록
 	 * 
@@ -309,11 +320,11 @@ public class BoardController {
 	 * @param article
 	 */
 	private void processEncrypt(HttpServletRequest request, BoardArticleVo article) {
-		String encode = request.getParameter("encode");
+		String encrypt = request.getParameter("encrypt");
 
 		// 암호화 글
-		if (!StringUtilAd.isEmpty(encode)) {
-			article.setContent(StringEncrypt.encodeJ(article.getContent(), encode));
+		if (!StringUtilAd.isEmpty(encrypt)) {
+			article.setContent(StringEncrypt.encodeJ(article.getContent(), encrypt));
 			article.setEncodeF(true);
 		}
 		else {

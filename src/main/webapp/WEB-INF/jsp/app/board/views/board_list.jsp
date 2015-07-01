@@ -4,7 +4,10 @@
 	<table class="table">
 		<tbody>
 			<tr data-ng-repeat="x in list">
-				<td><a href="#/read/{{x.articleSeq}}">{{x.title}}</a></td>
+				<td>
+					<a href="#/read/{{x.articleSeq}}" data-ng-if="!x.encodeF">{{x.title}}</a>
+					<a href="#/encode/{{x.articleSeq}}" data-ng-if="x.encodeF">{{x.title}}(비공개)</a>
+				</td>
 				<td class="date">{{x.regDate | date:'yyyy.MM.dd'}}</td>
 			</tr>
 		</tbody>

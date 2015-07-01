@@ -24,7 +24,7 @@
 		</thead>
 		<tbody>
 			<tr data-ng-repeat="x in list">
-				<td class="col-md-7"><a href="#/read/{{x.articleSeq}}">{{x.title}}</a></td>
+				<td class="col-md-7"><a href="#/read/{{x.articleSeq}}">{{x.title}}</a><span data-ng-if="x.encodeF">(비공개)</span></td>
 				<td class="col-md-1">{{x.hitCount}}</td>
 				<td class="col-md-2 date">{{x.regDate | date:'yyyy.MM.dd HH:mm'}}</td>
 			</tr>

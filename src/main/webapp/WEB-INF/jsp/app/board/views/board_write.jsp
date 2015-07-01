@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 	<div class="well bs-component">
-		<form class="form-horizontal">
+		<form class="form-horizontal" name="writeForm">
 			<fieldset>
 				<legend>쓰기</legend>
 				<div class="form-group">
 					<label for="title" class="col-lg-2 control-label">제목</label>
 					<div class="col-lg-10">
-						<input type="text" class="form-control" id="title" data-ng-model="readItem.title" required>
+						<input type="text" class="form-control" name="title" id="title" data-ng-model="readItem.title" required>
+						<span ng-show="writeForm.title.$dirty && writeForm.title.$invalid">제목 써라</span>
 					</div>
 				</div>
 				<div class="form-group">
@@ -19,7 +20,7 @@
 				<div class="form-group" data-ng-show="boardInfo.encodeF">
 					<label for="encrypt" class="col-lg-2 control-label">암호코드</label>
 					<div class="col-lg-10">
-						<input type="text" class="form-control" name="encrypt" id="encrypt" data-ng-model="readItem.encrypt">
+						<input type="text" class="form-control" name="encrypt" id="encrypt">
 					</div>
 				</div>
 				<div class="form-group" data-ng-show="boardInfo.attachF">
@@ -38,7 +39,7 @@
 				<div class="form-group">
 					<div class="col-lg-10 col-lg-offset-2">
 						<button type="submit" class="btn btn-default" data-ng-click="listback()">취소</button>
-						<button type="submit" class="btn btn-default" data-ng-click="writeOrUpdateSummit()">쓰기</button>
+						<button type="submit" class="btn btn-default" data-ng-click="writeOrUpdateSummit()" data-ng-disabled="writeForm.title.$invalid">쓰기</button>
 					</div>
 				</div>
 			</fieldset>

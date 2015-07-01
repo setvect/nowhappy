@@ -44,6 +44,9 @@
 		}).when('/read/:articleSeq', {
 			templateUrl : mainCtrl.getUrl("/app/board/read.do"),
 			controller : 'boardReadController' 
+		}).when('/encode/:articleSeq', {
+			templateUrl : mainCtrl.getUrl("/app/board/encode.do"),
+			controller : 'boardReadController' 
 		}).otherwise({
 			redirectTo : '/list'
 		});
@@ -103,6 +106,7 @@
 	  	fd.append("boardCode", $scope.boardCode);
 	  	fd.append("title", $scope.readItem.title);
 	  	fd.append("content", content.trim());
+	  	fd.append("encrypt", $("#encrypt").val());
 	  	
 			if($scope.readItem.attachFile != null){
 		  	$.each($scope.readItem.attachFile, function(index, value) {
@@ -192,7 +196,7 @@
 	  	var param = {};
 	  	param["articleSeq"] = articleSeq;
 		  $http.get(readArticle, {params: param}).success(function(response) {
-			  $scope.readItem = response;
+		  	$scope.readItem = response;
 				$scope.loadAttachFile($scope.readItem);
 				$scope.resizeImg();
 		  });
@@ -264,7 +268,6 @@
 				sSkinURI : mainCtrl.getUrl("/editor/SmartEditor2Skin.html"),
 	  		fCreator: "createSEditorInIFrame"
 	  	});
-	  	
 	  	
 	  	HTML_EDITOR = $scope.oEditors;
 	  	
