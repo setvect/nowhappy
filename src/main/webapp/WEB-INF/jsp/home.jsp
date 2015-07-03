@@ -56,11 +56,10 @@
 	var mainCtrl= new pageActionContrller("<c:url value="/"/>");
 	
 	$(function(){
-<%-- 		mainCtrl.loadPage("<%=loadPage%>"); --%>
-// 		mainCtrl.loadPage("/app/board_manager/page.do");
-<%-- 		mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.CONTENT%>&boardCode=BDAAAA01"); --%>
-	mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=BDAAAA02");
-		
+		mainCtrl.loadPage("<%=loadPage%>");
+// 	mainCtrl.loadPage("/app/board_manager/page.do");
+<%--mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.CONTENT%>&boardCode=BDAAAA01"); --%>
+<%-- 		mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=BDAAAA01"); --%>
 		
 		$("._boardManager").on("click", function(){
 			mainCtrl.loadPage("/app/board_manager/page.do");
@@ -87,7 +86,11 @@
 		 */
 	  $scope.loadBoard = function(boardCode){
 	  	mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=" + boardCode);
-	  };	  
+	  };
+	  
+	  $scope.loadHome = function(){
+	  	mainCtrl.loadPage("/app/main.do");
+	  };
 	  
 	  $scope.loadBoadMenu(1);
 	});
@@ -97,16 +100,24 @@
 	<div class="navbar navbar-default navbar-fixed-top" data-ng-app="menuApp"  data-ng-controller="menuController">
 		<div class="container">
 			<div class="navbar-header">
-				<a href="../" class="navbar-brand">Now Happy</a>
+				<a href="#" class="navbar-brand" data-ng-click="loadHome()">Now Happy</a>
 				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
 			</div>
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
-					<li><a href="#">글</a></li>
-					<li><a href="#">꿈</a></li>
-					<li><a href="#">꿈</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA01')">글</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA09')">꿈</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA02')">책</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA03')">음악</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA04')">영화</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA05')">사진</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA08')">잡담</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA06')">기억</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA07')">인연</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA11')">소설</a></li>
+					<li><a href="#" data-ng-click="IloadBoard('BDAAAA10')">기술사</a></li>
 <%
 	if(login && user.isAdminF()){
 %>					
