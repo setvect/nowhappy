@@ -85,7 +85,7 @@
 		 * 게시판 불러옴 
 		 */
 	  $scope.loadBoard = function(boardCode){
-	  	mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=" + boardCode);
+	  	mainCtrl.loadPage("/app/board/page.do?boardCode=" + boardCode);
 	  };
 	  
 	  $scope.loadHome = function(){
