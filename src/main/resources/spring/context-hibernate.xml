@@ -21,18 +21,18 @@
 	</bean>
 
 	<!-- H2 DB Start -->
-	<bean id="org.h2.tools.Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start"
-		destroy-method="stop">
-		<constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092" />
-	</bean>
+<!-- 	<bean id="org.h2.tools.Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start" -->
+<!-- 		destroy-method="stop"> -->
+<!-- 		<constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092" /> -->
+<!-- 	</bean> -->
 
-	<bean id="org.h2.tools.Server-WebServer" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start">
-		<constructor-arg value="-web,-webAllowOthers,-webPort,8082" />
-	</bean>
+<!-- 	<bean id="org.h2.tools.Server-WebServer" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start"> -->
+<!-- 		<constructor-arg value="-web,-webAllowOthers,-webPort,8082" /> -->
+<!-- 	</bean> -->
 
 	<!-- DB Connection -->
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" lazy-init="true"
-		depends-on="org.h2.tools.Server">
+<!-- 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" lazy-init="true"		depends-on="org.h2.tools.Server"> -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" lazy-init="true"> 
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="org.baeldung.spring.persistence.model" />
 		<property name="hibernateProperties">
@@ -40,6 +40,9 @@
 				<prop key="hibernate.dialect">${com.setvect.nowhappy.db.dialect}</prop>
 				<prop key="hibernate.cache.use_second_level_cache">false</prop>
 				<prop key="current_session_context_class">thread</prop>
+
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">true</prop>
 			</props>
 		</property>
 		<property name="annotatedClasses">

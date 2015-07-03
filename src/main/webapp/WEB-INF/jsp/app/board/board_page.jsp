@@ -53,6 +53,10 @@
 	});
 	
 	appBoard.controller('boardController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
+	
+		// 한 페이지 이동 네비게이션 네비게이선 상에 묶음 
+		var BULDEL_OF_PAGE = 10;
+		
 		$scope.trustAsHtml = $sce.trustAsHtml;
 		$scope.auth = {};
 		$scope.list = [];
@@ -75,8 +79,6 @@
 		$scope.searchParam = {};
 		$scope.searchParam.option = "title";
 		$scope.searchParam.word = "";
-		
-		
 		
 	  $scope.listback = function(){
 	  	location.href="#/list";  	
@@ -142,6 +144,9 @@
 		  
 			var listUrl = mainCtrl.getUrl("/app/board/list.json");
 		  $http.get(listUrl, {params: param}).success(function(response) {
+		  	
+		  	console.log(response);
+		  	
 			  $scope.list = response.list;
 			  $scope.pageCount = response.pageCount;
 			  $scope.pageItem = [];

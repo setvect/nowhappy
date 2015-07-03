@@ -38,7 +38,7 @@ import com.setvect.nowhappy.util.StringEncrypt;
 @Controller
 public class BoardController {
 	/** 한 페이지당 표시 항목 갯수 */
-	private static final int PAGE_PER_ITEM = 5;
+	private static final int PAGE_PER_ITEM = 10;
 
 	@Autowired
 	private BoardService boardService;
