@@ -10,37 +10,9 @@ jdbc:h2:tcp://localhost:9092/E:/workspace_git/nowhappy/db/nowhappy_db
 nowhappy_user
 nowhappy_pass
 
-
-
-   select
-        boardartic0_.ARTICLE_SEQ as ARTICLE_1_3_,
-        boardartic0_.BOARD_CODE as BOARD_CO2_3_,
-boardartic0_.content,
-        boardartic0_.DELETE_F as DELETE_F4_3_,
-        boardartic0_.DEPTH_LEVEL as DEPTH_LE5_3_,
-        boardartic0_.EMAIL as EMAIL6_3_,
-        boardartic0_.ENCODE_F as ENCODE_F7_3_,
-        boardartic0_.HIT_COUNT as HIT_COUN8_3_,
-        boardartic0_.IDX1 as IDX9_3_,
-        boardartic0_.IDX2 as IDX10_3_,
-        boardartic0_.IDX3 as IDX11_3_,
-        boardartic0_.IP as IP12_3_,
-        boardartic0_.NAME as NAME13_3_,
-        boardartic0_.PASSWD as PASSWD14_3_,
-        boardartic0_.REG_DATE as REG_DAT15_3_,
-        boardartic0_.TITLE as TITLE16_3_,
-        boardartic0_.USER_ID as USER_ID17_3_ 
-    from
-        TBBB_BOARD_ARTICLE boardartic0_ 
-    where
-ARTICLE_SEQ = 1222
-
-
-
 81dc9bdb52d04dc20036dbd8313ed055 = 1234
 
 [진행 해야된는 것]
-NEW_20150703: DB embedded config
 
 [진행 된 것]
 PBM_20150703: 섬네일 변환 파일이 저장되지 않는 문제.
@@ -70,3 +42,5 @@ NEW_20150621: 게시판 검색
 
 
 [안하기로 한 것]
+NEW_20150703: DB embedded config
+	=> <jdbc:embedded-database>로 설정 안됨.
