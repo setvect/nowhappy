@@ -2,11 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="panel panel-default">
-	<div class="row" data-ng-repeat="x in list">
-		<div class="col-sm-12 col-xs-12">
+	<div class="row" data-ng-repeat="x in list" style="padding: 10px;">
+		<div class="col-sm-12 col-xs-12" style="border-bottom-style: solid; border-bottom-width: 1px;">
 			<h6>{{x.title}}</h6>  
 			
-			<div style="float: left; padding: 0 10px">
+			<div style="float: left; padding: 0 10px;">
 				<div data-ng-repeat="f in attachMapList[x.articleSeq] track by $index">
 					<img src="<c:url value="/servlet/Thumbnail"/>?i={{f.url}}&w=290&h=450" alt="{{f.originalName}}" data-ng-if="f.image" data-ng-click="imgPopup(f.url)"/><br/><br/>
 				</div>
