@@ -63,6 +63,10 @@
 		$scope.readItem = null;
 		$scope.pageNumber = 1;
 		$scope.pageCount = 0;
+		// 묶음단위 이전 이후
+		$scope.pagePreviousGroup = -1;
+		$scope.pageNextGroup = -1;
+		
 		$scope.pageItem = [];
 		$scope.attachMapList = {};
 		$scope.readItem = {};
@@ -144,9 +148,6 @@
 		  
 			var listUrl = mainCtrl.getUrl("/app/board/list.json");
 		  $http.get(listUrl, {params: param}).success(function(response) {
-		  	
-		  	console.log(response);
-		  	
 			  $scope.list = response.list;
 			  $scope.pageCount = response.pageCount;
 			  $scope.pageItem = [];
@@ -154,7 +155,13 @@
 			  for(var i=0; i < $scope.list.length; i++){
 			  	$scope.loadAttachFile($scope.list[i]);
 			  }
-			  for(var i= 0; i< $scope.pageCount; i++){
+			  
+			 	var pageStart = (Math.ceil($scope.pageNumber / BULDEL_OF_PAGE) -1) * BULDEL_OF_PAGE ;
+			 	$scope.pagePreviousGroup = pageStart - 1 > 0 ? pageStart : -1; 
+			 	$scope.pageNextGroup = pageStart + BULDEL_OF_PAGE <  $scope.pageCount ? pageStart + BULDEL_OF_PAGE + 1 : -1;
+			 	
+			 	console.log("pageStart: " + pageStart);
+			  for(var i= pageStart; i < $scope.pageCount && i < pageStart + BULDEL_OF_PAGE; i++){
 				  $scope.pageItem.push(i + 1);
 			  }
 			  $scope.resizeImg();
