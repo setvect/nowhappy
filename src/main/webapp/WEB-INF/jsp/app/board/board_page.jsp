@@ -165,6 +165,7 @@
 				  $scope.pageItem.push(i + 1);
 			  }
 			  $scope.resizeImg();
+			 	location.href="#";
 		  });
 	  };
 	  
