@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div class="panel panel-default">
-	<div class="row" data-ng-repeat="x in list" style="padding: 10px;">
-		<div class="col-sm-12 col-xs-12" style="border-bottom-style: solid; border-bottom-width: 1px;">
+	<div class="row" data-ng-repeat="x in list" style="padding: 0 15px;">
+		<div class="col-sm-12 col-xs-12" style="border-bottom-style: solid; border-bottom-width: 1px; padding-bottom: 10px;">
 			<h6>{{x.title}}</h6>  
 			
 			<div style="float: left; padding: 0 10px;">
