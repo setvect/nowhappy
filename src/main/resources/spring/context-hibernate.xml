@@ -56,9 +56,9 @@
 		</property>
 	</bean>
 
-	<jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS">
-		<jdbc:script location="classpath:/db/init.sql" encoding="utf-8"/>
-	</jdbc:initialize-database>
+<!-- 	<jdbc:initialize-database data-source="dataSource" ignore-failures="DROPS"> -->
+<!-- 		<jdbc:script location="classpath:/db/init.sql" encoding="utf-8"/> -->
+<!-- 	</jdbc:initialize-database> -->
 
 	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${com.setvect.nowhappy.db.driver}" />

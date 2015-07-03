@@ -83,6 +83,8 @@ public class ApplicationConstant {
 	 * 파일 업로드 관련 상수
 	 */
 	public static class FileUpload {
+		/** 웹루트 기준으로 업로드 파일 경로 */
+		public static final String UPLOAD_PATH = EnvirmentProperty.getString("com.setvect.nowhappy.upload_path");
 		/** 웹루트 기준으로 첨부파일 저장 경로 */
 		public static final String ATTACH_PATH = EnvirmentProperty.getString("com.setvect.nowhappy.attach.upload_path");
 		/** 웹루트 기준으로 이미지 파일 저장 경로 */

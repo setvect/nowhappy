@@ -7,7 +7,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,9 +32,25 @@ public class FileUtil extends FileUtils {
 	 * @return 만들어진 디렉토리
 	 */
 	public static File makeDayDir(File path) {
-		String year = NumberFormat.getNumberString("0000", DateUtil.getYear());
-		String month = NumberFormat.getNumberString("00", DateUtil.getMonth());
-		String day = NumberFormat.getNumberString("00", DateUtil.getDay());
+		return makeDayDir(path, new Date());
+	}
+
+	/**
+	 * 기준 날짜(년/월/일)통해 디렉토리를 만듬
+	 * 
+	 * @param path
+	 *            기준 디렉토리
+	 * @param baseDate
+	 *            기준 날짜
+	 * @return 만들어진 디렉토리
+	 */
+	public static File makeDayDir(File path, Date baseDate) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(baseDate);
+		
+		String year = NumberFormat.getNumberString("0000", c.get(Calendar.YEAR));
+		String month = NumberFormat.getNumberString("00", c.get(Calendar.MONTH) + 1);
+		String day = NumberFormat.getNumberString("00", c.get(Calendar.DATE));
 		// 디렉토리가 있는지
 		if (!path.isDirectory()) {
 			throw new RuntimeException(path + " directory is not exist!");

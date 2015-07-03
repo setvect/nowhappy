@@ -138,7 +138,7 @@ public class AttachFileService {
 	 * @return 저장 경로에서 기본 경로를 제외한 즉 날짜로 이루어진 경로 <br/>
 	 *         ex) /2011/02/11/
 	 */
-	private String getDayPath(File destDir, File saveDir) {
+	public static String getDayPath(File destDir, File saveDir) {
 		String dd = destDir.getAbsolutePath();
 		String sd = saveDir.getAbsolutePath();
 		String dayPath = sd.substring(dd.length()) + "/";
