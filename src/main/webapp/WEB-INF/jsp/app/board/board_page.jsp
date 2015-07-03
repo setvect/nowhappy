@@ -256,7 +256,7 @@
 			$scope.page(1);
 	  };
 
-		$scope.page(1);
+		$scope.page($scope.pageNumber);
 	}]);	
 
 	appBoard.controller('boardWriteController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
@@ -288,7 +288,6 @@
 	appBoard.controller('boardEncodeController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
 		$scope.encodeRead = function(){
 			$scope.encode.encodeString = $("#encode").val();
-			console.log($scope.encode.encodeString);
 			location.href="#/read/" + $routeParams.articleSeq;
 		};
 	}]);	
