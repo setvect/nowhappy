@@ -311,5 +311,5 @@
 	<ng-view></ng-view>
 </div>
 <div class="_img_popup" title="이미지 보기">
-  <a href="#"><img src=""/></a>
+  <a href="javascript:"><img src=""/></a>
 </div>
