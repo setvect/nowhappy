@@ -75,7 +75,7 @@ public class ThumbnailImageServlet extends HttpServlet {
 		String tempImg = FilenameUtils.getBaseName(orgImagePath) + "_w" + width + "_h" + height + "."
 				+ FilenameUtils.getExtension(orgImagePath);
 
-		File saveDir = new File(FileUpload.THUMBNAIL_PATH, orgImagePath).getParentFile();
+		File saveDir = new File(getServletConfig().getServletContext().getRealPath(FileUpload.THUMBNAIL_PATH), orgImagePath).getParentFile();
 		if (!saveDir.exists()) {
 			saveDir.mkdirs();
 		}
