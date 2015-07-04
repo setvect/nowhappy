@@ -88,6 +88,6 @@
 				<a href="#" data-ng-click="remove($index)" data-ng-if="x.userId == loginId" class="btn btn-default btn-xs">삭제</a>
 			</li>
 		</ul>
-		<a href="#" data-ng-click="more()"  class="btn btn-default  btn-lg btn-block btn-xs">더 불러오기({{currentItem}}/{{totalCount}})</a>
+		<a href="javascript:" data-ng-click="more()"  class="btn btn-default  btn-lg btn-block btn-xs">더 불러오기({{currentItem}}/{{totalCount}})</a>
 	</div>
 </div>

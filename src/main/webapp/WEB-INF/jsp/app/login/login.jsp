@@ -9,9 +9,8 @@
 				var login = result["<%=WebAttributeKey.PROCESS_RESULT%>"];
 				if(login){
 					var loadPage = result["<%=WebAttributeKey.LOAD_PAGE%>"]
-					var page = loadPage == null ? "/home.do" : loadPage;
-					var url = mainCtrl.getUrl(page);
-					location.href = url;
+					var page = loadPage == "" ? "/home.do" : loadPage;
+					location.href = page;
 				}
 				else{
 					alert("틀렸다. 넌 누구냐?")
