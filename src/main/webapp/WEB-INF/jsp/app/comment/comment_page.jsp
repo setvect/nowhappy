@@ -13,8 +13,8 @@
 	var app = angular.module('commentApp', []);
 	app.controller('commentController', function($scope, $http) {
 		var moduleName = "<%=module%>";
-		var getUrl = mainCtrl.getUrl("/app/comment/get.json");
-		var listUrl = mainCtrl.getUrl("/app/comment/list.json");
+		var getUrl = mainCtrl.getUrl("/app/comment/get.json.do");
+		var listUrl = mainCtrl.getUrl("/app/comment/list.json.do");
 		var deleteUrl = mainCtrl.getUrl("/app/comment/delete.do");
 		var addUrl = mainCtrl.getUrl("/app/comment/add.do");
 		

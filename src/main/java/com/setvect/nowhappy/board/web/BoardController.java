@@ -136,7 +136,7 @@ public class BoardController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/board/list.json")
+	@RequestMapping("/app/board/list.json.do")
 	@ResponseBody
 	public GenericPage<BoardArticleVo> list(HttpServletRequest request) {
 		String pg = StringUtilAd.null2str(request.getParameter("pageNumber"), "1");
@@ -183,7 +183,7 @@ public class BoardController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/board/read.json")
+	@RequestMapping("/app/board/read.json.do")
 	@ResponseBody
 	public BoardArticleVo read(HttpServletRequest request) {
 		String articleSeqStr = request.getParameter("articleSeq");
@@ -310,7 +310,7 @@ public class BoardController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/board/loadAuth.json")
+	@RequestMapping("/app/board/loadAuth.json.do")
 	@ResponseBody
 	public Map<String, Object> loadAuth(@ModelAttribute BoardArticleVo param, HttpServletRequest request) {
 		Map<String, Object> result = new HashMap<String, Object>();

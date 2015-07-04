@@ -49,7 +49,7 @@ public class BoardManagerController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/board_manager/list.json")
+	@RequestMapping("/app/board_manager/list.json.do")
 	@ResponseBody
 	public GenericPage<BoardVo> list(HttpServletRequest request) {
 		String pg = StringUtilAd.null2str(request.getParameter("pageNumber"), "1");
@@ -94,7 +94,7 @@ public class BoardManagerController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/board_manager/read.json")
+	@RequestMapping("/app/board_manager/read.json.do")
 	@ResponseBody
 	public BoardVo read(HttpServletRequest request) {
 		String boardCode = request.getParameter("boardCode");

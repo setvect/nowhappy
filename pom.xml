@@ -11,6 +11,7 @@
 	<properties>
 		<spring.maven.artifact.version>3.2.13.RELEASE</spring.maven.artifact.version>
 		<egovframework.rte.version>3.1.0</egovframework.rte.version>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
 	<repositories>

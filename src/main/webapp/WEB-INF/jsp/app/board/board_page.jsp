@@ -89,7 +89,7 @@
 	  };
 
 	  $scope.loadAttachFile = function(article){
-			var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json");
+			var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json.do");
 	  	var param = {};
   		param["moduleName"] = "<%=AttachFileModule.BOARD%>";
   		param["moduleId"] = article.articleSeq;
@@ -146,7 +146,7 @@
 		  param["searchOption"] = $scope.searchParam.option;
 		  param["searchWord"] = $scope.searchParam.word;
 		  
-			var listUrl = mainCtrl.getUrl("/app/board/list.json");
+			var listUrl = mainCtrl.getUrl("/app/board/list.json.do");
 		  $http.get(listUrl, {params: param}).success(function(response) {
 			  $scope.list = response.list;
 			  $scope.pageCount = response.pageCount;
@@ -190,7 +190,7 @@
 	  		param["boardCode"] = $scope.boardCode;
 	  	}
 	  	
-			var loadAuthUrl = mainCtrl.getUrl("/app/board/loadAuth.json");
+			var loadAuthUrl = mainCtrl.getUrl("/app/board/loadAuth.json.do");
 	  	$http.get(loadAuthUrl, {params: param}).success(function(response) {
 		  	$scope.auth.write = response.write;
 		  	$scope.auth.edit = response.edit;
@@ -199,7 +199,7 @@
 	  
 	  // 게시판 설정정보 load
 	  $scope.loadBoard = function(){
-			var readBoardManager = mainCtrl.getUrl("/app/board_manager/read.json");
+			var readBoardManager = mainCtrl.getUrl("/app/board_manager/read.json.do");
 	  	
 	  	var param = {};
 	  	param["boardCode"] = $scope.boardCode;
@@ -210,7 +210,7 @@
 	  };
 	  
 	  $scope.loadArticle = function(articleSeq){
-			var readArticle = mainCtrl.getUrl("/app/board/read.json");
+			var readArticle = mainCtrl.getUrl("/app/board/read.json.do");
 	  	var param = {};
 	  	param["articleSeq"] = articleSeq;
 	  	param["encodeString"] = $scope.encode.encodeString;

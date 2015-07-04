@@ -64,7 +64,7 @@ public class CommentController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/comment/get.json")
+	@RequestMapping("/app/comment/get.json.do")
 	@ResponseBody
 	public Comment get(@ModelAttribute Comment param) {
 		Comment comment = commentService.getComment(param.getCommentSeq());
@@ -79,7 +79,7 @@ public class CommentController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/comment/list.json")
+	@RequestMapping("/app/comment/list.json.do")
 	@ResponseBody
 	public GenericPage<Comment> list(HttpServletRequest request) {
 		String mn = request.getParameter("moduleName");

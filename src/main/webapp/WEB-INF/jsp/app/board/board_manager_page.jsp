@@ -9,7 +9,7 @@
 <script type="text/javascript">
 	var appBoardManager = angular.module('boardMangerApp', []);
 	appBoardManager.controller('boardManagerController', function($scope, $http) {
-		var listUrl = mainCtrl.getUrl("/app/board_manager/list.json");
+		var listUrl = mainCtrl.getUrl("/app/board_manager/list.json.do");
 		var addUrl = mainCtrl.getUrl("/app/board_manager/add.do");
 		var updateUrl = mainCtrl.getUrl("/app/board_manager/update.do");
 		var deleteUrl = mainCtrl.getUrl("/app/board_manager/delete.do");

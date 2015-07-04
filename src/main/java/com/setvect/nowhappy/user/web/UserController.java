@@ -19,7 +19,7 @@ public class UserController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/app/user/loginInfo.json")
+	@RequestMapping("/app/user/loginInfo.json.do")
 	public UserVo loginInfo(HttpServletRequest request) {
 		UserVo user = ApplicationUtil.getLoginSession(request);
 		return user;

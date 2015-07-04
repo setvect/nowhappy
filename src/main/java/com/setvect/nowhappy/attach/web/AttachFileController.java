@@ -35,7 +35,7 @@ public class AttachFileController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/attachFile/list.json")
+	@RequestMapping("/app/attachFile/list.json.do")
 	@ResponseBody
 	public List<AttachFileVo> list(@ModelAttribute AttachFileVo param, HttpServletRequest request) {
 		List<AttachFileVo> result = attachFileService.listAttachFile(param.getModuleName(), param.getModuleId());

@@ -34,7 +34,7 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws UnsupportedEncodingException, IOException {
 		String currentUrl = request.getRequestURI();
-		// LOGGER.info("[Connect] IP: " + request.getRemoteAddr() + ", " + request.getHeader("User-Agent"));
+		LOGGER.info("[Connect] IP: " + request.getRemoteAddr() + ", " + request.getHeader("User-Agent"));
 
 		// 로그인 권한 체크
 
@@ -43,27 +43,39 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 		UserVo user = ApplicationUtil.getLoginSession(request);
 
 		// 개발중에는 자동 로그인
-		if (user == null) {
-			user = userService.getUser("setvect");
-
-			// 로그인 성공
-			// 비밀번호는 노출 되지 않게 하기 위함
-			user.setPasswd(null);
-
-			String cookieData = SerializerUtil.makeBase64Encode(user);
-
-			// iis에서는 줄바꿈 문제가 있으면 쿠키가 셋팅이 안된다. 그래서 줄 바꿈을 제거
-			cookieData = cookieData.replaceAll("\r", "");
-			cookieData = cookieData.replaceAll("\n", "");
-
-			Cookie loginCookie = new Cookie(ApplicationConstant.WebCommon.USER_COOKIE_KEY, cookieData);
-			loginCookie.setPath("/");
-			response.addCookie(loginCookie);
-
-		}
+		// if (user == null) {
+		// user = forceLogin(response);
+		// }
 
 		request.setAttribute(WebAttributeKey.USER_SESSION_KEY, user);
 		return true;
+	}
+
+	/**
+	 * 강제 로그인
+	 * 
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	private UserVo forceLogin(HttpServletResponse response) throws IOException {
+		UserVo user;
+		user = userService.getUser("setvect");
+
+		// 로그인 성공
+		// 비밀번호는 노출 되지 않게 하기 위함
+		user.setPasswd(null);
+
+		String cookieData = SerializerUtil.makeBase64Encode(user);
+
+		// iis에서는 줄바꿈 문제가 있으면 쿠키가 셋팅이 안된다. 그래서 줄 바꿈을 제거
+		cookieData = cookieData.replaceAll("\r", "");
+		cookieData = cookieData.replaceAll("\n", "");
+
+		Cookie loginCookie = new Cookie(ApplicationConstant.WebCommon.USER_COOKIE_KEY, cookieData);
+		loginCookie.setPath("/");
+		response.addCookie(loginCookie);
+		return user;
 	}
 
 	/**

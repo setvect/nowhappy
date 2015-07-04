@@ -56,10 +56,10 @@
 	var mainCtrl= new pageActionContrller("<c:url value="/"/>");
 	
 	$(function(){
-<%-- 		mainCtrl.loadPage("<%=loadPage%>"); --%>
+		mainCtrl.loadPage("<%=loadPage%>");
 // 	mainCtrl.loadPage("/app/board_manager/page.do");
 <%--mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.CONTENT%>&boardCode=BDAAAA01"); --%>
-		mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=BDAAAA01");
+<%-- 		mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=BDAAAA01"); --%>
 		
 		$("._boardManager").on("click", function(){
 			mainCtrl.loadPage("/app/board_manager/page.do");
@@ -68,7 +68,7 @@
 	
 	var menuApp = angular.module('menuApp', []);
 	menuApp.controller('menuController', function($scope, $http) {
-		var listUrl = mainCtrl.getUrl("/app/board_manager/list.json");
+		var listUrl = mainCtrl.getUrl("/app/board_manager/list.json.do");
 
 		$scope.list = [];
 		
@@ -87,7 +87,11 @@
 	  $scope.loadBoard = function(boardCode){
 	  	mainCtrl.loadPage("/app/board/page.do?boardCode=" + boardCode);
 	  };
-	  
+
+	  $scope.loadBoardMg = function(boardCode){
+	  	mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=" + boardCode);
+	  };
+	  	  
 	  $scope.loadHome = function(){
 	  	mainCtrl.loadPage("/app/main.do");
 	  };
@@ -127,7 +131,7 @@
 							<li><a href="#" class="_boardManager">게시판관리</a></li>
 							<li class="divider"></li>
 							<li data-ng-repeat="x in list">
-								<a href="#" data-ng-click="loadBoard(x.boardCode)">{{x.name}}</a>
+								<a href="#" data-ng-click="loadBoardMg(x.boardCode)">{{x.name}}</a>
 							</li>
 						</ul>
 					</li>
