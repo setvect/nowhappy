@@ -30,7 +30,7 @@
 						<input type="file" class="form-control" file-model="readItem.attachFile[1]">
 						<input type="file" class="form-control" file-model="readItem.attachFile[2]">
 						<ul>
-							<li data-ng-repeat="f in attachList track by $index">
+							<li data-ng-repeat="f in attachMapList[readItem.articleSeq] track by $index">
 								{{f.originalName}}  <input type="checkbox" value="{{f.attachFileSeq}}" name="deleteattachFileSeq"/>삭제
 							</li>
 						</ul>
