@@ -160,7 +160,6 @@
 			 	$scope.pagePreviousGroup = pageStart - 1 > 0 ? pageStart : -1; 
 			 	$scope.pageNextGroup = pageStart + BULDEL_OF_PAGE <  $scope.pageCount ? pageStart + BULDEL_OF_PAGE + 1 : -1;
 			 	
-			 	console.log("pageStart: " + pageStart);
 			  for(var i= pageStart; i < $scope.pageCount && i < pageStart + BULDEL_OF_PAGE; i++){
 				  $scope.pageItem.push(i + 1);
 			  }
@@ -244,14 +243,19 @@
 	  
 	  // 본문에 큰 이미지가 있으면 줄임.
 	  $scope.resizeImg = function(){
-			setTimeout(function(){ 
-				var img = $("._board_content img");
-				img.each(function(idx,node){
-					if(node.clientWidth > 700){
-						$(node).attr("width", 700);
-					}
-				});
-			}, 250);
+	  	setTimeout(function(){
+	      $("._board_content img").each(function() {
+	        var oImgWidth = $(this).width();
+	        var oImgHeight = $(this).height();
+	        
+	        $(this).css({
+	            'max-width':oImgWidth+'px',
+	            'max-height':oImgHeight+'px',
+	            'width':'100%',
+	            'height':'100%'
+	        });
+	    	});
+	  	}, 500);
 	  };
 	  
 	  $scope.loadBoard();
