@@ -51,6 +51,9 @@
 				<value>com.setvect.nowhappy.user.vo.UserVo</value>
 				<value>com.setvect.nowhappy.comment.vo.Comment</value>
 				
+				<value>com.setvect.nowhappy.auth.vo.AuthVo</value>
+				<value>com.setvect.nowhappy.auth.vo.AuthMapVo</value>
+				
 				<value>com.setvect.nowhappy.board.vo.BoardVo</value>
 				<value>com.setvect.nowhappy.board.vo.BoardArticleVo</value>
 				

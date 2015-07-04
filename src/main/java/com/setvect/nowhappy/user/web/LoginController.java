@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.setvect.common.util.SerializerUtil;
+import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationConstant;
 import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
+import com.setvect.nowhappy.ApplicationConstant.WebCommon;
 import com.setvect.nowhappy.user.dao.UserService;
 import com.setvect.nowhappy.user.vo.UserVo;
 import com.setvect.nowhappy.util.StringEtcUtil;
@@ -30,6 +32,9 @@ public class LoginController {
 
 	@RequestMapping("/app/login/form.do")
 	public String loginForm(HttpServletRequest request, HttpServletResponse response) {
+		String rtnUrl = StringUtilAd.null2str(request.getParameter(WebCommon.RETURN_URL)) ;
+		
+		request.setAttribute(WebAttributeKey.RETURN_URL, rtnUrl);
 		return "/app/login/login";
 	}
 

@@ -74,6 +74,9 @@ public class ApplicationConstant {
 		public static final String BOARD_LIST_TYPE = "";
 		public static final String MODE = "mode";
 		public static final String IMAGE_URL = "IMAGE_URL";
+		/** 서비스 주소 저장 */
+		public static final String SERVLET_URL = "SERVLET_URL";
+		public static final String RETURN_URL = "RETURN_URL";
 	}
 
 	/** 패스워드 암호화 알고리즘 */

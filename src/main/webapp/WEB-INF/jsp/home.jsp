@@ -135,7 +135,7 @@
 							</li>
 						</ul>
 					</li>
-					<li><a href="<c:url value='/user/logout.do'/>">로그아웃</a></li>
+					<li><a href="<c:url value='/app/login/logout.do'/>">로그아웃</a></li>
 <%
 	}
 %>

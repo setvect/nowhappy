@@ -17,7 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "TBAA_CTMEMO")
+@Table(name = "TBCA_CTMEMO")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class CtmemoVo implements Serializable {
 	private static final long serialVersionUID = 4659097867395968759L;

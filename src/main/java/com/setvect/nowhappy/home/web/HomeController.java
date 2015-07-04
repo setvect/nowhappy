@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
+import com.setvect.nowhappy.ApplicationConstant.WebCommon;
 
 /**
  * @version $Id$
@@ -21,7 +23,8 @@ public class HomeController {
 
 	@RequestMapping("/l.do")
 	public String loginForm(HttpServletRequest request, HttpServletResponse response) {
-		request.setAttribute(WebAttributeKey.LOAD_PAGE, "/app/login/form.do");
+		String rtnUrl = StringUtilAd.null2str(request.getParameter(WebCommon.RETURN_URL)) ;
+		request.setAttribute(WebAttributeKey.LOAD_PAGE, "/app/login/form.do?" + WebCommon.RETURN_URL +"=" + rtnUrl);
 		return "/home";
 	}
 

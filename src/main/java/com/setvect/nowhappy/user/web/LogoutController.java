@@ -22,7 +22,7 @@ public class LogoutController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/user/logout.do")
+	@RequestMapping("/app/login/logout.do")
 	public ModelAndView process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		Cookie loginCookie = new Cookie(ApplicationConstant.WebCommon.USER_COOKIE_KEY, null);

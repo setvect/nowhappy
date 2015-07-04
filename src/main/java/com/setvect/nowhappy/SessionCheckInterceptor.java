@@ -2,22 +2,26 @@ package com.setvect.nowhappy;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.setvect.common.util.SerializerUtil;
+import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
+import com.setvect.nowhappy.ApplicationConstant.WebCommon;
+import com.setvect.nowhappy.auth.AccessChecker;
 import com.setvect.nowhappy.user.dao.UserService;
 import com.setvect.nowhappy.user.vo.UserVo;
 
@@ -31,16 +35,26 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * Application 시작과 동시에 최초 한번 실행
+	 */
+	@PostConstruct
+	public void init() {
+		userService.initAuth();
+		LOGGER.info("init. application.");
+	}
+
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws UnsupportedEncodingException, IOException {
 		String currentUrl = request.getRequestURI();
 		LOGGER.info("[Connect] IP: " + request.getRemoteAddr() + ", " + request.getHeader("User-Agent"));
 
-		// 로그인 권한 체크
-
 		// 호출한 서블릿 주소(~~.do 시작하는)를 저장
 		// JSP에서 form action에 주소로 사용
+		request.setAttribute(WebAttributeKey.SERVLET_URL, currentUrl);
 		UserVo user = ApplicationUtil.getLoginSession(request);
+
+		Map<String, String> param = makeParamMap(request);
 
 		// 개발중에는 자동 로그인
 		// if (user == null) {
@@ -48,7 +62,22 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 		// }
 
 		request.setAttribute(WebAttributeKey.USER_SESSION_KEY, user);
-		return true;
+
+		boolean hasAuth = AccessChecker.isAccessToUrl(user, currentUrl, param);
+		if (hasAuth) {
+			return true;
+		}
+
+		if (hasAuth == false && user == null) {
+			String returnUrl = currentUrl + "?" + StringUtilAd.null2str(request.getQueryString(), "");
+			String loginPage = AccessChecker.LOGIN_URL + "?" + WebCommon.RETURN_URL + "="
+					+ URLEncoder.encode(returnUrl, request.getCharacterEncoding());
+			response.sendRedirect(loginPage);
+			return false;
+		}
+
+		// 로그인 했는데 권한이 없으면 에러 메시지 표시
+		throw new ApplicationException(user.getUserId() + "는 해당 경로의 접근 권한이 없습니다.");
 	}
 
 	/**
