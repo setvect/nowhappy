@@ -72,7 +72,7 @@
 </script>
 
 <div class="commentNode" data-ng-app="commentApp"  data-ng-controller="commentController">
-	<div class="well bs-component" data-ng-if="x.userId != ''">
+	<div class="well bs-component" data-ng-if="loginId != ''">
 		<div class="input-group">
 			<textarea class="form-control" rows="1" data-ng-model="$parent.content"></textarea>
 			<span class="input-group-btn">
@@ -83,9 +83,8 @@
 	<div>
 		<ul>
 			<li data-ng-repeat="x in list">
-				{{x.content}} 
-				{{x.regDateDiff}}
-				{{x.userId}}
+				{{x.content}}  
+				<span class="label label-default">{{x.regDateDiff}}</span>
 				<a href="#" data-ng-click="remove($index)" data-ng-if="x.userId == loginId" class="btn btn-default btn-xs">삭제</a>
 			</li>
 		</ul>
