@@ -29,7 +29,7 @@ import com.setvect.nowhappy.user.vo.UserVo;
 @Controller
 public class CommentController {
 	/** 한 페이지당 표시 항목 갯수 */
-	private static final int PAGE_PER_ITEM = 5;
+	private static final int PAGE_PER_ITEM = 10;
 	public static final String ATTR_MODULE_NAME = "MODULE_NAME";
 
 	/**

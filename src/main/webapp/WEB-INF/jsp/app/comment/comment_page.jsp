@@ -82,7 +82,7 @@
 	</div>
 	<div>
 		<ul>
-			<li data-ng-repeat="x in list">
+			<li data-ng-repeat="x in list" style="padding: 5px 0;">
 				{{x.content}}  
 				<span class="label label-default">{{x.regDateDiff}}</span>
 				<a href="#" data-ng-click="remove($index)" data-ng-if="x.userId == loginId" class="btn btn-default btn-xs">삭제</a>
