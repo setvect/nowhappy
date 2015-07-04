@@ -3,6 +3,7 @@ package com.setvect.nowhappy.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.BitSet;
 
 /**
@@ -61,7 +62,8 @@ public class StringEncrypt {
 		for (i = 0; i < s; i += CUT_STRING_LEN) {
 			if (i + CUT_STRING_LEN < s) {
 				lm_sbT.append(lm_sValue.substring(i, i + CUT_STRING_LEN));
-			} else {
+			}
+			else {
 				lm_sbT.append(lm_sValue.substring(i, s));
 			}
 
@@ -174,12 +176,19 @@ public class StringEncrypt {
 	 * @param s
 	 *            String type의 데이터
 	 * @return 변환된 String
+	 * @throws UnsupportedEncodingException
 	 */
 	public static String encode(String s) {
 		byte byte0 = 10;
 		StringBuffer stringbuffer = new StringBuffer(s.length());
 		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream(byte0);
-		OutputStreamWriter outputstreamwriter = new OutputStreamWriter(bytearrayoutputstream);
+		OutputStreamWriter outputstreamwriter = null;
+		try {
+			// OS에 따라 default encoding이 달라지는 문제가 있어 명시적으로 정함.
+			outputstreamwriter = new OutputStreamWriter(bytearrayoutputstream, "MS949");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
@@ -231,8 +240,10 @@ public class StringEncrypt {
 
 			String s1 = stringbuffer.toString();
 			abyte0 = s1.getBytes("8859_1");
+			return new String(abyte0, "ms949");
 		} catch (Exception exception) {
+			throw new RuntimeException(exception);
 		}
-		return new String(abyte0);
+
 	}
 }
