@@ -129,8 +129,8 @@
 				.addClass(memo.bgCss)
 				.addClass(memo.fontCss);
 			
-			var regDate = new Date(memo.regDate);
-			item.find("._header").append(regDate.format("yy.MM.dd"));
+			var uptDate = new Date(memo.uptDate);
+			item.find("._header").append(uptDate.format("yy.MM.dd"));
 			item.find("._header").append("<input type='button' value='D' class='_delete'/>");
 			item.find("._header").append("<input type='button' value='E' class='_edit'/>");
 			item.find("._header").append("<input type='button' value='Done' class='_done' />");
@@ -140,7 +140,7 @@
 			$("#space").append(item);		
 			item.draggable({stop: function(eventObj){
 				var element = $(eventObj.target);
-				instance.saveMemo(element);
+				instance.saveMemo(element, false);
 			}});
 			item.resizable({   
 				maxHeight: 300,
@@ -149,13 +149,13 @@
 			  minWidth: 130,
 			  stop: function(eventObj){
 					var element = $(eventObj.target);
-					instance.saveMemo(element);
+					instance.saveMemo(element, false);
 			  }
 			});
 		}
 		
 		// 추가 또는 변경된 메모장을 저장
-		this.saveMemo = function(element){
+		this.saveMemo = function(element, dateUpdateable){
 			var data = {};
 			data["ctmemoSeq"] = parseInt(element.attr("data-ctmemo_seq"));
 			data["content"] = removeTags(br2newline(element.find("._content").html()));
@@ -167,6 +167,7 @@
 			data["bgCss"] = element.attr("data-bg_css");
 			data["fontCss"] = element.attr("data-font_css");
 			data["regDate"] = element.attr("data-reg_date");
+			data["dateUpdateable"] = dateUpdateable;
 			
 			$.post(instance.contextRoot + "/ctmemo/saveMemo.do", data, function( zIndex ) {
 				element.css("z-index", zIndex)
@@ -203,7 +204,7 @@
 			var content = newline2br(editElement.find("._content textarea").val());
 			editElement.find("._content").html("");
 			editElement.find("._content").append(content)
-			instance.saveMemo(editElement);
+			instance.saveMemo(editElement, true);
 		}
 		
 		// 메모 삭제
@@ -243,7 +244,7 @@
 			else{
 				targetMemo.attr("data-font_css", choiceStyle);
 			}
-			instance.saveMemo(targetMemo);
+			instance.saveMemo(targetMemo, false);
 			$("._style_palette").hide();
 		}
 		

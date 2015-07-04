@@ -42,7 +42,7 @@ public class CtmemoController {
 	@RequestMapping("/ctmemo/listAllCtmemo.json.do")
 	@ResponseBody
 	public List<CtmemoVo> listAllCtmemo() {
-		init();
+		// init();
 		List<CtmemoVo> result = ctmemoService.listCtmemo(new CtmemoSearchCondition());
 		return result;
 	}
@@ -69,9 +69,19 @@ public class CtmemoController {
 	 */
 	@RequestMapping("/ctmemo/saveMemo.do")
 	@ResponseBody
-	public int saveMemo(@ModelAttribute("ctmemo") CtmemoVo ctmemo) {
-		ctmemo.setUptDate(new Date());
+	public int saveMemo(@ModelAttribute("ctmemo") CtmemoVo ctmemo, ServletRequest request) {
+		// uptDate 필드 업데트 여부
+		boolean dateupdate = Boolean.parseBoolean(request.getParameter("dateUpdateable"));
+		if (dateupdate) {
+			ctmemo.setUptDate(new Date());
+		}
+		else {
+			CtmemoVo t = ctmemoService.getCtmemo(ctmemo.getCtmemoSeq());
+			ctmemo.setUptDate(t.getUptDate());
+		}
+
 		ctmemo.setzIndex(ctmemoService.getMaxZindex());
+
 		ctmemoService.updateCtmemo(ctmemo);
 		return ctmemo.getzIndex();
 	}

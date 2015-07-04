@@ -9,8 +9,6 @@
 <link rel="stylesheet" href="<c:url value="/css/jquery.mobile-1.4.5.css"/>">
 <link rel="stylesheet" href="<c:url value="/css/theme-classic.css"/>">
 
-
-
 <style type="text/css">
 	textarea.ui-input-text { min-height: 10em;}
 	.ui-listview p:nth-of-type(1){
@@ -74,8 +72,8 @@
 					
 					var item = $("<li/>").append("<a>");
 					var title = $("<p/>").append(this.content);
-					var regDate = new Date(this.regDate);
-					var date = $("<p/>").append(regDate.format("yy.MM.dd"));
+					var uptDate = new Date(this.uptDate);
+					var date = $("<p/>").append(uptDate.format("yy.MM.dd"));
 					date.addClass("ui-li-aside");
 
 					item.find("a").append(title);
@@ -127,6 +125,7 @@
 		this.saveMemo = function(){
 			var memo = instance.memoMap[instance.currentMemoSeq];
 			memo.content = $("._contentInput").val();
+			memo.dateUpdateable = true;
 			$.post(instance.contextRoot + "/ctmemo/saveMemo.do", memo, function() {
 				instance.loadAllMemo();
 				$.mobile.navigate("#list_page");

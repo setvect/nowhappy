@@ -39,7 +39,7 @@ public abstract class AbstractCtmemoDao implements CtmemoDao {
 	@Override
 	public List<CtmemoVo> listCtmemo(CtmemoSearchCondition condition) {
 		Session session = sessionFactory.getCurrentSession();
-		String q = " from CtmemoVo where deleteF = 'N' order by ctmemoSeq desc";
+		String q = " from CtmemoVo where deleteF = 'N' order by uptDate desc";
 		Query query = session.createQuery(q);
 
 		@SuppressWarnings("unchecked")
