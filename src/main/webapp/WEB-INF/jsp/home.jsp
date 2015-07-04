@@ -121,7 +121,7 @@
 					<li><a href="#" data-ng-click="loadBoard('BDAAAA06')">기억</a></li>
 					<li><a href="#" data-ng-click="loadBoard('BDAAAA07')">인연</a></li>
 					<li><a href="#" data-ng-click="loadBoard('BDAAAA11')">소설</a></li>
-					<li><a href="#" data-ng-click="IloadBoard('BDAAAA10')">기술사</a></li>
+					<li><a href="#" data-ng-click="loadBoard('BDAAAA10')">기술사</a></li>
 <%
 	if(login && user.isAdminF()){
 %>					
