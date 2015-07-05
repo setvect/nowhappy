@@ -57,6 +57,9 @@
 				<value>com.setvect.nowhappy.board.vo.BoardVo</value>
 				<value>com.setvect.nowhappy.board.vo.BoardArticleVo</value>
 				
+				<value>com.setvect.nowhappy.note.vo.NoteCategoryVo</value>
+				<value>com.setvect.nowhappy.note.vo.NoteVo</value>
+				
 				<value>com.setvect.nowhappy.attach.vo.AttachFileVo</value>
 			</list>
 		</property>
