@@ -89,8 +89,48 @@ public class AbstractNoteDao implements NoteDao {
 
 	@Override
 	public GenericPage<NoteVo> getNotePagingList(NoteSearch pageCondition) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+
+		String q = "select count(*) from NoteVo " + getNoteWhereClause(pageCondition);
+		Query query = session.createQuery(q);
+		int totalCount = ((Long) query.uniqueResult()).intValue();
+
+		q = " from NoteVo " + getNoteWhereClause(pageCondition) + " order by uptDate desc ";
+		query = session.createQuery(q);
+		query.setFirstResult(pageCondition.getStartCursor());
+		query.setMaxResults(pageCondition.getReturnCount());
+
+		@SuppressWarnings("unchecked")
+		List<NoteVo> resultList = query.list();
+
+		GenericPage<NoteVo> resultPage = new GenericPage<NoteVo>(resultList, pageCondition.getStartCursor(),
+				totalCount, pageCondition.getReturnCount());
+		return resultPage;
+	}
+
+	/**
+	 * @param pageCondition
+	 *            검색 조건
+	 * @return select where 절 조건
+	 */
+	private String getNoteWhereClause(NoteSearch search) {
+		String where = " where ";
+
+		// 삭제 게시물 보여 주지 않음
+		where += " and deleteF = 'N' ";
+
+		if (search.getSearchCategorySeq() != 0) {
+			where += " and categorySeq = " + search.getSearchCategorySeq();
+		}
+
+		// 두개 이상 동시에 검색 조건에 포함 될 수 없음
+		if (!StringUtilAd.isEmpty(search.getSearchTitle())) {
+			where += " and title like " + StringUtilAd.getSqlStringLike(search.getSearchTitle());
+		}
+		else if (!StringUtilAd.isEmpty(search.getSearchContent())) {
+			where += " and content like " + StringUtilAd.getSqlStringLike(search.getSearchContent());
+		}
+		return where;
 	}
 
 	@Override
