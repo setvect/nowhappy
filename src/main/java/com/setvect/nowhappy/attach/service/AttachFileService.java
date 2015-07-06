@@ -108,9 +108,9 @@ public class AttachFileService {
 			}
 			String fileName = moduleName + "_" + moduleId + "."
 					+ FilenameUtils.getExtension(file.getOriginalFilename());
-			
+
 			ApplicationUtil.checkAllowUploadFile(file.getOriginalFilename());
-			
+
 			File destination;
 			try {
 				destination = File.createTempFile("file", fileName, saveDir);
@@ -144,6 +144,26 @@ public class AttachFileService {
 		String dayPath = sd.substring(dd.length()) + "/";
 		dayPath = dayPath.replace('\\', '/');
 		return dayPath;
+	}
+
+	/**
+	 * @param deleteSeq
+	 *            첨부파일 시퀀스 번호
+	 * @param destDir
+	 *            OS 기준 webroot 디렉토리
+	 */
+	public void deleteFile(String[] deleteSeq, String destDir) {
+		for (String s : deleteSeq) {
+			int seq = Integer.parseInt(s);
+
+			AttachFileVo file = getAttachFile(seq);
+			if (file != null) {
+
+				File osFile = new File(destDir, file.getSavePath());
+				osFile.delete();
+			}
+			deleteFile(seq);
+		}
 	}
 
 	/**

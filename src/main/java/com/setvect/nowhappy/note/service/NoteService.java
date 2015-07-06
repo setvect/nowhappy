@@ -72,7 +72,7 @@ public class NoteService {
 	 *            검색 정보
 	 * @return 노트
 	 */
-	public GenericPage<NoteVo> getArticlePagingList(NoteSearch pageCondition) {
+	public GenericPage<NoteVo> getNotePagingList(NoteSearch pageCondition) {
 		return noteDao.getNotePagingList(pageCondition);
 	}
 

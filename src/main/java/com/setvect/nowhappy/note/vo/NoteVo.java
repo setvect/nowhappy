@@ -2,6 +2,7 @@ package com.setvect.nowhappy.note.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,12 +10,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.setvect.nowhappy.attach.vo.AttachFileVo;
 
 @Entity
 @Table(name = "TBDB_NOTE")
@@ -37,7 +42,7 @@ public class NoteVo implements Serializable {
 
 	/** 제목 */
 	@Column(name = "TITLE")
-	private String name;
+	private String title;
 
 	/** 내용 */
 	@Column(name = "CONTENT")
@@ -55,6 +60,13 @@ public class NoteVo implements Serializable {
 	@Column(name = "DELETE_F")
 	@Type(type = "yes_no")
 	private boolean deleteF;
+
+	@Transient
+	private MultipartFile[] attachFile;
+
+	/** 첨부파일 */
+	@Transient
+	private List<AttachFileVo> attach;
 
 	/**
 	 * @return the noteSeq
@@ -89,16 +101,16 @@ public class NoteVo implements Serializable {
 	/**
 	 * @return the name
 	 */
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
 	/**
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String name) {
+		this.title = name;
 	}
 
 	/**
@@ -159,6 +171,36 @@ public class NoteVo implements Serializable {
 	 */
 	public void setDeleteF(boolean deleteF) {
 		this.deleteF = deleteF;
+	}
+
+	/**
+	 * @return the attachFile
+	 */
+	public MultipartFile[] getAttachFile() {
+		return attachFile;
+	}
+
+	/**
+	 * @param attachFile
+	 *            the attachFile to set
+	 */
+	public void setAttachFile(MultipartFile[] attachFile) {
+		this.attachFile = attachFile;
+	}
+
+	/**
+	 * @return the attach
+	 */
+	public List<AttachFileVo> getAttach() {
+		return attach;
+	}
+
+	/**
+	 * @param attach
+	 *            the attach to set
+	 */
+	public void setAttach(List<AttachFileVo> attach) {
+		this.attach = attach;
 	}
 
 	@Override

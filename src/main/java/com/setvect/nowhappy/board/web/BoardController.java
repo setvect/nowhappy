@@ -270,17 +270,8 @@ public class BoardController {
 		if (deleteSeq == null) {
 			return;
 		}
-		for (String s : deleteSeq) {
-			int seq = Integer.parseInt(s);
-
-			AttachFileVo file = attachFileService.getAttachFile(seq);
-			if (file != null) {
-				String destDir = request.getSession().getServletContext().getRealPath("/");
-				File osFile = new File(destDir, file.getSavePath());
-				osFile.delete();
-			}
-			attachFileService.deleteFile(seq);
-		}
+		String destDir = request.getSession().getServletContext().getRealPath("/");
+		attachFileService.deleteFile(deleteSeq, destDir);
 	}
 
 	/**

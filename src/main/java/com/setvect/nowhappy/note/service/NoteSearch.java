@@ -1,5 +1,7 @@
 package com.setvect.nowhappy.note.service;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.setvect.common.util.SearchListVo;
 import com.setvect.common.util.StringUtilAd;
 
@@ -9,9 +11,14 @@ import com.setvect.common.util.StringUtilAd;
  * @version $Id$
  */
 public class NoteSearch extends SearchListVo {
+	public enum NoteSort {
+		REG, UPD;
+	}
+
 	private int searchCategorySeq;
 	private String searchTitle;
 	private String searchContent;
+	private NoteSort sort;
 
 	public NoteSearch(int startCursor, int returnCount) {
 		super(startCursor, returnCount);
@@ -63,6 +70,21 @@ public class NoteSearch extends SearchListVo {
 	}
 
 	/**
+	 * @return the sort
+	 */
+	public NoteSort getSort() {
+		return sort;
+	}
+
+	/**
+	 * @param sort
+	 *            the sort to set
+	 */
+	public void setSort(NoteSort sort) {
+		this.sort = sort;
+	}
+
+	/**
 	 * @return 검색 단어중 값이 있는 하나를 반환. 아무도 없으면 null. 2개 이상 값이 있을 경우 어떤걸 반환 할지 모름
 	 */
 	public String getWord() {
@@ -73,5 +95,9 @@ public class NoteSearch extends SearchListVo {
 			return searchContent;
 		}
 		return null;
+	}
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

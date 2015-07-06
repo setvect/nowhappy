@@ -1,8 +1,6 @@
 package com.setvect.nowhappy.note.dao;
 
 import com.setvect.common.util.GenericPage;
-import com.setvect.nowhappy.board.service.BoardArticleSearch;
-import com.setvect.nowhappy.board.vo.BoardArticleVo;
 import com.setvect.nowhappy.note.service.NoteCategorySearch;
 import com.setvect.nowhappy.note.service.NoteSearch;
 import com.setvect.nowhappy.note.vo.NoteCategoryVo;

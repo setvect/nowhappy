@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
-import com.setvect.nowhappy.board.service.BoardManagerSearch;
-import com.setvect.nowhappy.board.vo.BoardVo;
 import com.setvect.nowhappy.note.dao.NoteDao;
 import com.setvect.nowhappy.note.service.NoteCategorySearch;
 import com.setvect.nowhappy.note.service.NoteSearch;
+import com.setvect.nowhappy.note.service.NoteSearch.NoteSort;
 import com.setvect.nowhappy.note.vo.NoteCategoryVo;
 import com.setvect.nowhappy.note.vo.NoteVo;
 
@@ -95,7 +94,8 @@ public class AbstractNoteDao implements NoteDao {
 		Query query = session.createQuery(q);
 		int totalCount = ((Long) query.uniqueResult()).intValue();
 
-		q = " from NoteVo " + getNoteWhereClause(pageCondition) + " order by uptDate desc ";
+		q = " from NoteVo " + getNoteWhereClause(pageCondition) + getOrder(pageCondition);
+		;
 		query = session.createQuery(q);
 		query.setFirstResult(pageCondition.getStartCursor());
 		query.setMaxResults(pageCondition.getReturnCount());
@@ -106,6 +106,15 @@ public class AbstractNoteDao implements NoteDao {
 		GenericPage<NoteVo> resultPage = new GenericPage<NoteVo>(resultList, pageCondition.getStartCursor(),
 				totalCount, pageCondition.getReturnCount());
 		return resultPage;
+	}
+
+	private String getOrder(NoteSearch pageCondition) {
+		if (pageCondition.getSort() == NoteSort.UPD) {
+			return " order by uptDate desc";
+		}
+		else {
+			return " order by regDate asc";
+		}
 	}
 
 	/**
