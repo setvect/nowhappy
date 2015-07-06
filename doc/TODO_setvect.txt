@@ -18,9 +18,9 @@ REF_20150705: 불필요한 게시물 접근 권한 로직 제거
 NEW_20150705: note for 복슬 제작
 	NEW_20150705: 템플릿 만듦 - OK
 	NEW_20150705: 테이블 설계 - OK
-	NEW_20150707: DAO 
-	NEW_20150707: Service
-	NEW_20150707: Controller
+	NEW_20150707: DAO - OK 
+	NEW_20150707: Service - OK
+	NEW_20150707: Controller - OK
 	NEW_20150707: UI & script
 	
 NEW_20150705: depthlink 확대 

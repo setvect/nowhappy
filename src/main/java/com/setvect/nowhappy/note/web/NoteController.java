@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,23 +18,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
-import com.setvect.nowhappy.ApplicationConstant;
 import com.setvect.nowhappy.ApplicationUtil;
-import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
 import com.setvect.nowhappy.attach.service.AttachFileModule;
 import com.setvect.nowhappy.attach.service.AttachFileService;
-import com.setvect.nowhappy.attach.vo.AttachFileVo;
-import com.setvect.nowhappy.board.service.BoardArticleSearch;
-import com.setvect.nowhappy.board.service.BoardService;
-import com.setvect.nowhappy.board.vo.BoardArticleVo;
 import com.setvect.nowhappy.note.service.NoteCategorySearch;
 import com.setvect.nowhappy.note.service.NoteSearch;
-import com.setvect.nowhappy.note.service.NoteService;
 import com.setvect.nowhappy.note.service.NoteSearch.NoteSort;
+import com.setvect.nowhappy.note.service.NoteService;
 import com.setvect.nowhappy.note.vo.NoteCategoryVo;
 import com.setvect.nowhappy.note.vo.NoteVo;
 import com.setvect.nowhappy.user.vo.UserVo;
-import com.setvect.nowhappy.util.StringEncrypt;
 
 /**
  * 복슬 노트
@@ -60,6 +51,10 @@ public class NoteController {
 	 */
 	@RequestMapping("/app/note/page.do")
 	public String page(HttpServletRequest request, HttpServletResponse response) {
+		if (!ApplicationUtil.isAdmin(request)) {
+			return null;
+		}
+
 		return "/app/note/note_page";
 	}
 
@@ -98,21 +93,86 @@ public class NoteController {
 
 	// ----------------- 카테고리
 	/**
-	 * 카테고리 목록
+	 * 카테고리
 	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/note/list_category.json.do")
+	@RequestMapping("/app/note/readCategory.json.do")
+	@ResponseBody
+	public NoteCategoryVo readCategory(HttpServletRequest request) {
+		String categorySeqStr = request.getParameter("categorySeq");
+		int categorySeq = Integer.parseInt(categorySeqStr);
+		NoteCategoryVo category = noteService.getNoteCategory(categorySeq);
+		return category;
+	}
+
+	/**
+	 * 카테고리 목록
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/app/note/listCategory.json.do")
 	@ResponseBody
 	public GenericPage<NoteCategoryVo> listCategory(HttpServletRequest request) {
 		// 검색 조건
 		NoteCategorySearch pageCondition = new NoteCategorySearch(0, Integer.MAX_VALUE);
-
 		GenericPage<NoteCategoryVo> page = noteService.getNoteCategoryPagingList(pageCondition);
 		return page;
+	}
+
+	/**
+	 * 카테고리 등록
+	 * 
+	 * @param request
+	 * @param response
+	 * @return 추가한 코멘트 아이디
+	 */
+	@RequestMapping("/app/note/addCategory.do")
+	@ResponseBody
+	public boolean addCategory(@ModelAttribute NoteCategoryVo category, HttpServletRequest request) {
+		category.setRegDate(new Date());
+
+		noteService.insertNoteCategory(category);
+		return true;
+	}
+
+	/**
+	 * 카테고리 수정
+	 * 
+	 * @param request
+	 * @param response
+	 * @return 추가한 코멘트 아이디
+	 */
+	@RequestMapping("/app/note/updateCategory.do")
+	@ResponseBody
+	public boolean updateCategory(@ModelAttribute NoteCategoryVo category, HttpServletRequest request) {
+		NoteCategoryVo categorySave = noteService.getNoteCategory(category.getCategorySeq());
+		categorySave.setName(category.getName());
+
+		noteService.updateNoteCategory(categorySave);
+		return true;
+	}
+
+	/**
+	 * 카테고리 삭제<br>
+	 * 논리적 삭제
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/app/note/deleteCategory.do")
+	@ResponseBody
+	public boolean deleteCategory(@ModelAttribute NoteCategoryVo NoteCategoryVo, HttpServletRequest request) {
+		NoteCategoryVo categorySave = noteService.getNoteCategory(NoteCategoryVo.getCategorySeq());
+		categorySave.setDeleteF(true);
+		noteService.updateNoteCategory(categorySave);
+		return true;
 	}
 
 	// ----------------- 노트
@@ -125,9 +185,9 @@ public class NoteController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/note/list.json.do")
+	@RequestMapping("/app/note/listNote.json.do")
 	@ResponseBody
-	public GenericPage<NoteVo> list(HttpServletRequest request) {
+	public GenericPage<NoteVo> listNote(HttpServletRequest request) {
 		String pg = StringUtilAd.null2str(request.getParameter("pageNumber"), "1");
 		int pageNumber = Integer.parseInt(pg);
 		String t = request.getParameter("pagePerItem");
@@ -164,9 +224,9 @@ public class NoteController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/note/read.json.do")
+	@RequestMapping("/app/note/readNote.json.do")
 	@ResponseBody
-	public NoteVo read(HttpServletRequest request) {
+	public NoteVo readNote(HttpServletRequest request) {
 		String noteStr = request.getParameter("noteSeq");
 		int noteSeq = Integer.parseInt(noteStr);
 		NoteVo read = noteService.getNote(noteSeq);
@@ -182,13 +242,10 @@ public class NoteController {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/note/add.do")
+	@RequestMapping("/app/note/addNote.do")
 	@ResponseBody
-	public boolean add(@ModelAttribute NoteVo note, HttpServletRequest request) throws FileNotFoundException,
+	public boolean addNote(@ModelAttribute NoteVo note, HttpServletRequest request) throws FileNotFoundException,
 			IOException {
-		if (!ApplicationUtil.isAdmin(request)) {
-			return false;
-		}
 		note.setRegDate(new Date());
 		note.setUptDate(new Date());
 
@@ -206,13 +263,10 @@ public class NoteController {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/board/update.do")
+	@RequestMapping("/app/note/updateNote.do")
 	@ResponseBody
-	public boolean update(@ModelAttribute NoteVo param, HttpServletRequest request) throws FileNotFoundException,
+	public boolean updateNote(@ModelAttribute NoteVo param, HttpServletRequest request) throws FileNotFoundException,
 			IOException {
-		if (!ApplicationUtil.isAdmin(request)) {
-			return false;
-		}
 		NoteVo note = noteService.getNote(param.getNoteSeq());
 		note.setTitle(param.getTitle());
 		note.setContent(param.getContent());
@@ -222,6 +276,24 @@ public class NoteController {
 		saveAttachFile(request, note);
 		deleteFile(request);
 
+		return true;
+	}
+
+	/**
+	 * 노트 삭제<br>
+	 * 논리적 삭제
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/note/deleteNote.do")
+	@ResponseBody
+	public boolean deleteNote(@ModelAttribute NoteVo note, HttpServletRequest request) {
+		NoteVo noteSave = noteService.getNote(note.getNoteSeq());
+		noteSave.setDeleteF(true);
+		noteService.updateNote(noteSave);
 		return true;
 	}
 
@@ -237,24 +309,6 @@ public class NoteController {
 		}
 		String destDir = request.getSession().getServletContext().getRealPath("/");
 		attachFileService.deleteFile(deleteSeq, destDir);
-	}
-
-	/**
-	 * 노트 삭제
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping("/app/note/delete.do")
-	@ResponseBody
-	public boolean delete(@ModelAttribute NoteVo note, HttpServletRequest request) {
-		if (!ApplicationUtil.isAdmin(request)) {
-			return false;
-		}
-		noteService.deleteNote(note.getNoteSeq());
-		return true;
 	}
 
 	/**

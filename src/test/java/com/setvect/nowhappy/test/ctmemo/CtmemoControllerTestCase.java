@@ -33,7 +33,8 @@ public class CtmemoControllerTestCase extends MainTestBase {
 
 		CtmemoVo ctmemo = controller.newMemo();
 		ctmemo.setContent(CONTENT_STRING);
-		controller.saveMemo(ctmemo);
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		controller.saveMemo(ctmemo, request);
 
 		result = controller.listAllCtmemo();
 		Assert.assertThat(result.size(), CoreMatchers.is(4));
@@ -42,7 +43,6 @@ public class CtmemoControllerTestCase extends MainTestBase {
 		CtmemoVo newest = result.get(0);
 		Assert.assertThat(newest.getContent(), CoreMatchers.is(CONTENT_STRING));
 
-		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setParameter("ctmemoSeq", String.valueOf(newest.getCtmemoSeq()));
 		controller.deleteMemo(request);
 

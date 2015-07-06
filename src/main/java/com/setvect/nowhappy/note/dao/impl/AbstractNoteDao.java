@@ -127,6 +127,7 @@ public class AbstractNoteDao implements NoteDao {
 
 		// 삭제 게시물 보여 주지 않음
 		where += " and deleteF = 'N' ";
+		where += " and categorySeq in (select categorySeq from NoteCategory where deleteF = 'N') ";
 
 		if (search.getSearchCategorySeq() != 0) {
 			where += " and categorySeq = " + search.getSearchCategorySeq();
