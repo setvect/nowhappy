@@ -16,7 +16,7 @@ nowhappy_pass
 NEW_20150705: note for 복슬 제작
 	NEW_20150705: 템플릿 만듦 - OK
 	NEW_20150705: 테이블 설계 - OK
-	NEW_20150707: DAO
+	NEW_20150707: DAO 
 	NEW_20150707: Service
 	NEW_20150707: Controller
 	NEW_20150707: UI & script

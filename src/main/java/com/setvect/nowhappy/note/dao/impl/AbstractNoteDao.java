@@ -149,7 +149,7 @@ public class AbstractNoteDao implements NoteDao {
 	}
 
 	@Override
-	public void deleteArticle(int noteSeq) {
+	public void deleteNote(int noteSeq) {
 		Session session = sessionFactory.getCurrentSession();
 		session.delete(getNote(noteSeq));
 		session.flush();

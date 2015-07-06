@@ -70,5 +70,5 @@ public interface NoteDao {
 	/**
 	 * @param noteSeq
 	 */
-	public void deleteArticle(int noteSeq);
+	public void deleteNote(int noteSeq);
 }
