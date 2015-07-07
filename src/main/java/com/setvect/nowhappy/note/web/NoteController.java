@@ -66,7 +66,7 @@ public class NoteController {
 	 */
 	@RequestMapping("/app/note/list.do")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
-		return "/app/note/views/list";
+		return "/app/note/views/note_list";
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class NoteController {
 	 */
 	@RequestMapping("/app/note/write.do")
 	public String write(HttpServletRequest request, HttpServletResponse response) {
-		return "/app/note/views/write";
+		return "/app/note/views/note_write";
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class NoteController {
 	 */
 	@RequestMapping("/app/note/read.do")
 	public String read(HttpServletRequest request, HttpServletResponse response) {
-		return "/app/note/views/read";
+		return "/app/note/views/note_read";
 	}
 
 	// ----------------- 카테고리
