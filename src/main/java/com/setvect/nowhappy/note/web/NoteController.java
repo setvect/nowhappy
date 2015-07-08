@@ -49,7 +49,7 @@ public class NoteController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("/app/note/page.do")
+	@RequestMapping("/note/page.do")
 	public String page(HttpServletRequest request, HttpServletResponse response) {
 		if (!ApplicationUtil.isAdmin(request)) {
 			return null;

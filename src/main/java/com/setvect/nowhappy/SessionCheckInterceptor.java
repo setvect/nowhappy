@@ -57,9 +57,9 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 		Map<String, String> param = makeParamMap(request);
 
 		// 개발중에는 자동 로그인
-		// if (user == null) {
-		// user = forceLogin(response);
-		// }
+		if (user == null) {
+			user = forceLogin(response);
+		}
 
 		request.setAttribute(WebAttributeKey.USER_SESSION_KEY, user);
 
