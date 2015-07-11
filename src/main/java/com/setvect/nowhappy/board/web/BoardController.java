@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationConstant;
+import com.setvect.nowhappy.ApplicationConstant.BoardConfig;
 import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
 import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.attach.service.AttachFileModule;
@@ -36,8 +37,11 @@ import com.setvect.nowhappy.util.StringEncrypt;
  */
 @Controller
 public class BoardController {
+
 	/** 한 페이지당 표시 항목 갯수 */
 	private static final int PAGE_PER_ITEM = 10;
+	/** 한 페이지당 표시 항목 갯수(목록 페이지) */
+	private static final int PAGE_PER_ITEM_LISTVIEW = 5;
 
 	@Autowired
 	private BoardService boardService;
@@ -141,17 +145,21 @@ public class BoardController {
 		String pg = StringUtilAd.null2str(request.getParameter("pageNumber"), "1");
 		int pageNumber = Integer.parseInt(pg);
 		String t = request.getParameter("pagePerItem");
-		int pagePerItem = StringUtils.isEmpty(t) ? PAGE_PER_ITEM : Integer.parseInt(t);
+		String code = request.getParameter("boardCode");
+		int pagePerItem = StringUtils.isEmpty(t) ? getBoradPagePerItem(code) : Integer.parseInt(t);
 		int startCursor = (pageNumber - 1) * pagePerItem;
 
 		BoardArticleSearch pageCondition = new BoardArticleSearch(startCursor, pagePerItem);
-		String code = request.getParameter("boardCode");
 		pageCondition.setSearchCode(code);
 
 		setSearchCondition(request, pageCondition);
 
 		GenericPage<BoardArticleVo> page = boardService.getArticlePagingList(pageCondition);
 		return page;
+	}
+
+	private int getBoradPagePerItem(String code) {
+		return BoardConfig.LIST_CONTENT_VIEW.contains(code) ? PAGE_PER_ITEM_LISTVIEW : PAGE_PER_ITEM;
 	}
 
 	/**
