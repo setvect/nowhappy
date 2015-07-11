@@ -58,7 +58,6 @@
 		var BULDEL_OF_PAGE = 10;
 		
 		$scope.trustAsHtml = $sce.trustAsHtml;
-		$scope.auth = {};
 		$scope.list = [];
 		$scope.readItem = null;
 		$scope.pageNumber = 1;
@@ -182,20 +181,6 @@
 	  	});	  	
 	  };
 	  
-	  $scope.loadAuth = function(article){
-	  	var param = {};
-	  	if(article != null){
-	  		param["articleSeq"] = article.articleSeq;
-	  		param["boardCode"] = $scope.boardCode;
-	  	}
-	  	
-			var loadAuthUrl = mainCtrl.getUrl("/app/board/loadAuth.json.do");
-	  	$http.get(loadAuthUrl, {params: param}).success(function(response) {
-		  	$scope.auth.write = response.write;
-		  	$scope.auth.edit = response.edit;
-	  	});
-	  };
-	  
 	  // 게시판 설정정보 load
 	  $scope.loadBoard = function(){
 			var readBoardManager = mainCtrl.getUrl("/app/board_manager/read.json.do");
@@ -259,7 +244,6 @@
 	  };
 	  
 	  $scope.loadBoard();
-	  $scope.loadAuth();
 	}]);
 	
 	appBoard.controller('boardListController', ['$scope', '$http', function($scope, $http) {

@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -297,25 +295,6 @@ public class BoardController {
 		}
 		boardService.deleteArticle(article.getArticleSeq());
 		return true;
-	}
-
-	/**
-	 * 게시물 접근 권한 설정<br>
-	 * 쓰기, 수정/삭제를 정함
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping("/app/board/loadAuth.json.do")
-	@ResponseBody
-	public Map<String, Object> loadAuth(@ModelAttribute BoardArticleVo param, HttpServletRequest request) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		// TODO 향후 수정
-		result.put("write", true);
-		result.put("edit", true);
-		return result;
 	}
 
 	/**

@@ -43,4 +43,4 @@
 		<li data-ng-if="pageNextGroup != -1"><a href="javascript:" data-ng-click="page(pageNextGroup)">다음</a></li>
 	</ul>
 </div>
-<a href="#/write" class="btn btn-default" data-ng-show="auth.write">글쓰기</a>
+<a href="#/write" class="btn btn-default">글쓰기</a>
