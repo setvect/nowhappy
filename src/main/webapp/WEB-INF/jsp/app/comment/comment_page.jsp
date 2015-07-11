@@ -57,6 +57,7 @@
 		  	
 		  	$http.get(getUrl, {params: {commentSeq : response}}).success(function(response) {
 		  		$scope.list.unshift(response);
+		  		$scope.content = "";
 		  	});
 		  });	  	
 	  };
