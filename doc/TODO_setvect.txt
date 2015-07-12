@@ -14,7 +14,6 @@ nowhappy_pass
 
 [진행 해야된는 것]
 NEW_20150708: 복슬note - 자동 저장
-NEW_20150708: 복슬note - auth url 추가
 
 
 REF_20150712: mainCtrl 없에 버리기  
@@ -24,7 +23,10 @@ NEW_20150704: 메모장 workspace
 
 
 [진행 된 것]
-NEW_20150705: note for 복슬 제작
+PBM_20150712: 슬러시가 URL앞에 두 번 이상 연속으로 들어 왔을 때 URL 보안 체크를 통과하는 문제
+NEW_20150708(20150712): 복슬note - auth url 추가
+
+NEW_20150705(20150712): note for 복슬 제작
 	NEW_20150705: 템플릿 만듦 - OK
 	NEW_20150705: 테이블 설계 - OK
 	NEW_20150707: DAO - OK 

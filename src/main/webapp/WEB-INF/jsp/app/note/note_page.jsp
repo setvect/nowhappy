@@ -401,7 +401,7 @@
 						</li>
 
             <li data-ng-repeat="item in categoryList">
-							<a href="#/list/{{item.categorySeq}}"><i class="fa fa-table fa-fw"></i>{{item.name}}</a>
+							<a href="#/list/{{item.categorySeq}}"><i class="fa fa-edit fa-fw"></i> {{item.name}}</a>
             </li>
 
 					</ul>

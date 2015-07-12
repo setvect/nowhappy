@@ -46,7 +46,8 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws UnsupportedEncodingException, IOException {
-		String currentUrl = request.getRequestURI();
+		String currentUrl = removeHeadSlash(request);
+
 		LOGGER.info("[Connect] IP: " + request.getRemoteAddr() + ", " + request.getHeader("User-Agent"));
 
 		// 호출한 서블릿 주소(~~.do 시작하는)를 저장
@@ -57,9 +58,9 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 		Map<String, String> param = makeParamMap(request);
 
 		// 개발중에는 자동 로그인
-		if (user == null) {
-			user = forceLogin(response);
-		}
+		// if (user == null) {
+		// user = forceLogin(response);
+		// }
 
 		request.setAttribute(WebAttributeKey.USER_SESSION_KEY, user);
 
@@ -78,6 +79,27 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 
 		// 로그인 했는데 권한이 없으면 에러 메시지 표시
 		throw new ApplicationException(user.getUserId() + "는 해당 경로의 접근 권한이 없습니다.");
+	}
+
+	/**
+	 * http://도메인//abc/a.do 이런식으로 도메인 다음 슬래시가 두 번 들어오면 URL 권한 체크가 안되는 문제가 있음. <br/>
+	 * 중복된 슬래시를 제거해 하나만 표시하도록 함.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private String removeHeadSlash(HttpServletRequest request) {
+		String url = request.getRequestURI();
+		StringBuffer currentUrlBuffer = new StringBuffer("/");
+		for (int i = 0; i < url.length(); i++) {
+			if (url.charAt(i) != '/') {
+				currentUrlBuffer.append(url.substring(i));
+				break;
+			}
+		}
+
+		String currentUrl = currentUrlBuffer.toString();
+		return currentUrl;
 	}
 
 	/**
