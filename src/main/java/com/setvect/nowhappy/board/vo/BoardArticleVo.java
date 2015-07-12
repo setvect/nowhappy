@@ -19,6 +19,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.setvect.nowhappy.attach.vo.AttachFileVo;
+import com.setvect.nowhappy.util.DateDiff;
 
 /**
  * 게시물 VO
@@ -392,6 +393,10 @@ public class BoardArticleVo {
 	 */
 	public void setAttach(List<AttachFileVo> attach) {
 		this.attach = attach;
+	}
+
+	public String getRegDateDiff() {
+		return DateDiff.diff(new Date(), regDate);
 	}
 
 	public String toString() {

@@ -56,7 +56,7 @@
 		}).when('/list/:categorySeq', {
 			templateUrl : $.APP.getContextRoot("app/note/list.do"),
 			controller : 'noteListController' 
-		}).when('/write', {
+		}).when('/write/:categorySeq', {
 			templateUrl : $.APP.getContextRoot("app/note/write.do"),
 			controller : 'noteWriteController'
 		}).when('/update/:noteSeq', {
@@ -89,7 +89,6 @@
 		$scope.readItem = {};
 		$scope.oEditors = [];
 		
-		$scope.categorySeq = null;
 		$scope.categoryName = "";
 		$scope.categoryList=[];
 		
@@ -175,8 +174,8 @@
 	  };
 
 	  $scope.writeOrUpdateNoteSummit = function(){
-			var addUrl = $.APP.getContextRoot("app/note/add.do");
-			var updateUrl = $.APP.getContextRoot("app/note/update.do");
+			var addUrl = $.APP.getContextRoot("app/note/addNote.do");
+			var updateUrl = $.APP.getContextRoot("app/note/updateNote.do");
 			
 	  	var url = $scope.readItem.noteSeq == 0 ? addUrl : updateUrl; 
 	  	var content = $scope.oEditors.getById["content"].getIR();
@@ -190,8 +189,9 @@
 	  	var fd = new FormData();
 	  	
 	  	fd.append("noteSeq", $scope.readItem.noteSeq);
-	  	fd.append("categorySeq", $scope.categorySeq);
+	  	fd.append("categorySeq", $scope.searchParam.currentCategory.categorySeq);
 	  	fd.append("title", $scope.readItem.title);
+	  	
 	  	fd.append("content", content.trim());
 	  	
 			if($scope.readItem.attachFile != null){
@@ -208,7 +208,7 @@
 			var headers = {headers: {'Content-Type': undefined}};
   		$http.post(url, fd, headers).success(function(response) {
 		  	if(response){
-		  		location.href="#/list";
+		  		location.href="#/list/" + $scope.searchParam.currentCategory.categorySeq;
 		  	}
 		  });			
 	  };
@@ -217,7 +217,9 @@
 		  var param = {};
 		  $scope.pageNumber = pageNumber;
 		  param["pageNumber"] = $scope.pageNumber;
-		  param["categorySeq"] = $scope.categorySeq;
+		  if($scope.searchParam.currentCategory != null){
+		  	param["categorySeq"] = $scope.searchParam.currentCategory.categorySeq;
+		  }
 		  param["searchOption"] = $scope.searchParam.option;
 		  param["searchWord"] = $scope.searchParam.word;
 		  
@@ -341,6 +343,7 @@
 	  	HTML_EDITOR = $scope.oEditors;
 	  };
 	  $scope.htmlText();
+	  $scope.searchParam.currentCategory = $scope.getCategory($routeParams.categorySeq);
 	}]);	
 
 	appNote.controller('noteReadController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
@@ -359,7 +362,7 @@
 				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="<c:url value="/note/page.do"/>">복슬노트</a>
+				<a class="navbar-brand" href="<c:url value="/note/page.do#/list"/>">복슬노트</a>
 			</div>
 			<!-- /.navbar-top-links -->
 			<div class="navbar-default sidebar" role="navigation">

@@ -23,6 +23,7 @@ NEW_20150705: note for 복슬 제작
 	NEW_20150707: UI & script
 	NEW_20150708: 자동 저장	
 	NEW_20150708: 최근 수정
+	NEW_20150708: 목록에 첨부파일 갯수 표시
 	NEW_20150708: auth url 추가
 	
 NEW_20150705: depthlink 확대 

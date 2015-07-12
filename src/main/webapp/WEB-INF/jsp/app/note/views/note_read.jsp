@@ -4,9 +4,10 @@
 	<div class="jumbotron">
 		<h5>{{readItem.title}}</h5>
 		<p data-ng-bind-html="trustAsHtml(readItem.content)"></p>
-		<span>{{readItem.regDate | date:'yyyy.MM.dd'}}</span>
+		<span>최종 수정일: {{readItem.uptDate | date:'yyyy.MM.dd HH:mm:ss'}}</span><br/>
+		<span>최초 등록일: {{readItem.regDate | date:'yyyy.MM.dd HH:mm:ss'}}</span>
 		<ul>
-			<li data-ng-repeat="f in attachMapList[readItem.articleSeq] track by $index">
+			<li data-ng-repeat="f in attachMapList[readItem.noteSeq] track by $index">
 				첨부파일{{$index + 1}}: 
 				<a href="<%=request.getContextPath()%>/download.do?s={{f.savePathEncode}}&amp;d={{f.originalNameEncode}}">{{f.originalName}} ({{(f.size / 1024.0) | number:0}}k)</a>
 			</li>
@@ -14,6 +15,6 @@
 
 	</div>
 </div>
-<a href="#/update/{{readItem.articleSeq}}" class="btn btn-primary" data-ng-if="user">수정</a> 
-<a href="javascript:" data-ng-click="remove(readItem)" class="btn btn-warning" data-ng-if="user">삭제</a> 
-<a href="#list" class="btn btn-default">목록</a>
+<a href="#/update/{{readItem.articleSeq}}" class="btn btn-primary">수정</a> 
+<a href="javascript:" data-ng-click="remove(readItem)" class="btn btn-warning">삭제</a> 
+<a href="#list/{{searchParam.currentCategory.categorySeq}}" class="btn btn-default">목록</a>

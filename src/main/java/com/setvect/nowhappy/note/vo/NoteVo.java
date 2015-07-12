@@ -20,6 +20,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.setvect.nowhappy.attach.vo.AttachFileVo;
+import com.setvect.nowhappy.util.DateDiff;
 
 @Entity
 @Table(name = "TBDB_NOTE")
@@ -201,6 +202,14 @@ public class NoteVo implements Serializable {
 	 */
 	public void setAttach(List<AttachFileVo> attach) {
 		this.attach = attach;
+	}
+
+	public String getRegDateDiff() {
+		return DateDiff.diff(new Date(), regDate);
+	}
+
+	public String getUptDateDiff() {
+		return DateDiff.diff(new Date(), uptDate);
 	}
 
 	@Override

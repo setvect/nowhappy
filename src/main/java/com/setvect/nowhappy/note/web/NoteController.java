@@ -204,20 +204,39 @@ public class NoteController {
 		int categorySeq = Integer.parseInt(seqStr);
 		pageCondition.setSearchCategorySeq(categorySeq);
 
-		pageCondition.setSearchTitle(request.getParameter("searchTitle"));
-		pageCondition.setSearchContent(request.getParameter("searchContent"));
+		setSearchCondition(request, pageCondition);
 
 		// 정렬
 		NoteSort sort = null;
 		try {
 			NoteSort.valueOf(request.getParameter("sort"));
 		} catch (Exception e) {
-			sort = NoteSort.REG;
+			sort = NoteSort.UPD;
 		}
 		pageCondition.setSort(sort);
 
 		GenericPage<NoteVo> page = noteService.getNotePagingList(pageCondition);
 		return page;
+	}
+
+	/**
+	 * 검색 조건 적용
+	 * 
+	 * @param request
+	 * @param pageCondition
+	 */
+	private void setSearchCondition(HttpServletRequest request, NoteSearch pageCondition) {
+		String option = request.getParameter("searchOption");
+		String word = request.getParameter("searchWord");
+
+		if (StringUtils.isNotEmpty(option)) {
+			if (option.equals("title")) {
+				pageCondition.setSearchTitle(word);
+			}
+			else if (option.equals("content")) {
+				pageCondition.setSearchContent(word);
+			}
+		}
 	}
 
 	/**
