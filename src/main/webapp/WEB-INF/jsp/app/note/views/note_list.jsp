@@ -29,6 +29,7 @@
 				</td>
 				<td class="col-md-6">
 					<a href="#/read/{{x.noteSeq}}">{{x.title}}</a>
+					<span data-ng-show="attachMapList[x.noteSeq].length != 0">[{{attachMapList[x.noteSeq].length}}]</span>
 				</td>
 				<td class="col-md-1 date">{{x.uptDateDiff}}</td>
 				<td class="col-md-1 date">{{x.regDate | date:'yyyy.MM.dd'}}</td>

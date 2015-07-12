@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <div class="well bs-component">
 	<form class="form-horizontal" name="writeForm">
+		<input type="hidden" name="categorySeq" data-ng-model="readItem.categorySeq" required>
 		<fieldset>
 			<legend>쓰기</legend>
 			<div class="form-group">
@@ -19,7 +20,7 @@
 					<input type="file" class="form-control" file-model="readItem.attachFile[0]"> 
 					<input type="file" class="form-control" file-model="readItem.attachFile[1]">
 					<ul>
-						<li data-ng-repeat="f in attachMapList[readItem.articleSeq] track by $index">
+						<li data-ng-repeat="f in attachMapList[readItem.noteSeq] track by $index">
 							{{f.originalName}}  <input type="checkbox" value="{{f.attachFileSeq}}" name="deleteattachFileSeq"/>삭제
 						</li>
 					</ul>

@@ -174,10 +174,6 @@
 	  };
 
 	  $scope.writeOrUpdateNoteSummit = function(){
-			var addUrl = $.APP.getContextRoot("app/note/addNote.do");
-			var updateUrl = $.APP.getContextRoot("app/note/updateNote.do");
-			
-	  	var url = $scope.readItem.noteSeq == 0 ? addUrl : updateUrl; 
 	  	var content = $scope.oEditors.getById["content"].getIR();
 	  	
 	  	if(removeTags(content.trim()) == ""){
@@ -189,7 +185,17 @@
 	  	var fd = new FormData();
 	  	
 	  	fd.append("noteSeq", $scope.readItem.noteSeq);
-	  	fd.append("categorySeq", $scope.searchParam.currentCategory.categorySeq);
+	  	
+	  	var categorySeq;
+	  	if($scope.readItem.noteSeq == 0){
+	  		//신규 등록
+	  		categorySeq = $scope.searchParam.currentCategory.categorySeq;
+	  	}
+	  	else{
+	  		categorySeq = $scope.readItem.categorySeq;
+	  	}
+	  	
+	  	fd.append("categorySeq", categorySeq);
 	  	fd.append("title", $scope.readItem.title);
 	  	
 	  	fd.append("content", content.trim());
@@ -206,9 +212,13 @@
 				}
 			});
 			var headers = {headers: {'Content-Type': undefined}};
+	  	
+			var addUrl = $.APP.getContextRoot("app/note/addNote.do");
+			var updateUrl = $.APP.getContextRoot("app/note/updateNote.do");
+			var url = $scope.readItem.noteSeq == 0 ? addUrl : updateUrl; 
   		$http.post(url, fd, headers).success(function(response) {
 		  	if(response){
-		  		location.href="#/list/" + $scope.searchParam.currentCategory.categorySeq;
+		  		location.href="#/list/" + categorySeq;
 		  	}
 		  });			
 	  };
