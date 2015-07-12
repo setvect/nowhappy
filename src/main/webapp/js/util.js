@@ -25,9 +25,23 @@ function replaceAll(str, find, replace) {
 	
 	// 이미지 업로드 창 
 	$.APP.openImageUpload = function(){
-		var contentRoot = $("meta[name='contentRoot']").attr('content');
-		$.POPUP.popupWindowCenter(contentRoot + "image/upload.do", "imageupload", 500, 600, false, false, false);
+		$.POPUP.popupWindowCenter($.APP.getContextRoot("image/upload.do"), "imageupload", 500, 600, false, false, false);
 	};
+	
+	/**
+	 * 
+	 * 맨 끝에 '/'가 포함된 URL 반환<br/>
+	 * 예) /, /abcd/
+	 * @returns
+	 */
+	$.APP.getContextRoot = function(url){
+		if(url == null){
+			return $("meta[name='contentRoot']").attr("content");
+		}
+		else{
+			return $("meta[name='contentRoot']").attr("content") + url;
+		}
+	}	
 }
 
 
@@ -1041,3 +1055,6 @@ String.prototype.zf = function(len) {
 Number.prototype.zf = function(len) {
 	return this.toString().zf(len);
 };
+
+
+

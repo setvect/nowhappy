@@ -22,19 +22,8 @@
 	ImageUpload.apply = function(){
 		var sHTML = "<img src='<%=imageUrl%>'/>";
 		
-		console.log(opener.document);
-		console.log(opener.document.querySelector);
-		
-		var appElement = opener.document.querySelector('[data-ng-app=boardApp]');
-		console.log(appElement);
-		
-		var appScope = angular.element(appElement).scope();
-		console.log(angular);
-		console.log("SSSSSSSSSSSSSSSSSSS")
-		console.log(appScope);
-		
 		// 하드 코딩..원래는 이미지 팝업창 오픈 할때 이미지를 받을 객체의 파라미터를 넣어야 됨.
-		opener.window.HTML_EDITOR.getById["content"].exec("PASTE_HTML", [sHTML]);
+		opener.nhn.husky.PopUpManager.setCallback(window, 'PASTE_HTML', [sHTML]);
 		window.close();
 	};
 </script>

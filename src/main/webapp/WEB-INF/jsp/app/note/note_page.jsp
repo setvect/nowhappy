@@ -6,6 +6,7 @@
 <head>
 <meta charset="utf-8">
 <title>Now Happy - 복슬노트</title>
+<meta name="contentRoot" content="<c:url value="/"/>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet">
@@ -14,16 +15,20 @@
 <link href="<c:url value="/css/sb-admin-2.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/font-awesome.css"/>" rel="stylesheet">
 
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.2.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootstrap.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootswatch.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/sb-admin-2.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/metisMenu.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/editor/js/HuskyEZCreator.js"/>"></script>
-
+<script type="text/javascript" src="<c:url value="/js/util.js"/>"></script>
 
 <script type="text/javascript">
-	var appnote = angular.module('noteApp', ['ngSanitize', 'ngRoute']);
+	var appNote = angular.module('noteApp', ['ngSanitize', 'ngRoute']);
 	
 	var HTML_EDITOR;
 	
@@ -46,17 +51,20 @@
 	
 	appNote.config(function($routeProvider) {
 		$routeProvider.when('/list', {
-			templateUrl : mainCtrl.getUrl("/app/note/list.do"),
+			templateUrl : $.APP.getContextRoot("app/note/list.do"),
+			controller : 'noteListController' 
+		}).when('/list/:categorySeq', {
+			templateUrl : $.APP.getContextRoot("app/note/list.do"),
 			controller : 'noteListController' 
 		}).when('/write', {
-			templateUrl : mainCtrl.getUrl("/app/note/write.do"),
+			templateUrl : $.APP.getContextRoot("app/note/write.do"),
 			controller : 'noteWriteController'
 		}).when('/update/:noteSeq', {
-			templateUrl : mainCtrl.getUrl("/app/note/write.do"),
+			templateUrl : $.APP.getContextRoot("app/note/write.do"),
 			controller : 'noteWriteController' 
 		}).when('/read/:noteSeq', {
-			templateUrl : mainCtrl.getUrl("/app/note/read.do"),
-			controller : 'noteReadController' 
+			templateUrl : $.APP.getContextRoot("app/note/read.do"),
+			controller : 'noteReadController'
 		}).otherwise({
 			redirectTo : '/list'
 		});
@@ -82,17 +90,82 @@
 		$scope.oEditors = [];
 		
 		$scope.categorySeq = null;
+		$scope.categoryName = "";
+		$scope.categoryList=[];
 		
 		$scope.searchParam = {};
 		$scope.searchParam.option = "title";
 		$scope.searchParam.word = "";
+		$scope.searchParam.currentCategory = {};
+		
+		$scope.addCategory = function(){
+			if($.STR.isEmpty($scope.categoryName)){
+				alert("입력해.");
+				return;
+			}
+			
+			var url = $.APP.getContextRoot("app/note/addCategory.do");
+			var data = {"name": $scope.categoryName};
+  		$http.get(url, {params:data}).success(function(response) {
+		  	if(response){
+		  		$scope.categoryName = "";
+		  		$scope.loadCategory();
+		  	}
+		  });
+		};
+		
+		$scope.updateCategory = function(){
+			if($.STR.isEmpty($scope.searchParam.currentCategory.name)){
+				alert("입력해.");
+				return;
+			}
+
+			var url = $.APP.getContextRoot("app/note/updateCategory.do");
+			$http.get(url, {params:$scope.searchParam.currentCategory}).success(function(response) {
+		  	if(response){
+		  		$scope.loadCategory();
+		  	}
+		  });
+		};
+		
+		$scope.deleteCategory = function(){
+			if(confirm("지울거야?")){
+				var url = $.APP.getContextRoot("app/note/deleteCategory.do");
+				$http.get(url, {params:$scope.searchParam.currentCategory}).success(function(response) {
+			  	if(response){
+			  		$scope.loadCategory();
+			  		$scope.searchParam.currentCategory = null;
+			  		$scope.page(1);
+			  	}
+			  });
+			}
+		};
+		
+		// 카테고리 
+		$scope.loadCategory = function(){
+			var listCategoryUrl = $.APP.getContextRoot("app/note/listCategory.json.do");
+	  	$http.get(listCategoryUrl).success(function(response) {
+	  		$scope.categoryList = response.list;
+	  	});	  
+		};
+		
+		// 카테고리 정보
+		$scope.getCategory = function(categorySeq){
+			for(var i=0 ;i < $scope.categoryList.length; i++){
+				var value = $scope.categoryList[i];
+	  		if(value.categorySeq == categorySeq){
+	  			return value;
+	  		}
+			}
+  		return null;
+		};
 		
 	  $scope.listback = function(){
 	  	location.href="#/list";  	
 	  };
 
 	  $scope.loadAttachFile = function(note){
-			var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json.do");
+			var listAttachFileUrl = $.APP.getContextRoot("app/attachFile/list.json.do");
 	  	var param = {};
   		param["moduleName"] = "<%=AttachFileModule.NOTE%>";
   		param["moduleId"] = note.noteSeq;
@@ -102,8 +175,8 @@
 	  };
 
 	  $scope.writeOrUpdateNoteSummit = function(){
-			var addUrl = mainCtrl.getUrl("/app/note/add.do");
-			var updateUrl = mainCtrl.getUrl("/app/note/update.do");
+			var addUrl = $.APP.getContextRoot("app/note/add.do");
+			var updateUrl = $.APP.getContextRoot("app/note/update.do");
 			
 	  	var url = $scope.readItem.noteSeq == 0 ? addUrl : updateUrl; 
 	  	var content = $scope.oEditors.getById["content"].getIR();
@@ -148,7 +221,7 @@
 		  param["searchOption"] = $scope.searchParam.option;
 		  param["searchWord"] = $scope.searchParam.word;
 		  
-			var listUrl = mainCtrl.getUrl("/app/note/list.json.do");
+			var listUrl = $.APP.getContextRoot("app/note/listNote.json.do");
 		  $http.get(listUrl, {params: param}).success(function(response) {
 			  $scope.list = response.list;
 			  $scope.pageCount = response.pageCount;
@@ -166,12 +239,11 @@
 				  $scope.pageItem.push(i + 1);
 			  }
 			  $scope.resizeImg();
-			 	location.href="#";
 		  });
 	  };
 	  
 	  $scope.remove = function(note){
-			var deleteUrl = mainCtrl.getUrl("/app/note/deleteNote.do");
+			var deleteUrl = $.APP.getContextRoot("app/note/deleteNote.do");
 	  	if(!confirm("삭제할거야?")){
 	  		return;
 	  	}
@@ -185,7 +257,7 @@
 	  };
 	  
 	  $scope.loadNote = function(noteSeq){
-			var readNote = mainCtrl.getUrl("/app/note/read.json.do");
+			var readNote = $.APP.getContextRoot("app/note/readNote.json.do");
 	  	var param = {};
 	  	param["noteSeq"] = noteSeq;
 		  $http.get(readNote, {params: param}).success(function(response) {
@@ -203,7 +275,7 @@
 	  };
 	  
 	  $scope.imgPopup = function(imgPath){
-	  	var url = mainCtrl.getUrl(imgPath);
+	  	var url = $.APP.getContextRoot(imgPath);
 	  	$("._img_popup a").on("click", function(){
 	  		$("._img_popup").dialog("close");
 	  	});
@@ -232,12 +304,10 @@
 	    	});
 	  	}, 500);
 	  };
-	  
-	  $scope.loadNote();
-	  $scope.loadAuth();
+	  $scope.loadCategory();
 	}]);
 	
-	appNote.controller('noteListController', ['$scope', '$http', function($scope, $http) {
+	appNote.controller('noteListController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
 	  $scope.search = function(){
 	  	$scope.page(1);
 	  };
@@ -247,8 +317,9 @@
 			$scope.searchParam.word = "";
 			$scope.page(1);
 	  };
-
-		$scope.page($scope.pageNumber);
+	  
+	  $scope.searchParam.currentCategory = $scope.getCategory($routeParams.categorySeq);
+	  $scope.page(1);
 	}]);	
 
 	appNote.controller('noteWriteController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
@@ -263,12 +334,11 @@
 	  	nhn.husky.EZCreator.createInIFrame({
 	  		oAppRef: $scope.oEditors,
 	  		elPlaceHolder: "content",
-				sSkinURI : mainCtrl.getUrl("/editor/SmartEditor2Skin.html"),
+				sSkinURI : $.APP.getContextRoot("editor/SmartEditor2Skin.html"),
 	  		fCreator: "createSEditorInIFrame"
 	  	});
 	  	
 	  	HTML_EDITOR = $scope.oEditors;
-	  	
 	  };
 	  $scope.htmlText();
 	}]);	
@@ -289,25 +359,38 @@
 				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="index.html">복슬노트</a>
+				<a class="navbar-brand" href="<c:url value="/note/page.do"/>">복슬노트</a>
 			</div>
 			<!-- /.navbar-top-links -->
 			<div class="navbar-default sidebar" role="navigation">
 				<div class="sidebar-nav navbar-collapse">
 					<ul class="nav" id="side-menu">
+						
 						<li class="sidebar-search">
 							<div class="input-group custom-search-form">
-								<input type="text" class="form-control" placeholder="Search..."> <span class="input-group-btn">
-								<button class="btn btn-default" type="button">
-								<i class="fa fa-search"></i>
-								</button>
+								<input type="text" class="form-control" data-ng-model="categoryName">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" data-ng-click="addCategory()" >
+										등록
+									</button>
+								</span>
+							</div> 
+						</li>
+						
+						<li class="sidebar-search" data-ng-show="searchParam.currentCategory">
+							<div class="input-group custom-search-form">
+								<input type="text" class="form-control" name="" data-ng-model="searchParam.currentCategory.name">
+								<span class="input-group-btn">
+									<input type="button" class="btn btn-default" value="수정" data-ng-click="updateCategory()" >
+									<input type="button" class="btn btn-default" value="삭제" data-ng-click="deleteCategory()" >
 								</span>
 							</div>
-							<!-- /input-group -->
 						</li>
-						<li>
-							<a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements</a>
-						</li>
+
+            <li data-ng-repeat="item in categoryList">
+							<a href="#/list/{{item.categorySeq}}"><i class="fa fa-table fa-fw"></i>{{item.name}}</a>
+            </li>
+
 					</ul>
 				</div>
 				<!-- /.sidebar-collapse -->
@@ -318,8 +401,8 @@
 		<div id="page-wrapper">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-lg-12">
-						<h1 class="page-header">Blank</h1>
+					<div class="col-lg-12" style="padding:20px 0">
+						<ng-view></ng-view>
 					</div>
 					<!-- /.col-lg-12 -->
 				</div>

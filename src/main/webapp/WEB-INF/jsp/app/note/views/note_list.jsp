@@ -16,6 +16,7 @@
 	<table class="table">
 		<thead>
 			<tr>
+				<th class="col-md-2">카테고리</th>
 				<th class="col-md-6">제목</th>
 				<th class="col-md-2 date">마지막 변경</th>
 				<th class="col-md-2 date">처음 등록</th>
@@ -23,6 +24,9 @@
 		</thead>
 		<tbody>
 			<tr data-ng-repeat="x in list">
+				<td class="col-md-6">
+					..
+				</td>
 				<td class="col-md-6">
 					<a href="#/read/{{x.noteSeq}}">{{x.title}}</a>
 				</td>
@@ -41,4 +45,4 @@
 		<li data-ng-if="pageNextGroup != -1"><a href="javascript:" data-ng-click="page(pageNextGroup)">다음</a></li>
 	</ul>
 </div>
-<a href="#/write" class="btn btn-default" data-ng-show="auth.write">글쓰기</a>
+<a href="#/write" class="btn btn-primary">글쓰기</a>

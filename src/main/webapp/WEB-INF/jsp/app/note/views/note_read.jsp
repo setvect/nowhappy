@@ -14,6 +14,6 @@
 
 	</div>
 </div>
-<a href="#/update/{{readItem.articleSeq}}" class="btn btn-default" data-ng-if="user">수정</a> 
-<a href="javascript:" data-ng-click="remove(readItem)" class="btn btn-default" data-ng-if="user">삭제</a> 
+<a href="#/update/{{readItem.articleSeq}}" class="btn btn-primary" data-ng-if="user">수정</a> 
+<a href="javascript:" data-ng-click="remove(readItem)" class="btn btn-warning" data-ng-if="user">삭제</a> 
 <a href="#list" class="btn btn-default">목록</a>

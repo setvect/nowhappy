@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +31,7 @@ import com.setvect.nowhappy.note.service.NoteService;
 import com.setvect.nowhappy.note.vo.NoteCategoryVo;
 import com.setvect.nowhappy.note.vo.NoteVo;
 import com.setvect.nowhappy.user.vo.UserVo;
+import com.setvect.nowhappy.util.TimestampDateFormat;
 
 /**
  * 복슬 노트
@@ -326,5 +330,10 @@ public class NoteController {
 		MultipartFile[] attachFiles = article.getAttachFile();
 		UserVo user = ApplicationUtil.getLoginSession(request);
 		attachFileService.process(destPath, attachFiles, AttachFileModule.NOTE, article.getNoteSeq(), user.getUserId());
+	}
+
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(new TimestampDateFormat(), true));
 	}
 }
