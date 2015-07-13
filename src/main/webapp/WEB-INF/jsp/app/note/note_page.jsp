@@ -160,7 +160,11 @@
 		};
 		
 	  $scope.listback = function(){
-	  	location.href="#/list";  	
+	  	var categorySeq ="";
+	  	if($scope.searchParam.currentCategory != null){
+	  		categorySeq = $scope.searchParam.currentCategory.categorySeq; 
+	  	}
+	  	location.href="#/list/" + categorySeq;   	
 	  };
 
 	  $scope.loadAttachFile = function(note){
@@ -347,9 +351,12 @@
 	  		oAppRef: $scope.oEditors,
 	  		elPlaceHolder: "content",
 				sSkinURI : $.APP.getContextRoot("editor/SmartEditor2Skin.html"),
-	  		fCreator: "createSEditorInIFrame"
+	  		fCreator: "createSEditorInIFrame",
+  			fOnAppLoad : function(){
+  				// someting..
+  			}
 	  	});
-	  	
+
 	  	HTML_EDITOR = $scope.oEditors;
 	  };
 	  $scope.htmlText();
@@ -390,7 +397,7 @@
 							</div> 
 						</li>
 						
-						<li class="sidebar-search" data-ng-show="searchParam.currentCategory">
+						<li class="sidebar-search" data-ng-show="searchParam.currentCategory.name">
 							<div class="input-group custom-search-form">
 								<input type="text" class="form-control" name="" data-ng-model="searchParam.currentCategory.name">
 								<span class="input-group-btn">

@@ -16,10 +16,9 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th class="col-md-1">카테고리</th>
-				<th class="col-md-9">제목</th>
-				<th class="col-md-1 date">마지막 변경</th>
-				<th class="col-md-1 date">처음 등록</th>
+				<th class="col-md-2">분류</th>
+				<th class="col-md-8">제목</th>
+				<th class="col-md-2 date">변경</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -27,12 +26,11 @@
 				<td class="col-md-2">
 					{{getCategory(x.categorySeq).name}}
 				</td>
-				<td class="col-md-6">
+				<td class="col-md-8">
 					<a href="#/read/{{x.noteSeq}}">{{x.title}}</a>
 					<span data-ng-show="attachMapList[x.noteSeq].length != 0">[{{attachMapList[x.noteSeq].length}}]</span>
 				</td>
-				<td class="col-md-1 date">{{x.uptDateDiff}}</td>
-				<td class="col-md-1 date">{{x.regDate | date:'yyyy.MM.dd'}}</td>
+				<td class="col-md-2 date">{{x.uptDateDiff}}</td>
 			</tr>
 		</tbody>
 	</table>
