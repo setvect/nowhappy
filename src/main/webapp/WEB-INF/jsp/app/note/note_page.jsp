@@ -353,19 +353,33 @@
 				sSkinURI : $.APP.getContextRoot("editor/SmartEditor2Skin.html"),
 	  		fCreator: "createSEditorInIFrame",
   			fOnAppLoad : function(){
-  				// someting..
+  				// 내용 변경 감지
+  				$("iframe").contents().find('#se2_iframe').contents().find("body").keyup(function(e){
+  					$scope.contentTouch();				
+  				});	  
   			}
 	  	});
 
 	  	HTML_EDITOR = $scope.oEditors;
 	  };
+
+	  
+	  // 자동 저장 리플래시
+	  $scope.contentTouch = function(){
+	  	console.log("console...");
+	  	//TODO	
+	  };
+	  
 	  $scope.htmlText();
 	  $scope.searchParam.currentCategory = $scope.getCategory($routeParams.categorySeq);
+	  
+	  
 	}]);	
 
 	appNote.controller('noteReadController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
 		$scope.loadNote($routeParams.noteSeq);
 	}]);	
+	
 	
 </script>
 
