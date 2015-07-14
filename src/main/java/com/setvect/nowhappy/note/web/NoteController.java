@@ -294,7 +294,8 @@ public class NoteController {
 		note.setTitle(param.getTitle());
 		note.setContent(param.getContent());
 		note.setAttachFile(param.getAttachFile());
-
+		note.setUptDate(new Date());
+		
 		noteService.updateNote(note);
 		saveAttachFile(request, note);
 		deleteFile(request);
