@@ -9,7 +9,7 @@
 			<input type="text" class="form-control" data-ng-model="searchParam.word">
 		</div>
 		<button type="submit" class="btn btn-default" data-ng-click="search();">검색</button>
-		<button type="submit" class="btn btn-default" data-ng-click="searchCancel();" data-ng-show="searchWord != ''">검색 취소</button>
+		<button type="submit" class="btn btn-default" data-ng-click="searchCancel();" data-ng-show="searchParam.word != ''">검색 취소</button>
 	</form>
 
 	<!-- Table -->
