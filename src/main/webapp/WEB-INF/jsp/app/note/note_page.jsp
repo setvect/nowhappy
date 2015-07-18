@@ -71,7 +71,8 @@
 	});
 	
 	appNote.controller('noteController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
-	
+
+		
 		// 한 페이지 이동 네비게이션 네비게이선 상에 묶음 
 		var BULDEL_OF_PAGE = 10;
 		
@@ -320,6 +321,7 @@
 	    	});
 	  	}, 500);
 	  };
+
 	  $scope.loadCategory();
 	}]);
 	
@@ -339,8 +341,18 @@
 	}]);	
 
 	appNote.controller('noteWriteController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+		var DEFAULT_AUTO_SAVE_TIME = 15;
+		var INTERVAL_TIME = 3;
+		$scope.autoSave = null;
+		$scope.autoSave = {};
+		$scope.autoSave.label = "";
+		$scope.autoSave.run = false;
+		$scope.autoSave.save = false;
+		$scope.autoSave.time = DEFAULT_AUTO_SAVE_TIME;
+		
 	  if($routeParams.noteSeq != null){
 	  	$scope.loadNote($routeParams.noteSeq);
+	  	$scope.autoSave.run = true;
 	  }
 	  else{
 			$scope.initReadItem();
@@ -353,23 +365,44 @@
 				sSkinURI : $.APP.getContextRoot("editor/SmartEditor2Skin.html"),
 	  		fCreator: "createSEditorInIFrame",
   			fOnAppLoad : function(){
+  				// 자동저장을 수정일 경우만 함.
+  				if($scope.autoSave.run == false){
+  					return;
+  				}
   				// 내용 변경 감지
   				$("iframe").contents().find('#se2_iframe').contents().find("body").keyup(function(e){
-  					$scope.contentTouch();				
-  				});	  
+  					$scope.resetAutoSaveTimer();				
+  				});
+  				$scope.runAutoSaveTimer();
   			}
 	  	});
 
 	  	HTML_EDITOR = $scope.oEditors;
 	  };
 
-	  
+
 	  // 자동 저장 리플래시
-	  $scope.contentTouch = function(){
-	  	console.log("console...");
-	  	//TODO	
+	  $scope.resetAutoSaveTimer = function(){
+	  	$scope.autoSave.time = DEFAULT_AUTO_SAVE_TIME;
+	  	$scope.autoSave.save = false;
 	  };
 	  
+	  $scope.runAutoSaveTimer = function(){
+	  	setInterval(function(){
+	  		if($scope.autoSave.time > 0){
+	  	  	$scope.autoSave.label = $scope.autoSave.time + "초 후 자동 저장";
+	  			$scope.autoSave.time -= INTERVAL_TIME;
+	  		}
+	  		else{
+	  			if(!$scope.autoSave.save){
+	  				$scope.autoSave.save = true;
+		  	  	$scope.autoSave.label = "자동 저장 완료";
+	  			}
+	  		}
+	  	  $scope.$apply();
+	  	}, INTERVAL_TIME * 1000);
+	  };
+	
 	  $scope.htmlText();
 	  $scope.searchParam.currentCategory = $scope.getCategory($routeParams.categorySeq);
 	  

@@ -30,7 +30,7 @@
 				<div class="col-lg-12">
 					<button type="submit" class="btn btn-default" data-ng-click="listback()">취소</button>
 					<button type="submit" class="btn btn-primary" data-ng-click="writeOrUpdateNoteSummit()" data-ng-disabled="writeForm.title.$invalid">쓰기</button>
-					<span>자동저장...</span>
+					<span>{{autoSave.label}}</span>
 				</div>
 			</div>
 		</fieldset>
