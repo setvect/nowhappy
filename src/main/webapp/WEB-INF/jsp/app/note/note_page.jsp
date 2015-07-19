@@ -396,12 +396,30 @@
 	  		else{
 	  			if(!$scope.autoSave.save){
 	  				$scope.autoSave.save = true;
-		  	  	$scope.autoSave.label = "자동 저장 완료";
+	  				$scope.runAutoSave();
 	  			}
 	  		}
 	  	  $scope.$apply();
 	  	}, INTERVAL_TIME * 1000);
 	  };
+	  
+	  // 자동저장 수행
+	  $scope.runAutoSave = function(){
+	  	var content = $scope.oEditors.getById["content"].getIR();
+	  	var fd = new FormData();
+	  	fd.append("noteSeq", $scope.readItem.noteSeq);
+	  	categorySeq = $scope.readItem.categorySeq;
+
+	  	fd.append("categorySeq", categorySeq);
+	  	fd.append("title", $scope.readItem.title);
+	  	fd.append("content", content.trim());	  	
+			
+	  	var headers = {headers: {'Content-Type': undefined}};
+			var updateUrl = $.APP.getContextRoot("app/note/updateNote.do");
+  		$http.post(updateUrl, fd, headers).success(function(response) {
+  	  	$scope.autoSave.label = "자동 저장 완료";  			
+			});				
+	  }
 	
 	  $scope.htmlText();
 	  $scope.searchParam.currentCategory = $scope.getCategory($routeParams.categorySeq);
