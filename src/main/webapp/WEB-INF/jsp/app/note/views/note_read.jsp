@@ -4,6 +4,13 @@
 	<div class="jumbotron">
 		<h5>{{readItem.title}}</h5>
 		<p data-ng-bind-html="trustAsHtml(readItem.content)"></p>
+		
+		<div style="padding: 0 10px">
+			<div data-ng-repeat="f in attachMapList[readItem.noteSeq] track by $index">
+				<img src="<c:url value="/servlet/Thumbnail"/>?i={{f.url}}&w=290&h=450" alt="{{f.originalName}}" data-ng-if="f.image" data-ng-click="imgPopup(f.url)"/><br/><br/>
+			</div>
+		</div>		
+		
 		<span>최종 수정일: {{readItem.uptDate | date:'yyyy.MM.dd HH:mm:ss'}}</span><br/>
 		<span>최초 등록일: {{readItem.regDate | date:'yyyy.MM.dd HH:mm:ss'}}</span>
 		<ul>

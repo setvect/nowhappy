@@ -6,7 +6,7 @@
 		<h5>{{readItem.title}}</h5>
 		<p data-ng-bind-html="trustAsHtml(readItem.content)"></p>
 
-		<div padding: 0 10px">
+		<div style="padding: 0 10px">
 			<div data-ng-repeat="f in attachMapList[readItem.articleSeq] track by $index">
 				<img src="<c:url value="/servlet/Thumbnail"/>?i={{f.url}}&w=290&h=450" alt="{{f.originalName}}" data-ng-if="f.image" data-ng-click="imgPopup(f.url)"/><br/><br/>
 			</div>

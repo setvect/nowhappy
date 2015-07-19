@@ -39,9 +39,26 @@ function replaceAll(str, find, replace) {
 			return $("meta[name='contentRoot']").attr("content");
 		}
 		else{
-			return $("meta[name='contentRoot']").attr("content") + url;
+			var rtnValue = $("meta[name='contentRoot']").attr("content") + url;
+			// // -> / 변경
+			return rtnValue.replace(/\/\//gi, "/");
 		}
 	}	
+	
+	$.APP.imgPopup = function(imgPath){
+  	var url = getContextRoot(imgPath);
+  	$("._img_popup a").on("click", function(){
+  		$("._img_popup").dialog("close");
+  	});
+  	
+  	$("._img_popup img").attr("src", url);
+	 	$("._img_popup").dialog({
+      resizable: false,
+      modal: true,
+      width:'auto'
+		});
+  };
+
 }
 
 

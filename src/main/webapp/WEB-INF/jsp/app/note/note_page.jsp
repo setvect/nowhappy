@@ -14,12 +14,14 @@
 <link href="<c:url value="/css/metisMenu.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/sb-admin-2.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/font-awesome.css"/>" rel="stylesheet">
+<link href="<c:url value="/css/jquery-ui.css"/>" rel="stylesheet">
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
 
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.2.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/jquery-ui.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootstrap.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/bootswatch.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/sb-admin-2.js"/>"></script>
@@ -293,6 +295,7 @@
 	  
 	  $scope.imgPopup = function(imgPath){
 	  	var url = $.APP.getContextRoot(imgPath);
+	  	console.log(imgPath);
 	  	$("._img_popup a").on("click", function(){
 	  		$("._img_popup").dialog("close");
 	  	});
@@ -496,6 +499,9 @@
 			<!-- /.container-fluid -->
 		</div>
 		<!-- /#page-wrapper -->
+	</div>
+	<div class="_img_popup" title="이미지 보기">
+	  <a href="javascript:"><img src=""/></a>
 	</div>
 </body>
 </html>
