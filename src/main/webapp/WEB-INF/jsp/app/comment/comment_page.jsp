@@ -11,6 +11,7 @@
 %>
 <script type="text/javascript">
 	var app = angular.module('commentApp', []);
+	
 	app.controller('commentController', function($scope, $http) {
 		var moduleName = "<%=module%>";
 		var getUrl = mainCtrl.getUrl("/app/comment/get.json.do");
@@ -84,7 +85,7 @@
 	<div>
 		<ul>
 			<li data-ng-repeat="x in list" style="padding: 5px 0;">
-				{{x.content}}  
+				<span style="white-space: pre;">{{x.content}}</span>  
 				<span class="label label-default">{{x.regDateDiff}}</span>
 				<a href="#" data-ng-click="remove($index)" data-ng-if="x.userId == loginId" class="btn btn-default btn-xs">삭제</a>
 			</li>
