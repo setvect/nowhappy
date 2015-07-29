@@ -33,10 +33,11 @@
 			$("._undelete").on("click", function(){
 				instance.undeleteMemo();
 			});
-			
+
+			// 워크 스페이스 변경. 
 			$("._workspace").on("change", function(){
 				instance.saveWorkspaceSeq();
-				instance.loadAllMemo();			
+				instance.loadAllMemo();
 			});
 			
 			$("._search").keyup(function(){
@@ -156,7 +157,7 @@
 			// 기존 메모를 제거 
 			$("div._item").remove()
 			
-			var value = $("._workspace option:selected").val();
+			var value = instance.getCurrentWorkspaceSeq();
 			$.get(instance.contextRoot + "/ctmemo/listAllCtmemo.json.do", {workspaceSeq:value}, function(memoList) {
 				$.each(memoList, function() {
 					instance.displayMemo(this);
@@ -287,13 +288,13 @@
 			var value = this.getCurrentWorkspaceSeq();
 			$("._workspace_choice").val(value);
 		};
-		
+
+		// 메모에서 워크스페이스 변경
 		this.changeWorkspaceForMemo = function(){
 			var ctmemoSeq = $("._workspace_penal").attr("data-target_seq");
 			var targetMemo = $("._item[data-ctmemo_seq='"+ctmemoSeq+"']");
 			
 			var workspaceSeq = $("._workspace_choice option:selected").val();
-			console.log(targetMemo);
 			targetMemo.attr("data-workspace_seq", workspaceSeq);
  	 		instance.saveMemo(targetMemo, false);
  	 		targetMemo.remove();

@@ -21,6 +21,7 @@
 <script type="text/javascript" src="<c:url value="/js/util.js"/>"></script>
 <script>
 	function Ctmemo(rootPath){
+		this.COOKIE_WORKSPACE_SEQ = "workspaceSeq";
 		// 모든 링크 시작값
 		this.contextRoot = rootPath;
 		// 삭제된 메모 아이디 저장. 큐 형태로 활용
@@ -30,7 +31,7 @@
 		var instance = this;
 		
 		this.init = function(){
-			this.loadAllMemo();
+			this.loadWorkspace();
 			$("._new").on("click", function(){
 				instance.newMemo();			
 			});
@@ -60,13 +61,26 @@
 				instance.undeleteMemo();
 			});
 			
+			// 메모 워크스페이스 변경
+			$("._workspace_choice").on("change", function(){
+				instance.changeWorkspaceForMemo(this);				
+			});
+
+			// 워크 스페이스 변경. 
+			$("._workspace").on("change", function(){
+				instance.saveWorkspaceSeq();
+				instance.loadAllMemo();			
+			});
+			
 			instance.undeleteDisplay();
 		};
 		
 		// 전체 메모장을 불러온다.
 		this.loadAllMemo = function(){
-			$.get(instance.contextRoot + "/ctmemo/listAllCtmemo.json.do", function(memoList) {
+			var value = instance.getCurrentWorkspaceSeq();
+			$.get(instance.contextRoot + "/ctmemo/listAllCtmemo.json.do", {workspaceSeq:value}, function(memoList) {
 				$("._list").html("");
+				instance.memoMap = {};
 				$.each(memoList, function() {
 					instance.memoMap[this.ctmemoSeq] = this;
 					
@@ -99,6 +113,11 @@
 			var item = $(eventElement).parent("li");
 			var seq = item.attr("data-ctmemo_seq");
 
+			var value = this.getCurrentWorkspaceSeq();
+			$("select._workspace_choice").val(value);
+			var text = $("select._workspace_choice option:selected").html();
+			$("span._workspace_choice").html(text);
+			
 			// 메모 본문 표시
 			var memo = instance.memoMap[seq];
 			instance.currentMemoSeq = seq;
@@ -155,6 +174,47 @@
 		this.undeleteDisplay = function(){
 			$("._undelete").css("display", instance.deleteQueue.length == 0 ? "none" : "inline-block");
 		};
+		
+		// 현재 선택된 워크스페이스
+		this.getCurrentWorkspaceSeq = function(){
+			return $("._workspace option:selected").val();
+		};
+		
+		// 워크스페이스 목록 
+		this.loadWorkspace = function(){
+			$.get(instance.contextRoot + "/ctmemo/workspace.json.do", function(workspace) {
+				$.each(workspace, function(idx, value){
+					var option = "<option value='"+ value.workspaceSeq +"'>"+ value.title +"</option>";
+					$("._workspace").append(option);
+					$("._workspace_choice").append(option);
+				});
+				
+				// 이전에 선택한 workspace 정보를 기본값으로 선택
+				var workspaceSeq = $.COOKIE.getCookie(instance.COOKIE_WORKSPACE_SEQ);
+				if(workspaceSeq != null){
+					$("._workspace").val(workspaceSeq);
+				}
+				$("select._workspace").selectmenu('refresh');
+				instance.loadAllMemo();
+			});
+		};
+		
+		// 워크스페이스 정보 쿠키 저장
+		this.saveWorkspaceSeq = function(){
+			var value = this.getCurrentWorkspaceSeq();
+			$.COOKIE.setCookieVal(instance.COOKIE_WORKSPACE_SEQ, value);
+		};
+
+		// 메모에서 워크스페이스 변경
+		this.changeWorkspaceForMemo = function(){
+			var workspaceSeq = $("._workspace_choice option:selected").val();
+			var memo = instance.memoMap[instance.currentMemoSeq];
+			memo.workspaceSeq = workspaceSeq; 
+			$.post(instance.contextRoot + "/ctmemo/saveMemo.do", memo, function() {
+				instance.loadAllMemo();
+				$.mobile.navigate("#list_page");
+			});			
+		};
 	}
 
 	$(function(){
@@ -178,6 +238,8 @@
 		</div>
 		<form class="ui-filterable">
 		  <input id="myFilter" data-type="search">
+		  <select class="_workspace">
+		  </select>
 		</form>		
 		<ul data-role="listview" data-inset="true" data-filter="true" data-input="#myFilter" class="_list" data-theme="c">
 			<!-- 목록 표시 -->
@@ -194,6 +256,8 @@
   		</div>
 		</div>
 		<div class="ui-body">
+			<select class="_workspace_choice">
+			</select>		
 			<p class="_content"></p>
 		</div>
 	</div>

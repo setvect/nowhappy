@@ -28,15 +28,17 @@ public class CtmemoControllerTestCase extends MainTestBase {
 		jspPage = controller.ctmemoMobile();
 		Assert.assertThat(jspPage, CoreMatchers.is("/app/ctmemo/mobile"));
 
-		List<CtmemoVo> result = controller.listAllCtmemo();
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setParameter("workspaceSeq", "1");
+		
+		List<CtmemoVo> result = controller.listAllCtmemo(request);
 		Assert.assertThat(result.size(), CoreMatchers.is(3));
 
 		CtmemoVo ctmemo = controller.newMemo();
 		ctmemo.setContent(CONTENT_STRING);
-		MockHttpServletRequest request = new MockHttpServletRequest();
 		controller.saveMemo(ctmemo, request);
 
-		result = controller.listAllCtmemo();
+		result = controller.listAllCtmemo(request);
 		Assert.assertThat(result.size(), CoreMatchers.is(4));
 
 		// 최근 등록
@@ -46,11 +48,11 @@ public class CtmemoControllerTestCase extends MainTestBase {
 		request.setParameter("ctmemoSeq", String.valueOf(newest.getCtmemoSeq()));
 		controller.deleteMemo(request);
 
-		result = controller.listAllCtmemo();
+		result = controller.listAllCtmemo(request);
 		Assert.assertThat(result.size(), CoreMatchers.is(3));
 
 		controller.undelete(request);
-		result = controller.listAllCtmemo();
+		result = controller.listAllCtmemo(request);
 		Assert.assertThat(result.size(), CoreMatchers.is(4));
 
 		Map<String, List<String>> styleList = controller.listUsagestyle();
