@@ -11,11 +11,50 @@ import com.setvect.nowhappy.ApplicationConstant;
 import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.dao.CtmemoDao;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
+import com.setvect.nowhappy.ctmemo.vo.WorkspaceVo;
 
 @Service
 public class CtmemoService {
 	@Inject
 	private CtmemoDao ctmemoDao;
+
+	public WorkspaceVo getWorkspace(int workspaceSeq) {
+		return ctmemoDao.getWorkspace(workspaceSeq);
+	}
+
+	/**
+	 * 워크스페이스 전체 목록
+	 * 
+	 * @return
+	 */
+	public List<WorkspaceVo> listWorkspace() {
+		return ctmemoDao.listWorkspace();
+	}
+
+	/**
+	 * 워크스페이스 등록
+	 */
+	public void insertWorkspace(WorkspaceVo workspace) {
+		ctmemoDao.insertWorkspace(workspace);
+	}
+
+	/**
+	 * 워크스페이스 수정
+	 * 
+	 * @param workspace
+	 */
+	public void updateWorkspace(WorkspaceVo workspace) {
+		ctmemoDao.updateWorkspace(workspace);
+	}
+
+	/**
+	 * 워크스페이스 삭제
+	 * 
+	 * @param workspaceSeq
+	 */
+	public void deleteWorkspace(int workspaceSeq) {
+		ctmemoDao.deleteWorkspace(workspaceSeq);
+	}
 
 	public CtmemoVo getCtmemo(int ctmemoId) {
 		return ctmemoDao.getCtmemo(ctmemoId);

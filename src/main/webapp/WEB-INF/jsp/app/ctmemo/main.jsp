@@ -12,6 +12,7 @@
 <link type="text/css" rel="stylesheet" href="<c:url value="/css/main.css"/>" />
 <script type="text/javascript">
 	function Ctmemo(rootPath){
+		this.COOKIE_WORKSPACE_SEQ = "workspaceSeq";
 		// === 전역 변수
 		// 모든 링크 시작값
 		this.contextRoot = rootPath;
@@ -23,13 +24,19 @@
 		var instance = this;
 		
 		this.init = function(){
-			this.loadAllMemo();
+			this.loadWorkspace();
+			
 			$("._new").on("click", function(){
-				instance.newMemo();			
+				instance.newMemo();
 			});
 			
 			$("._undelete").on("click", function(){
-				instance.undeleteMemo();			
+				instance.undeleteMemo();
+			});
+			
+			$("._workspace").on("change", function(){
+				instance.saveWorkspaceSeq();
+				instance.loadAllMemo();			
 			});
 			
 			$("._search").keyup(function(){
@@ -55,12 +62,22 @@
 			$("#space").on("click", "._style", function(event){
 				var eventObj = $(this).parents("._item");
 				instance.choiceStyle(eventObj, event);
-			});		
+			});
 			
+			$("#space").on("click", "._workspaceChange", function(event){
+				var eventObj = $(this).parents("._item");
+				instance.toggleWorkspace(eventObj, event);
+			});	
+
 			// 팔레트 항목 클릭
 			$("._style_palette").on("click", "div", function(){
 				instance.applyPalette(this);
-			});		
+			});
+			
+			// 메모 워크스페이스 변경
+			$("._workspace_choice").on("change", function(){
+				instance.changeWorkspaceForMemo(this);				
+			});
 			
 			$.get(instance.contextRoot + "/ctmemo/listUsagestyle.json.do", function(styleList) {
 				instance.styleListAll = styleList;
@@ -76,6 +93,17 @@
 			    $(this).removeClass('x onX').val('').change();
 			    instance.search("");
 			});			
+		}
+		
+		// 워크스페이스 정보 쿠키 저장
+		this.saveWorkspaceSeq = function(){
+			var value = this.getCurrentWorkspaceSeq();
+			$.COOKIE.setCookieVal(instance.COOKIE_WORKSPACE_SEQ, value);
+		};
+		
+		// 현재 선택된 워크스페이스
+		this.getCurrentWorkspaceSeq = function(){
+			return $("._workspace option:selected").val();
 		}
 		
 		// 팔레트 적용
@@ -95,6 +123,25 @@
 			});
 		}
 		
+		// 워크스페이스 목록 
+		this.loadWorkspace = function(){
+			$.get(instance.contextRoot + "/ctmemo/workspace.json.do", function(workspace) {
+				$.each(workspace, function(idx, value){
+					var option = "<option value='"+ value.workspaceSeq +"'>"+ value.title +"</option>";
+					$("._workspace").append(option);
+					$("._workspace_choice").append(option);
+				});
+				
+				// 이전에 선택한 workspace 정보를 기본값으로 선택
+				var workspaceSeq = $.COOKIE.getCookie(instance.COOKIE_WORKSPACE_SEQ);
+				if(workspaceSeq != null){
+					$("._workspace").val(workspaceSeq);
+				}
+				
+				instance.loadAllMemo();
+			});
+		};
+		
 		// 새로운 메모를 생성한다.
 		this.newMemo = function(){
 			$.get(instance.contextRoot + "/ctmemo/newMemo.json.do", function(memo) {
@@ -106,7 +153,11 @@
 
 		// 전체 메모장을 불러온다.
 		this.loadAllMemo = function(){
-			$.get(instance.contextRoot + "/ctmemo/listAllCtmemo.json.do", function(memoList) {
+			// 기존 메모를 제거 
+			$("div._item").remove()
+			
+			var value = $("._workspace option:selected").val();
+			$.get(instance.contextRoot + "/ctmemo/listAllCtmemo.json.do", {workspaceSeq:value}, function(memoList) {
 				$.each(memoList, function() {
 					instance.displayMemo(this);
 				});
@@ -115,11 +166,12 @@
 		
 		// 한 개 메모를 화면에 표시
 		this.displayMemo = function(memo){
-			var item = $("<div id='draggable' class='memo _item'><span class='toolbar _header'></span><div class='itemContent _content'></div></div>");
+			var item = $("<div class='memo _item'><span class='toolbar _header'></span><div class='itemContent _content'></div></div>");
 			item.attr("data-ctmemo_seq",memo.ctmemoSeq);
 			item.attr("data-bg_css",memo.bgCss);
 			item.attr("data-font_css",memo.fontCss);
 			item.attr("data-reg_date",memo.regDate);
+			item.attr("data-workspace_seq",memo.workspaceSeq);
 			item.find("._content").append(newline2br(memo.content));
 			item.css("left", memo.positionX)
 				.css("top", memo.positionY)
@@ -134,7 +186,8 @@
 			item.find("._header").append("<input type='button' value='D' class='_delete'/>");
 			item.find("._header").append("<input type='button' value='E' class='_edit'/>");
 			item.find("._header").append("<input type='button' value='Done' class='_done' />");
-			item.find("._header").append("<input type='button' value='S' class='_style styleBtn'/>");
+			item.find("._header").append("<input type='button' value='S' class='_style'/>");
+			item.find("._header").append("<input type='button' value='W' class='_workspaceChange'/>");
 			item.find("._header ._done").hide();
 			
 			$("#space").append(item);		
@@ -167,6 +220,7 @@
 			data["bgCss"] = element.attr("data-bg_css");
 			data["fontCss"] = element.attr("data-font_css");
 			data["regDate"] = element.attr("data-reg_date");
+			data["workspaceSeq"] = element.attr("data-workspace_seq");
 			data["dateUpdateable"] = dateUpdateable;
 			
 			$.post(instance.contextRoot + "/ctmemo/saveMemo.do", data, function( zIndex ) {
@@ -216,6 +270,36 @@
 				instance.undeleteDisplay();
 			});		
 		}
+		
+		// 워크스페이스 선택
+		this.toggleWorkspace = function(choiceElement, event){
+			var display = $("._workspace_penal").css("display");
+			if(display == "block"){
+				$("._workspace_penal").hide();
+				return;
+			}
+			var ctmemoSeq = choiceElement.attr("data-ctmemo_seq");
+			$("._workspace_penal").attr("data-target_seq", ctmemoSeq);
+			$("._workspace_penal").css("left", event.pageX);
+			$("._workspace_penal").css("top", event.pageY);
+			$("._workspace_penal").show();
+			
+			var value = this.getCurrentWorkspaceSeq();
+			$("._workspace_choice").val(value);
+		};
+		
+		this.changeWorkspaceForMemo = function(){
+			var ctmemoSeq = $("._workspace_penal").attr("data-target_seq");
+			var targetMemo = $("._item[data-ctmemo_seq='"+ctmemoSeq+"']");
+			
+			var workspaceSeq = $("._workspace_choice option:selected").val();
+			console.log(targetMemo);
+			targetMemo.attr("data-workspace_seq", workspaceSeq);
+ 	 		instance.saveMemo(targetMemo, false);
+ 	 		targetMemo.remove();
+			
+			$("._workspace_penal").hide();
+		};
 		
 		// 스타일 선택
 		this.choiceStyle = function(choiceElement, event){
@@ -296,10 +380,18 @@
 <body>
 	<div id="space">
 		<div class="tool">
+			<select class="_workspace">
+			</select>
 			<input type="text" value="" class="clearable _search"/>
 			<input type="button" value="New" class="_new" /> 
 			<input type="button" value="Undel" class="_undelete" style="display: none;"/>
 		</div>
+	</div>
+	
+	
+	<div class="palette _workspace_penal">
+		<select class="_workspace_choice">
+		</select>
 	</div>
 	
 	<div class="palette _style_palette">

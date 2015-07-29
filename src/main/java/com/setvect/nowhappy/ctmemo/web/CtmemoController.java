@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -21,6 +22,7 @@ import com.setvect.nowhappy.ApplicationHelper;
 import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.service.CtmemoService;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
+import com.setvect.nowhappy.ctmemo.vo.WorkspaceVo;
 
 @Controller
 public class CtmemoController {
@@ -41,9 +43,14 @@ public class CtmemoController {
 
 	@RequestMapping("/ctmemo/listAllCtmemo.json.do")
 	@ResponseBody
-	public List<CtmemoVo> listAllCtmemo() {
+	public List<CtmemoVo> listAllCtmemo(HttpServletRequest request) {
 		// init();
-		List<CtmemoVo> result = ctmemoService.listCtmemo(new CtmemoSearchCondition());
+		CtmemoSearchCondition condition = new CtmemoSearchCondition();
+		String seqStr = request.getParameter("workspaceSeq");
+		int seq = Integer.parseInt(seqStr);
+		condition.setSearchWorkspaceSeq(seq);
+
+		List<CtmemoVo> result = ctmemoService.listCtmemo(condition);
 		return result;
 	}
 
@@ -55,6 +62,12 @@ public class CtmemoController {
 			}
 			init = true;
 		}
+	}
+
+	@RequestMapping("/ctmemo/workspace.json.do")
+	@ResponseBody
+	public List<WorkspaceVo> listWorkspace() {
+		return ctmemoService.listWorkspace();
 	}
 
 	@RequestMapping("/ctmemo/newMemo.json.do")

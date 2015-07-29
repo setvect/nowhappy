@@ -6,4 +6,21 @@ package com.setvect.nowhappy.ctmemo;
  * @version $Id$
  */
 public class CtmemoSearchCondition {
+	private int searchWorkspaceSeq;
+
+	/**
+	 * @return the searchWorkspaceId
+	 */
+	public int getSearchWorkspaceSeq() {
+		return searchWorkspaceSeq;
+	}
+
+	/**
+	 * @param searchWorkspaceId
+	 *            the searchWorkspaceId to set
+	 */
+	public void setSearchWorkspaceSeq(int searchWorkspaceId) {
+		this.searchWorkspaceSeq = searchWorkspaceId;
+	}
+
 }

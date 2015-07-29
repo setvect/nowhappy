@@ -74,6 +74,10 @@ public class CtmemoVo implements Serializable {
 	@Type(type = "yes_no")
 	private boolean deleteF;
 
+	/** 워크스페이스 일련번호 */
+	@Column(name = "WORKSPACE_SEQ")
+	private int workspaceSeq;
+
 	/**
 	 * @return the memoSeq
 	 */
@@ -252,6 +256,21 @@ public class CtmemoVo implements Serializable {
 	 */
 	public void setDeleteF(boolean deleteF) {
 		this.deleteF = deleteF;
+	}
+
+	/**
+	 * @return the workspaceSeq
+	 */
+	public int getWorkspaceSeq() {
+		return workspaceSeq;
+	}
+
+	/**
+	 * @param workspaceSeq
+	 *            the workspaceSeq to set
+	 */
+	public void setWorkspaceSeq(int workspaceSeq) {
+		this.workspaceSeq = workspaceSeq;
 	}
 
 	/*
