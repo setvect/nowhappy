@@ -10,17 +10,30 @@
 	CommentModule module = (CommentModule)request.getAttribute(CommentController.ATTR_MODULE_NAME); 
 %>
 <script type="text/javascript">
-	var app = angular.module('commentApp', []);
+	var app = angular.module('commentApp', ['ngSanitize']);
 	
-	app.controller('commentController', function($scope, $http) {
+	app.filter('newlines', function () {
+    return function(text) {
+        return 
+    }
+	});
+	
+	app.controller('commentController',['$scope', '$http', '$sce', function($scope, $http, $sce) {
 		var moduleName = "<%=module%>";
 		var getUrl = mainCtrl.getUrl("/app/comment/get.json.do");
 		var listUrl = mainCtrl.getUrl("/app/comment/list.json.do");
 		var deleteUrl = mainCtrl.getUrl("/app/comment/delete.do");
 		var addUrl = mainCtrl.getUrl("/app/comment/add.do");
 		
+		console.log($sce);
+		
+		$scope.trustAsHtml = $sce.trustAsHtml;
 	  $scope.loginId = "<%=userId%>";
 	  $scope.list = [];
+	  $scope.replaceNewlineBr = function(txt){
+	  	return txt.replace(/\n/g, '<br/>');;
+	  };
+	  
 	  $scope.more = function(){
 		  var param = {};
 		  param["moduleName"] = moduleName;
@@ -63,7 +76,7 @@
 		  });	  	
 	  };
 	  $scope.more();
-	});	
+	}]);	
 	
 	var injector = angular.injector(['ng', 'commentApp'])
 	injector.invoke(function($rootScope, $compile, $document) {
@@ -85,7 +98,7 @@
 	<div>
 		<ul>
 			<li data-ng-repeat="x in list" style="padding: 5px 0;">
-				<span style="white-space: pre;">{{x.content}}</span>  
+				<span data-ng-bind-html="trustAsHtml(replaceNewlineBr(x.content))"></span>
 				<span class="label label-default">{{x.regDateDiff}}</span>
 				<a href="#" data-ng-click="remove($index)" data-ng-if="x.userId == loginId" class="btn btn-default btn-xs">삭제</a>
 			</li>

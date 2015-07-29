@@ -10,6 +10,6 @@
 	});
 </script>
 <!-- Main... -->
-<h4>잠시왔다 가는 세상 즐겁게 살아야죠.</h4>
+<h4>꼰대는 되지 말자.</h4>
 <div class="_commentAear">
 </div>

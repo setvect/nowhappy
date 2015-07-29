@@ -72,8 +72,10 @@ public class CtmemoController {
 
 	@RequestMapping("/ctmemo/newMemo.json.do")
 	@ResponseBody
-	public CtmemoVo newMemo() {
-		return ctmemoService.newMemo();
+	public CtmemoVo newMemo(HttpServletRequest request) {
+		String seqStr = request.getParameter("workspaceSeq");
+		int seq = Integer.parseInt(seqStr);
+		return ctmemoService.newMemo(seq);
 	}
 
 	/**

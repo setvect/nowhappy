@@ -80,10 +80,11 @@ public class CtmemoService {
 	/**
 	 * 새로운 메모장 생성<br>
 	 * 생성과 동시에 DB에 저장
+	 * @param workspaceSeq 
 	 * 
 	 * @return
 	 */
-	public CtmemoVo newMemo() {
+	public CtmemoVo newMemo(int workspaceSeq) {
 		CtmemoVo ctmemo = new CtmemoVo();
 		ctmemo.setContent(" ");
 		ctmemo.setBgCss(ApplicationConstant.Style.BGSTYLE_1);
@@ -96,6 +97,7 @@ public class CtmemoService {
 		Date date = new Date();
 		ctmemo.setRegDate(date);
 		ctmemo.setUptDate(date);
+		ctmemo.setWorkspaceSeq(workspaceSeq);
 		insertCtmemo(ctmemo);
 		return ctmemo;
 	}

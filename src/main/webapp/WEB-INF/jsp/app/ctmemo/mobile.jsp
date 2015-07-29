@@ -126,7 +126,8 @@
 
 		// 새로운 메모를 생성한다.
 		this.newMemo = function(){
-			$.get(instance.contextRoot + "/ctmemo/newMemo.json.do", function(memo) {
+			var value = instance.getCurrentWorkspaceSeq();
+			$.get(instance.contextRoot + "/ctmemo/newMemo.json.do", {workspaceSeq:value}, function(memo) {
 				instance.memoMap[memo.ctmemoSeq] = memo;
 				instance.currentMemoSeq = memo.ctmemoSeq;
 				instance.editMemo();
