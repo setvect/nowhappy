@@ -34,7 +34,7 @@ public class CtmemoControllerTestCase extends MainTestBase {
 		List<CtmemoVo> result = controller.listAllCtmemo(request);
 		Assert.assertThat(result.size(), CoreMatchers.is(3));
 
-		CtmemoVo ctmemo = controller.newMemo();
+		CtmemoVo ctmemo = controller.newMemo(request);
 		ctmemo.setContent(CONTENT_STRING);
 		controller.saveMemo(ctmemo, request);
 
