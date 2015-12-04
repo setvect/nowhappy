@@ -13,8 +13,7 @@ nowhappy_pass
 81dc9bdb52d04dc20036dbd8313ed055 = 1234
 
 [진행 해야된는 것]
-PBM_20151110: jessionid가 붙는 현상 제거
-	이렇게 <script type="text/javascript" src="/js/jquery-1.11.2.js;jsessionid=2E57BA6F7BD3730933328267051359DF"></script> 
+NEW_20151115: 복슬note 바로 저장하기 버튼 만듦.
 
 NEW_20150713: 복슬note 카테고리 이동
 PBM_20150713: 복슬note depthlink 확대(새로고침 시 오류가 발생하는 환경)
@@ -25,6 +24,8 @@ NEW_20150705: depthlink 확대
 
 
 [진행 된 것]
+PBM_20151110: jessionid가 붙는 현상 제거
+	이렇게 <script type="text/javascript" src="/js/jquery-1.11.2.js;jsessionid=2E57BA6F7BD3730933328267051359DF"></script> 
 NEW_20150704(20150729): 메모장 workspace 
 NEW_20150722: 코멘트 줄 바꿈 
 NEW_20150720: 복슬note 첨부 이미지 보이게
