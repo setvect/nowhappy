@@ -1,4 +1,4 @@
-package card;
+package com.setvect.nowhappy.test.etc;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import org.apache.commons.io.FileUtils;
 
 public class CardCompare {
 	public static void main(String[] args) throws IOException {
-		List<String> myList = FileUtils.readLines(new File("data/가계부.txt"));
-		List<String> myCard = FileUtils.readLines(new File("data/카드.txt"));
+		List<String> myList = FileUtils.readLines(new File("temp/가계부.txt"));
+		List<String> myCard = FileUtils.readLines(new File("temp/카드.txt"));
 
 		Map<String, String> myListMap = extracted(myList);
 		Map<String, String> myCardMap = extracted(myCard);
