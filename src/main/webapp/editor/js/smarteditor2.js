@@ -8524,10 +8524,17 @@ nhn.husky.SE2M_ExecCommand = jindo.$Class({
 		this.oApp.exec("REGISTER_HOTKEY", ["ctrl+u", "EXECCOMMAND", ["underline", false, false]]);
 		this.oApp.exec("REGISTER_HOTKEY", ["ctrl+i", "EXECCOMMAND", ["italic", false, false]]);
 		this.oApp.exec("REGISTER_HOTKEY", ["ctrl+d", "EXECCOMMAND", ["strikethrough", false, false]]);
+		this.oApp.exec("REGISTER_HOTKEY", ["ctrl+m", "EXECCOMMAND", ["insertorderedlist", false, false]]);
+		this.oApp.exec("REGISTER_HOTKEY", ["ctrl+l", "EXECCOMMAND", ["insertunorderedlist", false, false]]);
+		
 		this.oApp.exec("REGISTER_HOTKEY", ["meta+b", "EXECCOMMAND", ["bold", false, false]]);
 		this.oApp.exec("REGISTER_HOTKEY", ["meta+u", "EXECCOMMAND", ["underline", false, false]]);
 		this.oApp.exec("REGISTER_HOTKEY", ["meta+i", "EXECCOMMAND", ["italic", false, false]]);
 		this.oApp.exec("REGISTER_HOTKEY", ["meta+d", "EXECCOMMAND", ["strikethrough", false, false]]);
+		this.oApp.exec("REGISTER_HOTKEY", ["meta+m", "EXECCOMMAND", ["insertorderedlist", false, false]]);
+		this.oApp.exec("REGISTER_HOTKEY", ["meta+l", "EXECCOMMAND", ["insertunorderedlist", false, false]]);
+
+		
 		this.oApp.exec("REGISTER_HOTKEY", ["tab", "INDENT"]);
 		this.oApp.exec("REGISTER_HOTKEY", ["shift+tab", "OUTDENT"]);
 		//this.oApp.exec("REGISTER_HOTKEY", ["tab", "EXECCOMMAND", ["indent", false, false]]);
