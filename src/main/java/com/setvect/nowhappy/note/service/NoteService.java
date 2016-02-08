@@ -33,6 +33,9 @@ public class NoteService {
 	 * @return 정보 항목
 	 */
 	public GenericPage<NoteCategoryVo> getNoteCategoryPagingList(NoteCategorySearch pageCondition) {
+		
+		
+		
 		return noteDao.getNoteCategoryPagingList(pageCondition);
 	}
 

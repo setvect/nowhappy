@@ -3,7 +3,9 @@ package com.setvect.nowhappy.note.web;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
+import com.setvect.common.util.TreeCollection;
 import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.attach.service.AttachFileModule;
 import com.setvect.nowhappy.attach.service.AttachFileService;
@@ -122,11 +125,23 @@ public class NoteController {
 	 */
 	@RequestMapping("/app/note/listCategory.json.do")
 	@ResponseBody
-	public GenericPage<NoteCategoryVo> listCategory(HttpServletRequest request) {
+	public List<NoteCategoryVo> listCategory(HttpServletRequest request) {
 		// 검색 조건
 		NoteCategorySearch pageCondition = new NoteCategorySearch(0, Integer.MAX_VALUE);
 		GenericPage<NoteCategoryVo> page = noteService.getNoteCategoryPagingList(pageCondition);
-		return page;
+		TreeCollection<NoteCategoryVo> categoryTree = new TreeCollection<NoteCategoryVo>(page.getList(),
+				NoteCategoryVo.ROOT_CATEGORY_ID);
+
+		List<NoteCategoryVo> categoryList = categoryTree.getChild(NoteCategoryVo.ROOT_CATEGORY_ID);
+		for (NoteCategoryVo c : categoryList) {
+			c.setDepth(1);
+			List<NoteCategoryVo> child = categoryTree.getChild(c.getCategorySeq());
+			for (NoteCategoryVo cc : child) {
+				cc.setDepth(2);
+			}
+			c.setChildren(child);
+		}
+		return categoryList;
 	}
 
 	/**
@@ -267,8 +282,8 @@ public class NoteController {
 	 */
 	@RequestMapping("/app/note/addNote.do")
 	@ResponseBody
-	public boolean addNote(@ModelAttribute NoteVo note, HttpServletRequest request) throws FileNotFoundException,
-			IOException {
+	public boolean addNote(@ModelAttribute NoteVo note, HttpServletRequest request)
+			throws FileNotFoundException, IOException {
 		note.setRegDate(new Date());
 		note.setUptDate(new Date());
 
@@ -288,14 +303,14 @@ public class NoteController {
 	 */
 	@RequestMapping("/app/note/updateNote.do")
 	@ResponseBody
-	public boolean updateNote(@ModelAttribute NoteVo param, HttpServletRequest request) throws FileNotFoundException,
-			IOException {
+	public boolean updateNote(@ModelAttribute NoteVo param, HttpServletRequest request)
+			throws FileNotFoundException, IOException {
 		NoteVo note = noteService.getNote(param.getNoteSeq());
 		note.setTitle(param.getTitle());
 		note.setContent(param.getContent());
 		note.setAttachFile(param.getAttachFile());
 		note.setUptDate(new Date());
-		
+
 		noteService.updateNote(note);
 		saveAttachFile(request, note);
 		deleteFile(request);

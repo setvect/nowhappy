@@ -51,6 +51,14 @@
 		};
 	} ]);
 	
+	appNote.directive('categoryPostLodeDirective', function() {
+    return function(scope, element, attrs) {
+      if (scope.$last) {
+	  		$('#side-menu').metisMenu();
+      }
+    };
+  });
+	
 	appNote.config(function($routeProvider) {
 		$routeProvider.when('/list', {
 			templateUrl : $.APP.getContextRoot("app/note/list.do"),
@@ -95,19 +103,22 @@
 		$scope.categoryName = "";
 		$scope.categoryList=[];
 		
+		// Key: CategorySeq, Value: Category
+		$scope.categoryMap = {};
+		
 		$scope.searchParam = {};
 		$scope.searchParam.option = "title";
 		$scope.searchParam.word = "";
 		$scope.searchParam.currentCategory = {};
 		
-		$scope.addCategory = function(){
+		$scope.addCategory = function(parentCategorySeq){
 			if($.STR.isEmpty($scope.categoryName)){
 				alert("입력해.");
 				return;
 			}
 			
 			var url = $.APP.getContextRoot("app/note/addCategory.do");
-			var data = {"name": $scope.categoryName};
+			var data = {"name": $scope.categoryName, "parentId" : parentCategorySeq};
   		$http.get(url, {params:data}).success(function(response) {
 		  	if(response){
 		  		$scope.categoryName = "";
@@ -143,23 +154,32 @@
 			}
 		};
 		
-		// 카테고리 
+		// 카테고리 불러옴.
 		$scope.loadCategory = function(){
 			var listCategoryUrl = $.APP.getContextRoot("app/note/listCategory.json.do");
 	  	$http.get(listCategoryUrl).success(function(response) {
-	  		$scope.categoryList = response.list;
+	  		$scope.categoryList = response;
+	  		
+	  		$scope.categoryMap = {};
+	  		intoValueCategoryMap($scope.categoryList);
+	  		
+	  		console.log($scope.categoryMap);
+	  		
+	  		function intoValueCategoryMap(list){
+	  			if(list == null){
+	  				return;
+	  			}
+	  			for(var i=0 ;i < list.length; i++){
+	  				$scope.categoryMap[list[i].categorySeq] = list[i];
+	  				intoValueCategoryMap(list[i].children);
+	  			}
+	  		}
 	  	});	  
 		};
 		
 		// 카테고리 정보
 		$scope.getCategory = function(categorySeq){
-			for(var i=0 ;i < $scope.categoryList.length; i++){
-				var value = $scope.categoryList[i];
-	  		if(value.categorySeq == categorySeq){
-	  			return value;
-	  		}
-			}
-  		return null;
+			return $scope.categoryMap[categorySeq];
 		};
 		
 	  $scope.listback = function(){
@@ -295,7 +315,6 @@
 	  
 	  $scope.imgPopup = function(imgPath){
 	  	var url = $.APP.getContextRoot(imgPath);
-	  	console.log(imgPath);
 	  	$("._img_popup a").on("click", function(){
 	  		$("._img_popup").dialog("close");
 	  	});
@@ -425,7 +444,7 @@
 	  }
 	
 	  $scope.htmlText();
-	  $scope.searchParam.currentCategory = $scope.getCategory($routeParams.categorySeq);
+// 	  $scope.searchParam.currentCategory = $scope.getCategory($routeParams.categorySeq);
 	  
 	  
 	}]);	
@@ -458,9 +477,8 @@
 							<div class="input-group custom-search-form">
 								<input type="text" class="form-control" data-ng-model="categoryName">
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="button" data-ng-click="addCategory()" >
-										등록
-									</button>
+									<input type="button" class="btn btn-default" value="등록" data-ng-click="addCategory()" >
+									<input type="button" class="btn btn-default" value="하위등록" data-ng-click="addCategory(searchParam.currentCategory.categorySeq)" data-ng-disabled="searchParam.currentCategory.depth != 1">
 								</span>
 							</div> 
 						</li>
@@ -475,10 +493,15 @@
 							</div>
 						</li>
 
-            <li data-ng-repeat="item in categoryList">
-							<a href="#/list/{{item.categorySeq}}"><i class="fa fa-edit fa-fw"></i> {{item.name}}</a>
+            <li data-ng-repeat="item in categoryList" category-post-lode-directive>
+							<a href="#/list/{{item.categorySeq}}"><i class="fa fa-edit fa-fw"></i> {{item.name}}<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li data-ng-repeat="subItem in item.children">
+									<a href="#/list/{{subItem.categorySeq}}">{{subItem.name}}</a>
+								</li>
+							</ul>
             </li>
-
+						
 					</ul>
 				</div>
 				<!-- /.sidebar-collapse -->

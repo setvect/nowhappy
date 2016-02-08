@@ -2,6 +2,8 @@ package com.setvect.common.util;
 
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
  * Page에서 검색된 객체들의 타입을 지정함
  */
@@ -79,4 +81,11 @@ public class GenericPage<T> {
 		return page;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

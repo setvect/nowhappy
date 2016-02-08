@@ -24,7 +24,6 @@
 
     Plugin.prototype = {
         init: function() {
-
             var $this = this.element,
                 $toggle = this.settings.toggle,
                 obj = this;
@@ -43,8 +42,11 @@
             }
 
             $this.find("li").has("ul").children("a").on("click" + "." + pluginName, function(e) {
-                e.preventDefault();
+            		// 추가.
+            		// 링크 이동.
+            		location.href = $(this).attr("href");
 
+            		e.preventDefault();
                 //Do we need to enable the double tap
                 if (obj.settings.doubleTapToGo) {
 
