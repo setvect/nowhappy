@@ -16,6 +16,10 @@
 <link href="<c:url value="/css/font-awesome.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/jquery-ui.css"/>" rel="stylesheet">
 
+<style>
+	.drop-active{color:red;}
+</style>
+
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
@@ -55,6 +59,29 @@
     return function(scope, element, attrs) {
       if (scope.$last) {
 	  		$('#side-menu').metisMenu();
+      }
+    };
+  });
+
+	appNote.directive('notePostLodeDirective', function() {
+    return function(scope, element, attrs) {
+      if (scope.$last) {
+      	$( "._draggable" ).draggable({ 
+      			revert: "invalid",
+      			helper: "clone",
+      			start: function( event, ui ) {
+      				ui.helper.css("z-index", 1000);
+      			}
+      			
+ 				});
+      	$( "._droppable" ).droppable({
+      		hoverClass :"drop-active",
+          drop: function( event, ui ) {
+          	var categorySeq = $(this).attr("data-category-seq");
+          	var noteSeq = ui.helper.attr("data-note-seq");
+            scope.updateNoteCategory(categorySeq, noteSeq);
+          }
+        });      	
       }
     };
   });
@@ -163,8 +190,6 @@
 	  		$scope.categoryMap = {};
 	  		intoValueCategoryMap($scope.categoryList);
 	  		
-	  		console.log($scope.categoryMap);
-	  		
 	  		function intoValueCategoryMap(list){
 	  			if(list == null){
 	  				return;
@@ -250,6 +275,7 @@
 		  });			
 	  };
 	  
+	  // 페이지. 1부터 시작
 		$scope.page = function(pageNumber){
 		  var param = {};
 		  $scope.pageNumber = pageNumber;
@@ -344,6 +370,20 @@
 	  	}, 500);
 	  };
 
+	  // 노트 카테고리 변경
+		$scope.updateNoteCategory = function(categorySeq, noteSeq){
+	  	var param = {};
+	  	param["categorySeq"] = categorySeq;
+	  	param["noteSeq"] = noteSeq;
+			
+	  	var url = $.APP.getContextRoot("/app/note/updateNoteCategory.do");
+			$http.get(url, {params:param}).success(function(response) {
+		  	if(response){
+		  		$scope.page(1);  		
+		  	}
+		  });
+		};
+	  
 	  $scope.loadCategory();
 	}]);
 	
@@ -441,12 +481,9 @@
   		$http.post(updateUrl, fd, headers).success(function(response) {
   	  	$scope.autoSave.label = "자동 저장 완료";  			
 			});				
-	  }
-	
+	  };
+	  
 	  $scope.htmlText();
-// 	  $scope.searchParam.currentCategory = $scope.getCategory($routeParams.categorySeq);
-	  
-	  
 	}]);	
 
 	appNote.controller('noteReadController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
@@ -494,10 +531,10 @@
 						</li>
 
             <li data-ng-repeat="item in categoryList" category-post-lode-directive>
-							<a href="#/list/{{item.categorySeq}}"><i class="fa fa-edit fa-fw"></i> {{item.name}}<span class="fa arrow"></span></a>
+							<a href="#/list/{{item.categorySeq}}" class="_droppable" data-category-seq="{{item.categorySeq}}"><i class="fa fa-edit fa-fw"></i> {{item.name}}<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li data-ng-repeat="subItem in item.children">
-									<a href="#/list/{{subItem.categorySeq}}">{{subItem.name}}</a>
+									<a href="#/list/{{subItem.categorySeq}}" class="_droppable" data-category-seq="{{subItem.categorySeq}}">{{subItem.name}}</a>
 								</li>
 							</ul>
             </li>

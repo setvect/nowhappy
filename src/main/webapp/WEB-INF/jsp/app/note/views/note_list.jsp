@@ -22,12 +22,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr data-ng-repeat="x in list">
+			<tr data-ng-repeat="x in list" note-post-lode-directive>
 				<td class="col-md-2">
 					{{getCategory(x.categorySeq).name}}
 				</td>
 				<td class="col-md-8">
-					<a href="#/read/{{x.noteSeq}}">{{x.title}}</a>
+					<a href="#/read/{{x.noteSeq}}" data-note-seq="{{x.noteSeq}}" class="_draggable">{{x.title}}</a>
 					<span data-ng-show="attachMapList[x.noteSeq].length != 0">[{{attachMapList[x.noteSeq].length}}]</span>
 				</td>
 				<td class="col-md-2 date">{{x.uptDateDiff}}</td>

@@ -3,7 +3,6 @@ package com.setvect.nowhappy.note.web;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -298,8 +297,8 @@ public class NoteController {
 	 * @param request
 	 * @param response
 	 * @return 추가한 코멘트 아이디
-	 * @throws FileNotFoundException
 	 * @throws IOException
+	 * @throws FileNotFoundException
 	 */
 	@RequestMapping("/app/note/updateNote.do")
 	@ResponseBody
@@ -315,6 +314,20 @@ public class NoteController {
 		saveAttachFile(request, note);
 		deleteFile(request);
 
+		return true;
+	}
+
+	/**
+	 * 노트 카테고리 수정.
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/app/note/updateNoteCategory.do")
+	@ResponseBody
+	public boolean updateNoteCategory(@ModelAttribute NoteVo param) {
+		NoteVo note = noteService.getNote(param.getNoteSeq());
+		note.setCategorySeq(param.getCategorySeq());
+		noteService.updateNote(note);
 		return true;
 	}
 
