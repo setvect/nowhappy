@@ -549,7 +549,7 @@
 		<div id="page-wrapper">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-lg-12" style="padding:20px 0">
+					<div class="col-lg-12">	
 						<ng-view></ng-view>
 					</div>
 					<!-- /.col-lg-12 -->
