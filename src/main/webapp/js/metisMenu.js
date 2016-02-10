@@ -10,7 +10,7 @@
 
     var pluginName = "metisMenu",
         defaults = {
-            toggle: true,
+            toggle: false,
             doubleTapToGo: false
         };
 
