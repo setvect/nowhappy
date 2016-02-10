@@ -25,8 +25,6 @@
 		var deleteUrl = mainCtrl.getUrl("/app/comment/delete.do");
 		var addUrl = mainCtrl.getUrl("/app/comment/add.do");
 		
-		console.log($sce);
-		
 		$scope.trustAsHtml = $sce.trustAsHtml;
 	  $scope.loginId = "<%=userId%>";
 	  $scope.list = [];

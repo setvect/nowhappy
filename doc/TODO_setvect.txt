@@ -16,7 +16,6 @@ nowhappy_pass
 REF_20160208: NoteController.listCategory() 
 NEW_20160208: 복슬note JPA 이용
 
-REF_20160208: console.log() 지우기
 NEW_20160207: 복슬note 읽기 화면 스타일 변경(폰트 큼)
 NEW_20151115: 복슬note 바로 저장하기 버튼 만듦.
 
@@ -28,6 +27,7 @@ NEW_20150705: depthlink 확대
 
 
 [진행 된 것]
+REF_20160208(20160210): console.log() 지우기
 NEW_20150713(20160210): 복슬note 카테고리 이동
 NEW_20160206: 복슬note 다단계 Depth
 	관련 sql
