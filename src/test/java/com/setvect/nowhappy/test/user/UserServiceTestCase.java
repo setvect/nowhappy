@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.setvect.common.util.GenericPage;
 import com.setvect.nowhappy.test.MainTestBase;
 import com.setvect.nowhappy.test.UnitTestUtil;
-import com.setvect.nowhappy.user.dao.UserService;
+import com.setvect.nowhappy.user.service.UserService;
 import com.setvect.nowhappy.user.vo.UserSearchCondition;
 import com.setvect.nowhappy.user.vo.UserVo;
 
