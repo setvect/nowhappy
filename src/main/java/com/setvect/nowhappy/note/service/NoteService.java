@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.setvect.common.util.GenericPage;
+import com.setvect.nowhappy.note.dao.NoteCategoryDao;
 import com.setvect.nowhappy.note.dao.NoteDao;
 import com.setvect.nowhappy.note.vo.NoteCategoryVo;
 import com.setvect.nowhappy.note.vo.NoteVo;
@@ -16,6 +17,8 @@ public class NoteService {
 
 	@Autowired
 	private NoteDao noteDao;
+	@Autowired
+	private NoteCategoryDao noteCategoryDao;
 
 	// --------------- 관리
 
@@ -25,7 +28,7 @@ public class NoteService {
 	 * @return 정보
 	 */
 	public NoteCategoryVo getNoteCategory(int categorySeq) {
-		return noteDao.getNoteCategory(categorySeq);
+		return noteCategoryDao.getNoteCategory(categorySeq);
 	}
 
 	/**
@@ -33,24 +36,22 @@ public class NoteService {
 	 * @return 정보 항목
 	 */
 	public GenericPage<NoteCategoryVo> getNoteCategoryPagingList(NoteCategorySearch pageCondition) {
-		
-		
-		
-		return noteDao.getNoteCategoryPagingList(pageCondition);
+
+		return noteCategoryDao.getNoteCategoryPagingList(pageCondition);
 	}
 
 	/**
 	 * @param noteCategory
 	 */
 	public void insertNoteCategory(NoteCategoryVo noteCategory) {
-		noteDao.insertNoteCategory(noteCategory);
+		noteCategoryDao.insertNoteCategory(noteCategory);
 	}
 
 	/**
 	 * @param noteCategory
 	 */
 	public void updateNoteCategory(NoteCategoryVo noteCategory) {
-		noteDao.updateNoteCategory(noteCategory);
+		noteCategoryDao.updateNoteCategory(noteCategory);
 	}
 
 	/**
@@ -58,7 +59,7 @@ public class NoteService {
 	 *            일련번호
 	 */
 	public void deleteBoard(int categorySeq) {
-		noteDao.deleteNoteCategory(categorySeq);
+		noteCategoryDao.deleteNoteCategory(categorySeq);
 	}
 
 	// --------------- 노트

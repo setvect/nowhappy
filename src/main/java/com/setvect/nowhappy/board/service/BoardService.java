@@ -4,18 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.setvect.common.util.GenericPage;
+import com.setvect.nowhappy.board.dao.BoardArticleDao;
 import com.setvect.nowhappy.board.dao.BoardDao;
 import com.setvect.nowhappy.board.vo.BoardArticleVo;
 import com.setvect.nowhappy.board.vo.BoardVo;
 
 /**
- * @version $Id$
+ *
  */
 @Service("BoardService")
 public class BoardService {
 
 	@Autowired
 	private BoardDao boardDao;
+
+	@Autowired
+	private BoardArticleDao boardArticleDao;
 
 	// --------------- 관리
 
@@ -65,7 +69,7 @@ public class BoardService {
 	 * @return
 	 */
 	public BoardArticleVo getArticle(int articleSeq) {
-		return boardDao.getArticle(articleSeq);
+		return boardArticleDao.getArticle(articleSeq);
 	}
 
 	/**
@@ -74,7 +78,7 @@ public class BoardService {
 	 * @return 게시물 페이지 값
 	 */
 	public GenericPage<BoardArticleVo> getArticlePagingList(BoardArticleSearch pageCondition) {
-		return boardDao.getArticlePagingList(pageCondition);
+		return boardArticleDao.getArticlePagingList(pageCondition);
 	}
 
 	/**
@@ -84,7 +88,7 @@ public class BoardService {
 	 *            게시물
 	 */
 	public void insertArticle(BoardArticleVo article) {
-		boardDao.insertArticle(article);
+		boardArticleDao.insertArticle(article);
 	}
 
 	/**
@@ -96,14 +100,14 @@ public class BoardService {
 	 *            부모 게시물
 	 */
 	public void insertArticleReply(BoardArticleVo article, int parentId) {
-		boardDao.insertArticleReply(article, parentId);
+		boardArticleDao.insertArticleReply(article, parentId);
 	}
 
 	/**
 	 * @param article
 	 */
 	public void updateArticle(BoardArticleVo article) {
-		boardDao.updateArticle(article);
+		boardArticleDao.updateArticle(article);
 	}
 
 	/**
@@ -112,13 +116,13 @@ public class BoardService {
 	 * @param articleSeq
 	 */
 	public void updateArticleIncrementHit(int articleSeq) {
-		boardDao.updateArticleIncrementHit(articleSeq);
+		boardArticleDao.updateArticleIncrementHit(articleSeq);
 	}
 
 	/**
 	 * @param articleSeq
 	 */
 	public void deleteArticle(int articleSeq) {
-		boardDao.deleteArticle(articleSeq);
+		boardArticleDao.deleteArticle(articleSeq);
 	}
 }

@@ -3,6 +3,7 @@ package com.setvect.nowhappy.thumbnail;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+
 import javax.imageio.ImageIO;
 import javax.media.jai.JAI;
 import javax.media.jai.RenderedOp;

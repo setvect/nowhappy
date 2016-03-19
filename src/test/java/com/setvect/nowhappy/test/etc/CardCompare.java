@@ -31,7 +31,7 @@ public class CardCompare {
 		Map<String, String> myMap = new TreeMap<String, String>();
 		for (String s : myList) {
 			String[] tokens = s.split("\t");
-			myMap.put(tokens[0].trim() + "_" + tokens[1].trim(), s);
+			myMap.put(tokens[0].trim() + "_" + tokens[2].trim(), s);
 		}
 		return myMap;
 	}

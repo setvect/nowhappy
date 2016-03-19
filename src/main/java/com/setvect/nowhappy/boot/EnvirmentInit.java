@@ -2,7 +2,6 @@ package com.setvect.nowhappy.boot;
 
 import java.net.URL;
 
-import com.setvect.nowhappy.ApplicationConstant;
 import com.setvect.nowhappy.EnvirmentProperty;
 
 /**

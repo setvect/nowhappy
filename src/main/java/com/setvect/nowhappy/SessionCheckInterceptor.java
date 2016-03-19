@@ -22,7 +22,7 @@ import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
 import com.setvect.nowhappy.ApplicationConstant.WebCommon;
 import com.setvect.nowhappy.auth.AccessChecker;
-import com.setvect.nowhappy.user.dao.UserService;
+import com.setvect.nowhappy.user.service.UserService;
 import com.setvect.nowhappy.user.vo.UserVo;
 
 /**

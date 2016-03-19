@@ -1,10 +1,12 @@
 package com.setvect.nowhappy.thumbnail;
 
-import com.sun.media.jai.codec.SeekableStream;
 import java.awt.image.renderable.ParameterBlock;
 import java.io.InputStream;
+
 import javax.media.jai.JAI;
 import javax.media.jai.RenderedOp;
+
+import com.sun.media.jai.codec.SeekableStream;
 
 public class CreateRenderedOp
 {

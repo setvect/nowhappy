@@ -1,7 +1,6 @@
 package com.setvect.nowhappy.migration;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,6 +16,7 @@ import com.setvect.nowhappy.ApplicationConstant.FileUpload;
 import com.setvect.nowhappy.attach.service.AttachFileModule;
 import com.setvect.nowhappy.attach.service.AttachFileService;
 import com.setvect.nowhappy.attach.vo.AttachFileVo;
+import com.setvect.nowhappy.board.dao.BoardArticleDao;
 import com.setvect.nowhappy.board.dao.BoardDao;
 import com.setvect.nowhappy.board.vo.BoardArticleVo;
 import com.setvect.nowhappy.util.FileUtil;
@@ -32,6 +32,8 @@ public class MigrationService {
 
 	@Inject
 	private BoardDao boardDao;
+	@Inject
+	private BoardArticleDao boardArticleDao;
 
 	public String runMigration(File destDir) {
 
@@ -54,7 +56,7 @@ public class MigrationService {
 			String saveName = (String) row[3];
 			int size = (Integer) row[4];
 
-			BoardArticleVo boardArticle = boardDao.getArticle(articleSeq);
+			BoardArticleVo boardArticle = boardArticleDao.getArticle(articleSeq);
 
 			File saveDayPath = FileUtil.makeDayDir(attachPath, boardArticle.getRegDate());
 			String dayPath = AttachFileService.getDayPath(attachPath, saveDayPath);

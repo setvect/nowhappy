@@ -1,4 +1,4 @@
-package com.setvect.nowhappy.user.dao;
+package com.setvect.nowhappy.user.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,12 @@ import com.setvect.common.util.GenericPage;
 import com.setvect.nowhappy.auth.AuthChangeListener;
 import com.setvect.nowhappy.auth.AuthMapSearch;
 import com.setvect.nowhappy.auth.AuthSearch;
-import com.setvect.nowhappy.auth.vo.AuthVo;
 import com.setvect.nowhappy.auth.vo.AuthMapVo;
 import com.setvect.nowhappy.auth.vo.AuthMapVoKey;
+import com.setvect.nowhappy.auth.vo.AuthVo;
+import com.setvect.nowhappy.user.dao.AuthDao;
+import com.setvect.nowhappy.user.dao.AuthMapDao;
+import com.setvect.nowhappy.user.dao.UserDao;
 import com.setvect.nowhappy.user.vo.UserSearchCondition;
 import com.setvect.nowhappy.user.vo.UserVo;
 
@@ -21,9 +24,12 @@ import com.setvect.nowhappy.user.vo.UserVo;
  */
 @Service(value = "UserService")
 public class UserService {
-	/** DB 컨트롤 인스턴스 */
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private AuthDao authDao;
+	@Autowired
+	private AuthMapDao authMapDao;
 
 	/** 권한 변경 이벤트 */
 	@Autowired
@@ -73,44 +79,44 @@ public class UserService {
 
 	// ---------------- 권한
 	public AuthVo getAuth(int authSeq) {
-		return userDao.getAuth(authSeq);
+		return authDao.getAuth(authSeq);
 	}
 
 	public GenericPage<AuthVo> getAuthPagingList(AuthSearch search) {
-		return userDao.getAuthPagingList(search);
+		return authDao.getAuthPagingList(search);
 	}
 
 	public void createAuth(AuthVo auth) {
-		userDao.createAuth(auth);
+		authDao.createAuth(auth);
 		fireEventAuth();
 	}
 
 	public void updateAuth(AuthVo auth) {
-		userDao.updateAuth(auth);
+		authDao.updateAuth(auth);
 		fireEventAuth();
 	}
 
 	public void removeAuth(int authSeq) {
-		userDao.removeAuth(authSeq);
+		authDao.removeAuth(authSeq);
 		fireEventAuth();
 	}
 
 	// ---------------- 권한 맵핑
 	public AuthMapVo getAuthMap(AuthMapVoKey key) {
-		return userDao.getAuthMap(key);
+		return authMapDao.getAuthMap(key);
 	}
 
 	public GenericPage<AuthMapVo> getAuthMapPagingList(AuthMapSearch search) {
-		return userDao.getAuthMapPagingList(search);
+		return authMapDao.getAuthMapPagingList(search);
 	}
 
 	public void createAuthMap(AuthMapVo authMap) {
-		userDao.createAuthMap(authMap);
+		authMapDao.createAuthMap(authMap);
 		fireEventAuthMap();
 	}
 
 	public void removeAuthMap(AuthMapVoKey key) {
-		userDao.removeAuthMap(key);
+		authMapDao.removeAuthMap(key);
 	}
 
 	/**
@@ -119,7 +125,7 @@ public class UserService {
 	 * @param userId
 	 */
 	public void removeAuthMapForUserId(String userId) {
-		userDao.removeAuthMapForUserId(userId);
+		authMapDao.removeAuthMapForUserId(userId);
 	}
 
 	// ---------------- 권한 변경 이벤트
