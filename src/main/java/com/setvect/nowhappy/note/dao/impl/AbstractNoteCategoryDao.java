@@ -12,6 +12,9 @@ import com.setvect.nowhappy.note.dao.NoteCategoryDao;
 import com.setvect.nowhappy.note.service.NoteCategorySearch;
 import com.setvect.nowhappy.note.vo.NoteCategoryVo;
 
+/**
+ * 복슬노트 카테고리 
+ */
 public class AbstractNoteCategoryDao implements NoteCategoryDao {
 	@Autowired
 	private SessionFactory sessionFactory;

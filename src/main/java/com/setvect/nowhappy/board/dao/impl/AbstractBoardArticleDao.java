@@ -15,9 +15,6 @@ import com.setvect.nowhappy.board.vo.BoardArticleVo;
 
 /**
  * 게시물 DAO
- * 
- * @version $Id: AbstractBoardDao.java 121 2010-10-03 05:59:11Z
- *          setvect@naver.com $
  */
 public abstract class AbstractBoardArticleDao implements BoardArticleDao {
 	@Autowired

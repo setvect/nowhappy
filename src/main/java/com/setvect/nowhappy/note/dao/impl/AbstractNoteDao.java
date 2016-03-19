@@ -14,9 +14,13 @@ import com.setvect.nowhappy.note.service.NoteSearch;
 import com.setvect.nowhappy.note.service.NoteSearch.NoteSort;
 import com.setvect.nowhappy.note.vo.NoteVo;
 
+/**
+ * 복슬 노트
+ */
 public class AbstractNoteDao implements NoteDao {
 	@Autowired
 	private SessionFactory sessionFactory;
+
 	@Override
 	public NoteVo getNote(int noteSeq) {
 		Session session = sessionFactory.getCurrentSession();
@@ -40,16 +44,15 @@ public class AbstractNoteDao implements NoteDao {
 		@SuppressWarnings("unchecked")
 		List<NoteVo> resultList = query.list();
 
-		GenericPage<NoteVo> resultPage = new GenericPage<NoteVo>(resultList, pageCondition.getStartCursor(),
-				totalCount, pageCondition.getReturnCount());
+		GenericPage<NoteVo> resultPage = new GenericPage<NoteVo>(resultList, pageCondition.getStartCursor(), totalCount,
+				pageCondition.getReturnCount());
 		return resultPage;
 	}
 
 	private String getOrder(NoteSearch pageCondition) {
 		if (pageCondition.getSort() == NoteSort.UPD) {
 			return " order by uptDate desc";
-		}
-		else {
+		} else {
 			return " order by regDate asc";
 		}
 	}
@@ -73,8 +76,7 @@ public class AbstractNoteDao implements NoteDao {
 		// 두개 이상 동시에 검색 조건에 포함 될 수 없음
 		if (!StringUtilAd.isEmpty(search.getSearchTitle())) {
 			where += " and title like " + StringUtilAd.getSqlStringLike(search.getSearchTitle());
-		}
-		else if (!StringUtilAd.isEmpty(search.getSearchContent())) {
+		} else if (!StringUtilAd.isEmpty(search.getSearchContent())) {
 			where += " and content like " + StringUtilAd.getSqlStringLike(search.getSearchContent());
 		}
 		return where;

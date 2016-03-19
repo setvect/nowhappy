@@ -15,8 +15,6 @@ import com.setvect.nowhappy.comment.vo.Comment;
 
 /**
  * 코멘트
- * 
- * @version $Id$
  */
 public abstract class AbstractCommentDao implements CommentDao {
 	@Autowired

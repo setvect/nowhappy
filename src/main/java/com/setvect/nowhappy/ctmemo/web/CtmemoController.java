@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.setvect.nowhappy.ApplicationConstant;
-import com.setvect.nowhappy.ApplicationHelper;
 import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.service.CtmemoService;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
@@ -29,7 +28,6 @@ public class CtmemoController {
 
 	@Inject
 	private CtmemoService ctmemoService;
-	private static boolean init = false;
 
 	@RequestMapping("/ctmemo/page.do")
 	public String ctmemoPage() {
@@ -52,16 +50,6 @@ public class CtmemoController {
 
 		List<CtmemoVo> result = ctmemoService.listCtmemo(condition);
 		return result;
-	}
-
-	private void init() {
-		if (!init) {
-			List<CtmemoVo> samples = ApplicationHelper.getSampleData();
-			for (CtmemoVo v : samples) {
-				ctmemoService.insertCtmemo(v);
-			}
-			init = true;
-		}
 	}
 
 	@RequestMapping("/ctmemo/workspace.json.do")
@@ -89,8 +77,7 @@ public class CtmemoController {
 		boolean dateupdate = Boolean.parseBoolean(request.getParameter("dateUpdateable"));
 		if (dateupdate) {
 			ctmemo.setUptDate(new Date());
-		}
-		else {
+		} else {
 			CtmemoVo t = ctmemoService.getCtmemo(ctmemo.getCtmemoSeq());
 			ctmemo.setUptDate(t.getUptDate());
 		}
