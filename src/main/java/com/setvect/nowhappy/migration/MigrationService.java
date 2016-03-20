@@ -56,7 +56,7 @@ public class MigrationService {
 			String saveName = (String) row[3];
 			int size = (Integer) row[4];
 
-			BoardArticleVo boardArticle = boardArticleDao.getArticle(articleSeq);
+			BoardArticleVo boardArticle = boardArticleDao.findOne(articleSeq);
 
 			File saveDayPath = FileUtil.makeDayDir(attachPath, boardArticle.getRegDate());
 			String dayPath = AttachFileService.getDayPath(attachPath, saveDayPath);

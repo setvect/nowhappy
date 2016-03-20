@@ -15,6 +15,7 @@ nowhappy_pass
 81dc9bdb52d04dc20036dbd8313ed055 = 1234
 
 [진행 해야된는 것]
+REF_20160326: Dao -> Repository 변경
 REF_20160208: NoteController.listCategory() 
 NEW_20160208: 복슬note JPA 이용
 

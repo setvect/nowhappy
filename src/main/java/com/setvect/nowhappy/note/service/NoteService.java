@@ -28,7 +28,7 @@ public class NoteService {
 	 * @return 정보
 	 */
 	public NoteCategoryVo getNoteCategory(int categorySeq) {
-		return noteCategoryDao.getNoteCategory(categorySeq);
+		return noteCategoryDao.findOne(categorySeq);
 	}
 
 	/**
@@ -44,14 +44,14 @@ public class NoteService {
 	 * @param noteCategory
 	 */
 	public void insertNoteCategory(NoteCategoryVo noteCategory) {
-		noteCategoryDao.insertNoteCategory(noteCategory);
+		noteCategoryDao.save(noteCategory);
 	}
 
 	/**
 	 * @param noteCategory
 	 */
 	public void updateNoteCategory(NoteCategoryVo noteCategory) {
-		noteCategoryDao.updateNoteCategory(noteCategory);
+		noteCategoryDao.save(noteCategory);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class NoteService {
 	 *            일련번호
 	 */
 	public void deleteBoard(int categorySeq) {
-		noteCategoryDao.deleteNoteCategory(categorySeq);
+		noteCategoryDao.delete(categorySeq);
 	}
 
 	// --------------- 노트
@@ -68,7 +68,7 @@ public class NoteService {
 	 * @return
 	 */
 	public NoteVo getNote(int noteSeq) {
-		return noteDao.getNote(noteSeq);
+		return noteDao.findOne(noteSeq);
 	}
 
 	/**
@@ -82,25 +82,25 @@ public class NoteService {
 
 	/**
 	 * 노트 등록
-	 * 
+	 *
 	 * @param article
 	 *            노트
 	 */
 	public void insertNote(NoteVo article) {
-		noteDao.insertNote(article);
+		noteDao.save(article);
 	}
 
 	/**
 	 * @param article
 	 */
 	public void updateNote(NoteVo article) {
-		noteDao.updateNote(article);
+		noteDao.save(article);
 	}
 
 	/**
 	 * @param articleSeq
 	 */
 	public void deleteNote(int noteSeq) {
-		noteDao.deleteNote(noteSeq);
+		noteDao.delete(noteSeq);
 	}
 }

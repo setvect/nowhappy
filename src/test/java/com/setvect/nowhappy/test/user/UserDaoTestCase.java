@@ -21,9 +21,9 @@ public class UserDaoTestCase extends MainTestBase {
 	@Test
 	public void test() throws InterruptedException {
 		UserVo user = UnitTestUtil.getUserTestData();
-		dao.insertUser(user);
+		dao.save(user);
 
-		UserVo u = dao.getUser(user.getUserId());
+		UserVo u = dao.findOne(user.getUserId());
 		Assert.assertThat(u, CoreMatchers.is(user));
 
 		UserSearchCondition condition = new UserSearchCondition(1, 1);
@@ -40,13 +40,13 @@ public class UserDaoTestCase extends MainTestBase {
 
 		String name = "내사랑";
 		user.setName(name);
-		dao.updateUser(user);
+		dao.save(user);
 
-		UserVo vo = dao.getUser(user.getUserId());
+		UserVo vo = dao.findOne(user.getUserId());
 		Assert.assertThat(name, CoreMatchers.is(vo.getName()));
 
 		condition = new UserSearchCondition(1, 1);
-		dao.deleteUser(user.getUserId());
+		dao.findOne(user.getUserId());
 		list = dao.listUser(condition);
 		Assert.assertThat(list.getList().size(), CoreMatchers.is(1));
 

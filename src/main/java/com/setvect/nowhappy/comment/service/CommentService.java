@@ -17,7 +17,7 @@ public class CommentService {
 	private CommentDao commentDao;
 
 	public Comment getComment(int commentSeq) {
-		return commentDao.getComment(commentSeq);
+		return commentDao.findOne(commentSeq);
 	}
 
 	public GenericPage<Comment> getCommentPagingList(CommentSearch pageCondition) {
@@ -25,15 +25,15 @@ public class CommentService {
 	}
 
 	public void insertComment(Comment comment) {
-		commentDao.insertComment(comment);
+		commentDao.save(comment);
 	}
 
 	public void updateComment(Comment comment) {
-		commentDao.updateComment(comment);
+		commentDao.save(comment);
 	}
 
 	public void deleteComment(int commentSeq) {
-		commentDao.deleteComment(commentSeq);
+		commentDao.delete(commentSeq);
 	}
 
 }

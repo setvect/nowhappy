@@ -46,8 +46,8 @@ public class AttachFileService {
 		if (attachFile == null) {
 			return null;
 		}
-		List<AttachFileVo> list = process(baseDir, new MultipartFile[] { attachFile }, moduleName,
-				String.valueOf(moduleId), userId);
+		List<AttachFileVo> list = process(baseDir, new MultipartFile[] { attachFile }, moduleName, String.valueOf(moduleId),
+				userId);
 		if (list.size() != 1) {
 			return null;
 		}
@@ -69,8 +69,8 @@ public class AttachFileService {
 	 *            사용자 ID
 	 * @return 업로드한 첨부파일 정보
 	 */
-	public List<AttachFileVo> process(File baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName,
-			int moduleId, String userId) {
+	public List<AttachFileVo> process(File baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName, int moduleId,
+			String userId) {
 		return process(baseDir, attachFiles, moduleName, String.valueOf(moduleId), userId);
 	}
 
@@ -89,8 +89,8 @@ public class AttachFileService {
 	 *            사용자 ID
 	 * @return 업로드한 첨부파일 정보
 	 */
-	public List<AttachFileVo> process(File baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName,
-			String moduleId, String userId) {
+	public List<AttachFileVo> process(File baseDir, MultipartFile[] attachFiles, AttachFileModule moduleName, String moduleId,
+			String userId) {
 
 		if (attachFiles == null || attachFiles.length == 0) {
 			// empty list
@@ -106,8 +106,7 @@ public class AttachFileService {
 			if (StringUtilAd.isEmpty(file.getOriginalFilename())) {
 				continue;
 			}
-			String fileName = moduleName + "_" + moduleId + "."
-					+ FilenameUtils.getExtension(file.getOriginalFilename());
+			String fileName = moduleName + "_" + moduleId + "." + FilenameUtils.getExtension(file.getOriginalFilename());
 
 			ApplicationUtil.checkAllowUploadFile(file.getOriginalFilename());
 
@@ -206,23 +205,23 @@ public class AttachFileService {
 	}
 
 	public AttachFileVo getAttachFile(int attachFileSeq) {
-		return attachFileDao.getAttachFile(attachFileSeq);
+		return attachFileDao.findOne(attachFileSeq);
 	}
 
 	public List<AttachFileVo> listAttachFile(AttachFileModule moduleName, int moduleItemId) {
-		return attachFileDao.listAttachFile(moduleName, String.valueOf(moduleItemId));
+		return attachFileDao.findByModuleNameAndModuleId(moduleName, String.valueOf(moduleItemId));
 	}
 
 	public List<AttachFileVo> listAttachFile(AttachFileModule moduleName, String moduleItemId) {
-		return attachFileDao.listAttachFile(moduleName, moduleItemId);
+		return attachFileDao.findByModuleNameAndModuleId(moduleName, moduleItemId);
 	}
 
 	public void createAttachFile(AttachFileVo attachFile) {
-		attachFileDao.createAttachFile(attachFile);
+		attachFileDao.save(attachFile);
 	}
 
 	public void removeAttachFile(int seq) {
-		attachFileDao.removeAttachFile(seq);
+		attachFileDao.delete(seq);
 	}
 
 }

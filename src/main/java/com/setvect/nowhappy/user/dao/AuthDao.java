@@ -1,38 +1,12 @@
 package com.setvect.nowhappy.user.dao;
 
-import com.setvect.common.util.GenericPage;
-import com.setvect.nowhappy.auth.AuthSearch;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import com.setvect.nowhappy.auth.vo.AuthVo;
 
 /**
+ * 권한
  */
-public interface AuthDao {
-	/**
-	 * @param authSeq
-	 * @return
-	 */
-	public AuthVo getAuth(int authSeq);
+public interface AuthDao extends JpaRepository<AuthVo, Integer> {
 
-	/**
-	 * @param paging
-	 * @return
-	 * @throws Exception
-	 */
-	public GenericPage<AuthVo> getAuthPagingList(AuthSearch paging);
-
-	/**
-	 * @param auth
-	 * @throws Exception
-	 */
-	public void createAuth(AuthVo auth);
-
-	/**
-	 * @param auth
-	 */
-	public void updateAuth(AuthVo auth);
-
-	/**
-	 * @param authSeq
-	 */
-	public void removeAuth(int authSeq);
 }

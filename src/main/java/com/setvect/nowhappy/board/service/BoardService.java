@@ -21,15 +21,13 @@ public class BoardService {
 	@Autowired
 	private BoardArticleDao boardArticleDao;
 
-	// --------------- 관리
-
 	/**
 	 * @param code
 	 *            코드
 	 * @return 정보
 	 */
 	public BoardVo getBoard(String code) {
-		return boardDao.getBoard(code);
+		return boardDao.findOne(code);
 	}
 
 	/**
@@ -37,14 +35,14 @@ public class BoardService {
 	 * @return 정보 항목
 	 */
 	public GenericPage<BoardVo> getBoardPagingList(BoardManagerSearch pageCondition) {
-		return boardDao.getBoardPagingList(pageCondition);
+		return null;
 	}
 
 	/**
 	 * @param BoardVo
 	 */
 	public void insertBoard(BoardVo BoardVo) {
-		boardDao.insertBoard(BoardVo);
+		boardDao.save(BoardVo);
 	}
 
 	/**
@@ -52,7 +50,7 @@ public class BoardService {
 	 *            게시물 아이디
 	 */
 	public void updateBoard(BoardVo BoardVo) {
-		boardDao.updateBoard(BoardVo);
+		boardDao.save(BoardVo);
 	}
 
 	/**
@@ -60,7 +58,7 @@ public class BoardService {
 	 *            게시물 코드
 	 */
 	public void deleteBoard(String code) {
-		boardDao.deleteBoard(code);
+		boardDao.delete(code);
 	}
 
 	// --------------- 게시물
@@ -69,7 +67,7 @@ public class BoardService {
 	 * @return
 	 */
 	public BoardArticleVo getArticle(int articleSeq) {
-		return boardArticleDao.getArticle(articleSeq);
+		return boardArticleDao.findOne(articleSeq);
 	}
 
 	/**
@@ -83,17 +81,17 @@ public class BoardService {
 
 	/**
 	 * 게시물 등록
-	 * 
+	 *
 	 * @param article
 	 *            게시물
 	 */
 	public void insertArticle(BoardArticleVo article) {
-		boardArticleDao.insertArticle(article);
+		boardArticleDao.save(article);
 	}
 
 	/**
 	 * 답변 등록
-	 * 
+	 *
 	 * @param article
 	 *            게시물
 	 * @param parentId
@@ -107,22 +105,23 @@ public class BoardService {
 	 * @param article
 	 */
 	public void updateArticle(BoardArticleVo article) {
-		boardArticleDao.updateArticle(article);
+		boardArticleDao.save(article);
 	}
 
 	/**
 	 * 조회수 증가
-	 * 
+	 *
 	 * @param articleSeq
 	 */
 	public void updateArticleIncrementHit(int articleSeq) {
-		boardArticleDao.updateArticleIncrementHit(articleSeq);
+		BoardArticleVo article = boardArticleDao.findOne(articleSeq);
+		article.setHitCount(article.getHitCount() + 1);
 	}
 
 	/**
 	 * @param articleSeq
 	 */
 	public void deleteArticle(int articleSeq) {
-		boardArticleDao.deleteArticle(articleSeq);
+		boardArticleDao.delete(articleSeq);
 	}
 }

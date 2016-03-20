@@ -17,32 +17,32 @@ import com.setvect.nowhappy.test.UnitTestUtil;
 public class CtmemoDaoTestCase extends MainTestBase {
 
 	@Inject
-	private CtmemoDao dao;
+	private CtmemoDao ctmemoDao;
 
 	@Test
 	public void test() throws InterruptedException {
-		System.out.println(dao);
+		System.out.println(ctmemoDao);
 
 		CtmemoVo ctmemo = UnitTestUtil.getCtmemoTestData();
-		dao.insertCtmemo(ctmemo);
+		ctmemoDao.save(ctmemo);
 
-		CtmemoVo getmemo = dao.getCtmemo(ctmemo.getCtmemoSeq());
+		CtmemoVo getmemo = ctmemoDao.findOne(ctmemo.getCtmemoSeq());
 		System.out.println(getmemo);
 		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));
 
 		CtmemoSearchCondition condition = new CtmemoSearchCondition();
-		List<CtmemoVo> list = dao.listCtmemo(condition);
+		List<CtmemoVo> list = ctmemoDao.findByWorkspaceSeq(condition.getSearchWorkspaceSeq());
 		Assert.assertThat(list.size(), CoreMatchers.is(1));
 
 		String content = "내사랑 복슬이";
 		ctmemo.setContent(content);
-		dao.updateCtmemo(ctmemo);
+		ctmemoDao.save(ctmemo);
 
-		CtmemoVo result = dao.getCtmemo(ctmemo.getCtmemoSeq());
+		CtmemoVo result = ctmemoDao.findOne(ctmemo.getCtmemoSeq());
 		Assert.assertThat(content, CoreMatchers.is(result.getContent()));
 
-		dao.deleteCtmemo(ctmemo.getCtmemoSeq());
-		list = dao.listCtmemo(condition);
+		ctmemoDao.delete(ctmemo.getCtmemoSeq());
+		list = ctmemoDao.findByWorkspaceSeq(condition.getSearchWorkspaceSeq());
 		Assert.assertThat(list.size(), CoreMatchers.is(0));
 
 	}

@@ -5,64 +5,69 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.setvect.nowhappy.ApplicationConstant;
 import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.dao.CtmemoDao;
+import com.setvect.nowhappy.ctmemo.dao.WorkspaceDao;
 import com.setvect.nowhappy.ctmemo.vo.CtmemoVo;
 import com.setvect.nowhappy.ctmemo.vo.WorkspaceVo;
 
 @Service
 public class CtmemoService {
 	@Inject
+	private WorkspaceDao workspaceDao;
+	@Inject
 	private CtmemoDao ctmemoDao;
 
 	public WorkspaceVo getWorkspace(int workspaceSeq) {
-		return ctmemoDao.getWorkspace(workspaceSeq);
+		return workspaceDao.findOne(workspaceSeq);
 	}
 
 	/**
 	 * 워크스페이스 전체 목록
-	 * 
+	 *
 	 * @return
 	 */
 	public List<WorkspaceVo> listWorkspace() {
-		return ctmemoDao.listWorkspace();
+		Sort sort = new Sort(Sort.Direction.ASC, "workspaceSeq");
+		return workspaceDao.findAll(sort);
 	}
 
 	/**
 	 * 워크스페이스 등록
 	 */
 	public void insertWorkspace(WorkspaceVo workspace) {
-		ctmemoDao.insertWorkspace(workspace);
+		workspaceDao.save(workspace);
 	}
 
 	/**
 	 * 워크스페이스 수정
-	 * 
+	 *
 	 * @param workspace
 	 */
 	public void updateWorkspace(WorkspaceVo workspace) {
-		ctmemoDao.updateWorkspace(workspace);
+		workspaceDao.save(workspace);
 	}
 
 	/**
 	 * 워크스페이스 삭제
-	 * 
+	 *
 	 * @param workspaceSeq
 	 */
 	public void deleteWorkspace(int workspaceSeq) {
-		ctmemoDao.deleteWorkspace(workspaceSeq);
+		workspaceDao.delete(workspaceSeq);
 	}
 
 	public CtmemoVo getCtmemo(int ctmemoId) {
-		return ctmemoDao.getCtmemo(ctmemoId);
+		return ctmemoDao.findOne(ctmemoId);
 	}
 
 	/**
 	 * z-index 최대 값
-	 * 
+	 *
 	 * @return
 	 */
 	public int getMaxZindex() {
@@ -70,18 +75,19 @@ public class CtmemoService {
 	}
 
 	public List<CtmemoVo> listCtmemo(CtmemoSearchCondition condition) {
-		return ctmemoDao.listCtmemo(condition);
+		return ctmemoDao.findByWorkspaceSeq(condition.getSearchWorkspaceSeq());
 	}
 
 	public void insertCtmemo(CtmemoVo ctmemo) {
-		ctmemoDao.insertCtmemo(ctmemo);
+		ctmemoDao.save(ctmemo);
 	}
 
 	/**
 	 * 새로운 메모장 생성<br>
 	 * 생성과 동시에 DB에 저장
-	 * @param workspaceSeq 
-	 * 
+	 *
+	 * @param workspaceSeq
+	 *
 	 * @return
 	 */
 	public CtmemoVo newMemo(int workspaceSeq) {
@@ -104,7 +110,7 @@ public class CtmemoService {
 
 	/**
 	 * 삭제 취소
-	 * 
+	 *
 	 * @param ctmemoSeq
 	 * @return
 	 */
@@ -116,7 +122,7 @@ public class CtmemoService {
 	}
 
 	public void updateCtmemo(CtmemoVo ctmemo) {
-		ctmemoDao.updateCtmemo(ctmemo);
+		ctmemoDao.save(ctmemo);
 	}
 
 	public void removeCtmemo(int ctmemoId) {

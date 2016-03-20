@@ -57,21 +57,38 @@ public class AuthMapVoKey implements Serializable {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + authSeq;
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals(Object o) {
-		if (o == null) {
-			return false;
-		}
-		else if (o == this) {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		}
-		else if (o.getClass() == AuthMapVoKey.class) {
-			AuthMapVoKey other = (AuthMapVoKey) o;
-			return other.authSeq == authSeq && other.userId.equals(userId);
-		}
-		else {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
+		AuthMapVoKey other = (AuthMapVoKey) obj;
+		if (authSeq != other.authSeq)
+			return false;
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
+			return false;
+		return true;
 	}
 }

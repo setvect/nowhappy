@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.nowhappy.auth.AuthChangeListener;
-import com.setvect.nowhappy.auth.AuthMapSearch;
-import com.setvect.nowhappy.auth.AuthSearch;
 import com.setvect.nowhappy.auth.vo.AuthMapVo;
 import com.setvect.nowhappy.auth.vo.AuthMapVoKey;
 import com.setvect.nowhappy.auth.vo.AuthVo;
@@ -43,7 +41,7 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public UserVo getUser(String id) {
-		return userDao.getUser(id);
+		return userDao.findOne(id);
 	}
 
 	public GenericPage<UserVo> listUser(UserSearchCondition searchVo) {
@@ -52,13 +50,13 @@ public class UserService {
 
 	/**
 	 * 회원 정보 등록
-	 * 
+	 *
 	 * @param user
 	 *            회원
 	 * @throws Exception
 	 */
 	public void insertUser(UserVo user) {
-		userDao.insertUser(user);
+		userDao.save(user);
 	}
 
 	/**
@@ -66,7 +64,7 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public void updateUser(UserVo user) {
-		userDao.updateUser(user);
+		userDao.save(user);
 	}
 
 	/**
@@ -74,65 +72,65 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public void deleteUser(String id) {
-		userDao.deleteUser(id);
+		userDao.delete(id);
 	}
 
 	// ---------------- 권한
 	public AuthVo getAuth(int authSeq) {
-		return authDao.getAuth(authSeq);
+		return authDao.findOne(authSeq);
 	}
 
-	public GenericPage<AuthVo> getAuthPagingList(AuthSearch search) {
-		return authDao.getAuthPagingList(search);
+	public List<AuthVo> getAuthPagingList() {
+		return authDao.findAll();
 	}
 
 	public void createAuth(AuthVo auth) {
-		authDao.createAuth(auth);
+		authDao.save(auth);
 		fireEventAuth();
 	}
 
 	public void updateAuth(AuthVo auth) {
-		authDao.updateAuth(auth);
+		authDao.save(auth);
 		fireEventAuth();
 	}
 
 	public void removeAuth(int authSeq) {
-		authDao.removeAuth(authSeq);
+		authDao.delete(authSeq);
 		fireEventAuth();
 	}
 
 	// ---------------- 권한 맵핑
 	public AuthMapVo getAuthMap(AuthMapVoKey key) {
-		return authMapDao.getAuthMap(key);
+		return authMapDao.findOne(key);
 	}
 
-	public GenericPage<AuthMapVo> getAuthMapPagingList(AuthMapSearch search) {
-		return authMapDao.getAuthMapPagingList(search);
+	public List<AuthMapVo> getAuthMapPagingList() {
+		return authMapDao.findAll();
 	}
 
 	public void createAuthMap(AuthMapVo authMap) {
-		authMapDao.createAuthMap(authMap);
+		authMapDao.save(authMap);
 		fireEventAuthMap();
 	}
 
 	public void removeAuthMap(AuthMapVoKey key) {
-		authMapDao.removeAuthMap(key);
+		authMapDao.delete(key);
 	}
 
 	/**
 	 * 회원이 가지고 있는 권한 맵핑 정보 삭제
-	 * 
+	 *
 	 * @param userId
 	 */
 	public void removeAuthMapForUserId(String userId) {
-		authMapDao.removeAuthMapForUserId(userId);
+		authMapDao.deleteByUserId(userId);
 	}
 
 	// ---------------- 권한 변경 이벤트
 
 	/**
 	 * 권한 이벤트 등록
-	 * 
+	 *
 	 * @param listener
 	 *            권한 변경 이벤트
 	 */
@@ -142,7 +140,7 @@ public class UserService {
 
 	/**
 	 * 권한 변경 이벤트 삭제
-	 * 
+	 *
 	 * @param listener
 	 *            삭제한 권한 변경 이벤트
 	 */
@@ -169,11 +167,10 @@ public class UserService {
 	 * 권한 정보 수정 notify
 	 */
 	private void fireEventAuth() {
-		AuthSearch search = new AuthSearch(0, Integer.MAX_VALUE);
-		GenericPage<AuthVo> list = getAuthPagingList(search);
+		List<AuthVo> list = getAuthPagingList();
 
 		for (AuthChangeListener listener : authChangeListener) {
-			listener.updateAuth(list.getList());
+			listener.updateAuth(list);
 		}
 	}
 
@@ -181,11 +178,10 @@ public class UserService {
 	 * 권한 맵핑 정보 수정 notify
 	 */
 	private void fireEventAuthMap() {
-		AuthMapSearch search = new AuthMapSearch(0, Integer.MAX_VALUE);
-		GenericPage<AuthMapVo> list = getAuthMapPagingList(search);
+		List<AuthMapVo> list = getAuthMapPagingList();
 
 		for (AuthChangeListener listener : authChangeListener) {
-			listener.updateAuthMap(list.getList());
+			listener.updateAuthMap(list);
 		}
 	}
 

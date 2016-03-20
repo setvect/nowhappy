@@ -1,39 +1,13 @@
 package com.setvect.nowhappy.user.dao;
 
-import com.setvect.common.util.GenericPage;
-import com.setvect.nowhappy.auth.AuthMapSearch;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import com.setvect.nowhappy.auth.vo.AuthMapVo;
 import com.setvect.nowhappy.auth.vo.AuthMapVoKey;
 
 /**
+ * 권한 맴핑
  */
-public interface AuthMapDao {
-	/**
-	 * @param key
-	 * @return
-	 */
-	public AuthMapVo getAuthMap(AuthMapVoKey key);
-
-	/**
-	 * @param paging
-	 * @return
-	 * @throws Exception
-	 */
-	public GenericPage<AuthMapVo> getAuthMapPagingList(AuthMapSearch paging);
-
-	/**
-	 * @param auth
-	 * @throws Exception
-	 */
-	public void createAuthMap(AuthMapVo authMap);
-
-	/**
-	 * @param key
-	 */
-	public void removeAuthMap(AuthMapVoKey key);
-
-	/**
-	 * @param userId
-	 */
-	public void removeAuthMapForUserId(String userId);
+public interface AuthMapDao extends JpaRepository<AuthMapVo, AuthMapVoKey> {
+	public void deleteByUserId(String userId);
 }

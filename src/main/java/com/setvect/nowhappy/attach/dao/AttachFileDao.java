@@ -2,6 +2,8 @@ package com.setvect.nowhappy.attach.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import com.setvect.nowhappy.attach.service.AttachFileModule;
 import com.setvect.nowhappy.attach.vo.AttachFileVo;
 
@@ -10,33 +12,8 @@ import com.setvect.nowhappy.attach.vo.AttachFileVo;
  * 
  * @version $Id$
  */
-public interface AttachFileDao {
-	/**
-	 * @param attachFileSeq
-	 *            일련번호
-	 * @return 첨부파일
-	 */
-	public AttachFileVo getAttachFile(int attachFileSeq);
+public interface AttachFileDao extends JpaRepository<AttachFileVo, Integer> {
 
-	/**
-	 * @param moduleName
-	 *            모듈 이름
-	 * @param moduleItemId
-	 *            모듈 아이디
-	 * @return 첨부파일 목록
-	 */
-	public List<AttachFileVo> listAttachFile(AttachFileModule moduleName, String moduleItemId);
-
-	/**
-	 * @param attachFile
-	 *            첨부파일 저장
-	 */
-	public void createAttachFile(AttachFileVo attachFile);
-
-	/**
-	 * @param seq
-	 *            첨부파일 번호
-	 */
-	public void removeAttachFile(int seq);
+	public List<AttachFileVo> findByModuleNameAndModuleId(AttachFileModule moduleName, String moduleId);
 
 }
