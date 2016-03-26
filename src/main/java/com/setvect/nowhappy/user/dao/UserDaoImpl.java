@@ -23,14 +23,14 @@ public class UserDaoImpl implements UserDaoCustom {
 	@Override
 	public GenericPage<UserVo> listUser(UserSearchCondition search) {
 
-		String q = "select count(*) from UserVo " + getUserWhere(search);
+		String q = "select count(*) from UserVo u " + getUserWhere(search);
 		Query query = em.createQuery(q);
 		int totalCount = ((Long) query.getSingleResult()).intValue();
 
 		q = "select u from UserVo u " + getUserWhere(search) + " order by u.userId ";
 		query = em.createQuery(q);
-		// query.setFirstResult(search.getStartNumber());
-		// query.setMaxResults(search.getPagePerItemCount());
+		query.setFirstResult(search.getStartCursor());
+		query.setMaxResults(search.getReturnCount());
 
 		@SuppressWarnings("unchecked")
 		List<UserVo> resultList = query.getResultList();

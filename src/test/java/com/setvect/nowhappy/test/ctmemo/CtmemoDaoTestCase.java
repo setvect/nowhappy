@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.dao.CtmemoDao;
@@ -20,6 +21,7 @@ public class CtmemoDaoTestCase extends MainTestBase {
 	private CtmemoDao ctmemoDao;
 
 	@Test
+	@Transactional
 	public void test() throws InterruptedException {
 		System.out.println(ctmemoDao);
 
@@ -31,8 +33,9 @@ public class CtmemoDaoTestCase extends MainTestBase {
 		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));
 
 		CtmemoSearchCondition condition = new CtmemoSearchCondition();
+		condition.setSearchWorkspaceSeq(1);
 		List<CtmemoVo> list = ctmemoDao.findByWorkspaceSeq(condition.getSearchWorkspaceSeq());
-		Assert.assertThat(list.size(), CoreMatchers.is(1));
+		Assert.assertThat(list.size(), CoreMatchers.is(19));
 
 		String content = "내사랑 복슬이";
 		ctmemo.setContent(content);
@@ -43,7 +46,7 @@ public class CtmemoDaoTestCase extends MainTestBase {
 
 		ctmemoDao.delete(ctmemo.getCtmemoSeq());
 		list = ctmemoDao.findByWorkspaceSeq(condition.getSearchWorkspaceSeq());
-		Assert.assertThat(list.size(), CoreMatchers.is(0));
+		Assert.assertThat(list.size(), CoreMatchers.is(18));
 
 	}
 

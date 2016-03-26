@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
 import com.setvect.nowhappy.ctmemo.service.CtmemoService;
@@ -19,6 +20,7 @@ public class CtmemoServiceTestCase extends MainTestBase {
 	private CtmemoService service;
 
 	@Test
+	@Transactional
 	public void test() {
 		CtmemoVo ctmemo = UnitTestUtil.getCtmemoTestData();
 		service.insertCtmemo(ctmemo);
@@ -27,8 +29,9 @@ public class CtmemoServiceTestCase extends MainTestBase {
 		Assert.assertThat(ctmemo, CoreMatchers.is(getmemo));
 
 		CtmemoSearchCondition condition = new CtmemoSearchCondition();
+		condition.setSearchWorkspaceSeq(1);
 		List<CtmemoVo> list = service.listCtmemo(condition);
-		Assert.assertThat(list.size(), CoreMatchers.is(1));
+		Assert.assertThat(list.size(), CoreMatchers.is(19));
 
 		String content = "내사랑 복슬이";
 		ctmemo.setContent(content);
@@ -39,7 +42,7 @@ public class CtmemoServiceTestCase extends MainTestBase {
 
 		service.removeCtmemo(ctmemo.getCtmemoSeq());
 		list = service.listCtmemo(condition);
-		Assert.assertThat(list.size(), CoreMatchers.is(0));
+		Assert.assertThat(list.size(), CoreMatchers.is(18));
 
 	}
 }

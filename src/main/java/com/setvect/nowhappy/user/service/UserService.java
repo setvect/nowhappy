@@ -123,7 +123,7 @@ public class UserService {
 	 * @param userId
 	 */
 	public void removeAuthMapForUserId(String userId) {
-		authMapDao.deleteByUserId(userId);
+		authMapDao.deleteByKeyUserId(userId);
 	}
 
 	// ---------------- 권한 변경 이벤트

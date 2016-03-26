@@ -9,6 +9,8 @@ import com.setvect.nowhappy.user.vo.UserVo;
 public class UnitTestUtil {
 	public static CtmemoVo getCtmemoTestData() {
 		CtmemoVo ctmemo = new CtmemoVo();
+		ctmemo.setWorkspaceSeq(1);
+		ctmemo.setContent("내용");
 		ctmemo.setContent("내용");
 		ctmemo.setBgCss("bg_1");
 		ctmemo.setFontCss("font_1");
