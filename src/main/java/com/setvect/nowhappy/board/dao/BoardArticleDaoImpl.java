@@ -19,7 +19,7 @@ import com.setvect.nowhappy.board.vo.BoardArticleVo;
  * @version $Id: AbstractBoardDao.java 121 2010-10-03 05:59:11Z
  *          setvect@naver.com $
  */
-public abstract class BoardArticleDaoImpl implements BoardArticleDao {
+public class BoardArticleDaoImpl implements BoardArticleDaoCustom {
 	@PersistenceContext
 	private EntityManager em;
 	@Autowired

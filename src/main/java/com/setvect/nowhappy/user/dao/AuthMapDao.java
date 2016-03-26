@@ -9,5 +9,5 @@ import com.setvect.nowhappy.auth.vo.AuthMapVoKey;
  * 권한 맴핑
  */
 public interface AuthMapDao extends JpaRepository<AuthMapVo, AuthMapVoKey> {
-	public void deleteByUserId(String userId);
+	public void deleteByKeyUserId(String userId);
 }

@@ -16,7 +16,7 @@ import com.setvect.nowhappy.util.StringEtcUtil;
 /**
  * 회원관리 DAO
  */
-public abstract class UserDaoImpl implements UserDaoCustom {
+public class UserDaoImpl implements UserDaoCustom {
 	@PersistenceContext
 	private EntityManager em;
 

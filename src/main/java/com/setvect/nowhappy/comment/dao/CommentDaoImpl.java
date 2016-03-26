@@ -14,7 +14,7 @@ import com.setvect.nowhappy.comment.vo.Comment;
 /**
  * 코멘트
  */
-public abstract class CommentDaoImpl implements CommentDaoCustom {
+public class CommentDaoImpl implements CommentDaoCustom {
 	@PersistenceContext
 	private EntityManager em;
 

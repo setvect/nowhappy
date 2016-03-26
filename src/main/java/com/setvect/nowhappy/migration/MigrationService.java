@@ -3,13 +3,12 @@ package com.setvect.nowhappy.migration;
 import java.io.File;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.commons.io.FilenameUtils;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
 import com.setvect.nowhappy.ApplicationConstant.FileUpload;
@@ -26,9 +25,8 @@ import com.setvect.nowhappy.util.FileUtil;
  */
 @Service
 public class MigrationService {
-
-	@Resource(name = "sessionFactory")
-	private SessionFactory sessionFactory;
+	@PersistenceContext
+	private EntityManager em;
 
 	@Inject
 	private BoardDao boardDao;
@@ -37,13 +35,12 @@ public class MigrationService {
 
 	public String runMigration(File destDir) {
 
-		Session session = sessionFactory.getCurrentSession();
-		SQLQuery s = session.createSQLQuery("delete from TBYA_ATTACH_FILE ");
+		Query s = em.createNativeQuery("delete from TBYA_ATTACH_FILE ");
 		s.executeUpdate();
 
 		String q = " select FILE_SEQ, ARTICLE_SEQ, ORIGINAL_NAME, SAVE_NAME, SIZE from TBBD_BOARD_FILE order by FILE_SEQ";
-		SQLQuery query = session.createSQLQuery(q);
-		List<Object[]> result = query.list();
+		Query query = em.createNativeQuery(q);
+		List<Object[]> result = query.getResultList();
 
 		File uploadPath = new File(destDir, FileUpload.UPLOAD_PATH);
 		File attachPath = new File(destDir.getAbsoluteFile(), FileUpload.ATTACH_PATH);
@@ -78,7 +75,7 @@ public class MigrationService {
 			vf.setSaveName(dayPath + fileName);
 			vf.setSize(size);
 			vf.setRegDate(boardArticle.getRegDate());
-			session.save(vf);
+			em.persist(vf);
 		}
 
 		return "done.";
