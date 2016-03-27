@@ -20,15 +20,15 @@ REF_20160208: NoteController.listCategory()
 NEW_20160208: 복슬note JPA 이용
 
 NEW_20151115: 복슬note 바로 저장하기 버튼 만듦.
-
 PBM_20150713: 복슬note depthlink 확대(새로고침 시 오류가 발생하는 환경)
-
 REF_20150712: mainCtrl 없에 버리기    
+PBM_20150707: 복슬메모장 수정 시 쓰기 html escape 문자 처리 오유
 	
 NEW_20150705: depthlink 확대 
 
 
 [진행 된 것]
+NEW_20160327: 노트 버튼 추가 
 NEW_20160207(20160210): 복슬note 읽기 화면 스타일 변경(폰트 큼)
 REF_20160208(20160210): console.log() 지우기
 NEW_20150713(20160210): 복슬note 카테고리 이동

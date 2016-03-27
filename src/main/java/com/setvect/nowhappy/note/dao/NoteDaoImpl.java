@@ -20,7 +20,7 @@ public class NoteDaoImpl implements NoteDaoCustom {
 
 	@Override
 	public GenericPage<NoteVo> getNotePagingList(NoteSearch pageCondition) {
-		String q = "select count(*) from NoteVo " + getNoteWhereClause(pageCondition);
+		String q = "select count(*) from NoteVo n " + getNoteWhereClause(pageCondition);
 		javax.persistence.Query query = em.createQuery(q);
 		int totalCount = ((Long) query.getSingleResult()).intValue();
 
