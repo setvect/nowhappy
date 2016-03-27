@@ -86,7 +86,7 @@ public class BoardService {
 	 *            게시물
 	 */
 	public void insertArticle(BoardArticleVo article) {
-		boardArticleDao.save(article);
+		boardArticleDao.insertArticle(article);
 	}
 
 	/**

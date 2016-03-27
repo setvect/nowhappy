@@ -98,12 +98,35 @@ public class BoardArticleDaoImpl implements BoardArticleDaoCustom {
 	}
 
 	@Override
+	public void insertArticle(BoardArticleVo article) {
+		String q;
+		// 인덱스 순서
+		q = "select COALESCE(max(b.idx1) + 1, 1)  from BoardArticleVo b WHERE b.boardCode = ?";
+		Query query = em.createQuery(q);
+		query.setParameter(1, article.getBoardCode());
+		int idx1 = ((Integer) query.getSingleResult()).intValue();
+		article.setIdx1(idx1);
+
+		q = "select COALESCE(max(b.idx2) + 1, 1) from BoardArticleVo b WHERE b.boardCode = ?";
+		query = em.createQuery(q);
+		query.setParameter(1, article.getBoardCode());
+		int idx2 = ((Integer) query.getSingleResult()).intValue();
+		article.setIdx2(idx2);
+
+		// 기본 값
+		article.setIdx3(1);
+		article.setDepthLevel(1);
+
+		em.persist(article);
+	}
+
+	@Override
 	public void insertArticleReply(BoardArticleVo article, int parentId) {
 
 		// IDX1
 		String q = "select COALESCE(max(IDX1) + 1, 1) AS CNT from BoardArticleVo WHERE boardCode = ?";
 		Query query = em.createQuery(q);
-		query.setParameter(0, article.getBoardCode());
+		query.setParameter(1, article.getBoardCode());
 		article.setIdx1(((Integer) query.getSingleResult()).intValue());
 
 		BoardArticleVo target = boardArticle.findOne(parentId);

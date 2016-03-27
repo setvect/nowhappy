@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
@@ -23,7 +24,7 @@ import com.setvect.nowhappy.util.DateDiff;
 
 /**
  * 게시물 VO
- * 
+ *
  * @version $Id$
  */
 @Entity
@@ -399,8 +400,9 @@ public class BoardArticleVo {
 		return DateDiff.diff(new Date(), regDate);
 	}
 
+	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 
 }

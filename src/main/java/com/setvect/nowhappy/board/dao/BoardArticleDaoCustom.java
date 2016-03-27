@@ -6,7 +6,7 @@ import com.setvect.nowhappy.board.vo.BoardArticleVo;
 
 /**
  * 게시물
- * 
+ *
  * @version $Id$
  */
 public interface BoardArticleDaoCustom {
@@ -19,8 +19,15 @@ public interface BoardArticleDaoCustom {
 	public GenericPage<BoardArticleVo> getArticlePagingList(BoardArticleSearch pageCondition);
 
 	/**
+	 * 게시물 저장
+	 *
+	 * @param article
+	 */
+	public void insertArticle(BoardArticleVo article);
+
+	/**
 	 * 답변 등록
-	 * 
+	 *
 	 * @param article
 	 *            게시물
 	 * @param parentId
