@@ -20,7 +20,7 @@ class BoardDaoImpl implements BoardDaoCustom {
 
 	@Override
 	public GenericPage<BoardVo> getBoardPagingList(BoardManagerSearch pageCondition) {
-		String q = "select count(*) from BoardVo " + getManagerWhereClause(pageCondition);
+		String q = "select count(*) from BoardVo b " + getManagerWhereClause(pageCondition);
 		Query query = em.createQuery(q);
 		int totalCount = ((Long) query.getSingleResult()).intValue();
 

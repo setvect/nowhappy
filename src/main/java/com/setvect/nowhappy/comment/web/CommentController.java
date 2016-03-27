@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,7 +25,7 @@ import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
  * 이메일 주소 알아 내기
- * 
+ *
  * @version $Id$
  */
 @Controller
@@ -31,6 +33,8 @@ public class CommentController {
 	/** 한 페이지당 표시 항목 갯수 */
 	private static final int PAGE_PER_ITEM = 10;
 	public static final String ATTR_MODULE_NAME = "MODULE_NAME";
+
+	private Logger logger = LogManager.getLogger(getClass());
 
 	/**
 	 * 서브 명령어 정의
@@ -59,7 +63,7 @@ public class CommentController {
 
 	/**
 	 * 항목 하나를 가져옴
-	 * 
+	 *
 	 * @param param
 	 * @return
 	 * @throws IOException
@@ -73,7 +77,7 @@ public class CommentController {
 
 	/**
 	 * 코멘트 조회 목록
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -95,7 +99,7 @@ public class CommentController {
 
 	/**
 	 * 코멘트 삭제
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -123,7 +127,7 @@ public class CommentController {
 
 	/**
 	 * 코멘트 추가
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return 추가한 코멘트 아이디

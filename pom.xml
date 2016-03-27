@@ -12,6 +12,7 @@
 		<spring.maven.artifact.version>4.2.4.RELEASE</spring.maven.artifact.version>
 		<org.aspectj.version>1.8.8</org.aspectj.version>
 		<com.fasterxml.jackson.version>2.6.5</com.fasterxml.jackson.version>
+		<org.apache.logging.log4j.version>2.1</org.apache.logging.log4j.version>
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
@@ -112,13 +113,13 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.2.11.Final</version>
+			<version>4.3.11.Final</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.2.11.Final</version>
+			<version>4.3.11.Final</version>
 		</dependency>
 		
 		<dependency>
@@ -158,12 +159,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.14</version>
-		</dependency>
-
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
@@ -174,6 +169,24 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.3.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${org.apache.logging.log4j.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${org.apache.logging.log4j.version}</version>
+		</dependency>		
+		
+		<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-log4j12</artifactId>
+	    <version>1.7.6</version>
 		</dependency>
 
 		<!-- junit 테스트 할 때 필요 -->

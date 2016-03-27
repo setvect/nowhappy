@@ -35,7 +35,7 @@ public class BoardService {
 	 * @return 정보 항목
 	 */
 	public GenericPage<BoardVo> getBoardPagingList(BoardManagerSearch pageCondition) {
-		return null;
+		return boardDao.getBoardPagingList(pageCondition);
 	}
 
 	/**
