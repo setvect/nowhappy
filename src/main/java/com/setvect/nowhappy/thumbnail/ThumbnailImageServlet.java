@@ -21,7 +21,7 @@ import com.setvect.nowhappy.SessionCheckInterceptor;
 /**
  * 웹 루트 바깥에 있는 이미지 파일을 열어서 데이터를 뿌여 주는 클래스 <br>
  * ex) <img src="/servlet/Thumbnail?i=이름지명&w=넓이&h=높이"> 이런 식으로 사용 하면 된다.
- * 
+ *
  * @version $Id$
  */
 public class ThumbnailImageServlet extends HttpServlet {
@@ -36,7 +36,7 @@ public class ThumbnailImageServlet extends HttpServlet {
 
 	/**
 	 * 썸네일 이미지
-	 * 
+	 *
 	 * @param req
 	 * @param res
 	 * @throws IOException
@@ -44,6 +44,7 @@ public class ThumbnailImageServlet extends HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest,
 	 *      javax.servlet.http.HttpServletResponse)
 	 */
+	@Override
 	public void service(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
 		// 원본 이미지
 		String orgImagePath = req.getParameter("i");
@@ -88,7 +89,7 @@ public class ThumbnailImageServlet extends HttpServlet {
 		// 기존에 섬네일로 변환된 파일이 있는냐?
 		// 섬네일로 변환된 파일이 없거나, 파일이 수정되었을 경우 섬네일 다시 만들기
 		if (!fileExist || fileOld) {
-			ThumbnailImageConvert.toJPEGAny(sourceImageFile.getPath(), toFile.getPath(), width, height);
+			ThumbnailImageConvert.makeThumbnail(sourceImageFile, toFile, width, height);
 		}
 
 		// 썸네일로 변환된 파일 읽어 들리기

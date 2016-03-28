@@ -189,22 +189,12 @@
 	    <version>1.7.6</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>[0.4, 0.5)</version>
+		</dependency>
 
-    <dependency>
-    	<groupId>javax.media</groupId>
-    	<artifactId>jai-codec</artifactId>
-    	<version>1.1.3</version>
-    	<scope>system</scope>
-    	<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/jai_codec-1.1.3.jar</systemPath>
-    </dependency>
-
-    <dependency>
-    	<groupId>javax.media</groupId>
-    	<artifactId>jai-core</artifactId>
-    	<version>1.1.3</version>
-    	<scope>system</scope>
-    	<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/jai_core-1.1.3.jar</systemPath>
-    </dependency>
     
 		<!-- junit 테스트 할 때 필요 -->
 		<dependency>
