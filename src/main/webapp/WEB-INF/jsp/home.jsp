@@ -31,44 +31,16 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/editor/js/HuskyEZCreator.js"></script>
 <script type="text/javascript">	
 
-	function pageActionContrller(contextPath){
-		// /nowhappy/   =>   /nowhappy
-		this.contextPath = contextPath.substring(0, contextPath.lastIndexOf("/"));
-		
-		/**
-		 * loadPage: 앞에 '/' 문자 있어야 됨
-		 */
-		this.loadPage = function(loadPage){
-			 var page = this.getUrl(loadPage);
-			$("._mainAear").load(page);
-		};
-		
-		/**
-		 * contextPath와 더해 URL 만듦 
-		 * url: 앞에 '/' 문자 있어야 됨.		 
-		 */
-		this.getUrl = function(url){
-			return this.contextPath + url;
-		};
-	};
-	
-	// 전역 변수
-	var mainCtrl= new pageActionContrller("${pageContext.request.contextPath}/");
-	
 	$(function(){
-		mainCtrl.loadPage("<%=loadPage%>");
-// 	mainCtrl.loadPage("/app/board_manager/page.do");
-<%--mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.CONTENT%>&boardCode=BDAAAA01"); --%>
-<%-- 		mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=BDAAAA01"); --%>
-		
+		$("._mainAear").load($.APP.getContextRoot("<%=loadPage%>"));
 		$("._boardManager").on("click", function(){
-			mainCtrl.loadPage("/app/board_manager/page.do");
+			$("._mainAear").load($.APP.getContextRoot("/app/board_manager/page.do"));
 		}); 
 	});
 	
 	var menuApp = angular.module('menuApp', []);
 	menuApp.controller('menuController', function($scope, $http) {
-		var listUrl = mainCtrl.getUrl("/app/board_manager/list.json.do");
+		var listUrl = $.APP.getContextRoot("/app/board_manager/list.json.do");
 
 		$scope.list = [];
 		
@@ -85,15 +57,15 @@
 		 * 게시판 불러옴 
 		 */
 	  $scope.loadBoard = function(boardCode){
-	  	mainCtrl.loadPage("/app/board/page.do?boardCode=" + boardCode);
+	  	$("._mainAear").load($.APP.getContextRoot("/app/board/page.do?boardCode=" + boardCode));
 	  };
 
 	  $scope.loadBoardMg = function(boardCode){
-	  	mainCtrl.loadPage("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=" + boardCode);
+	  	$("._mainAear").load($.APP.getContextRoot("/app/board/page.do?type=<%=BoardListPage.MANAGE%>&boardCode=" + boardCode));
 	  };
 	  	  
 	  $scope.loadHome = function(){
-	  	mainCtrl.loadPage("/app/main.do");
+	  	$("._mainAear").load($.APP.getContextRoot("/app/main.do"));
 	  };
 	  
 	  $scope.loadBoadMenu(1);

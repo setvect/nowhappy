@@ -5,7 +5,7 @@
 	$(function(){
 		$("._loginBtn").on("click", function(){
 			var param = $("._loginForm").serialize();
-			$.post(mainCtrl.getUrl("/app/login/action.do"), param, function(result){
+			$.post($.APP.getContextRoot("/app/login/action.do"), param, function(result){
 				var login = result["<%=WebAttributeKey.PROCESS_RESULT%>"];
 				if(login){
 					var loadPage = result["<%=WebAttributeKey.LOAD_PAGE%>"]

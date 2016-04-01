@@ -20,10 +20,10 @@
 	
 	app.controller('commentController',['$scope', '$http', '$sce', function($scope, $http, $sce) {
 		var moduleName = "<%=module%>";
-		var getUrl = mainCtrl.getUrl("/app/comment/get.json.do");
-		var listUrl = mainCtrl.getUrl("/app/comment/list.json.do");
-		var deleteUrl = mainCtrl.getUrl("/app/comment/delete.do");
-		var addUrl = mainCtrl.getUrl("/app/comment/add.do");
+		var getUrl = $.APP.getContextRoot("/app/comment/get.json.do");
+		var listUrl = $.APP.getContextRoot("/app/comment/list.json.do");
+		var deleteUrl = $.APP.getContextRoot("/app/comment/delete.do");
+		var addUrl = $.APP.getContextRoot("/app/comment/add.do");
 		
 		$scope.trustAsHtml = $sce.trustAsHtml;
 	  $scope.loginId = "<%=userId%>";

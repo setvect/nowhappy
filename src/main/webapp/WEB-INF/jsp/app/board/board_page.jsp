@@ -33,19 +33,19 @@
 	
 	appBoard.config(function($routeProvider) {
 		$routeProvider.when('/list', {
-			templateUrl : mainCtrl.getUrl("/app/board/list.do?type=<%=listPgae%>"),
+			templateUrl : $.APP.getContextRoot("/app/board/list.do?type=<%=listPgae%>"),
 			controller : 'boardListController' 
 		}).when('/write', {
-			templateUrl : mainCtrl.getUrl("/app/board/write.do"),
+			templateUrl : $.APP.getContextRoot("/app/board/write.do"),
 			controller : 'boardWriteController'
 		}).when('/update/:articleSeq', {
-			templateUrl : mainCtrl.getUrl("/app/board/write.do"),
+			templateUrl : $.APP.getContextRoot("/app/board/write.do"),
 			controller : 'boardWriteController' 
 		}).when('/read/:articleSeq', {
-			templateUrl : mainCtrl.getUrl("/app/board/read.do"),
+			templateUrl : $.APP.getContextRoot("/app/board/read.do"),
 			controller : 'boardReadController' 
 		}).when('/encode/:articleSeq', {
-			templateUrl : mainCtrl.getUrl("/app/board/encode.do"),
+			templateUrl : $.APP.getContextRoot("/app/board/encode.do"),
 			controller : 'boardEncodeController' 
 		}).otherwise({
 			redirectTo : '/list'
@@ -88,7 +88,7 @@
 	  };
 
 	  $scope.loadAttachFile = function(article){
-			var listAttachFileUrl = mainCtrl.getUrl("/app/attachFile/list.json.do");
+			var listAttachFileUrl = $.APP.getContextRoot("/app/attachFile/list.json.do");
 	  	var param = {};
   		param["moduleName"] = "<%=AttachFileModule.BOARD%>";
   		param["moduleId"] = article.articleSeq;
@@ -98,8 +98,8 @@
 	  };
 
 	  $scope.writeOrUpdateSummit = function(){
-			var addUrl = mainCtrl.getUrl("/app/board/add.do");
-			var updateUrl = mainCtrl.getUrl("/app/board/update.do");
+			var addUrl = $.APP.getContextRoot("/app/board/add.do");
+			var updateUrl = $.APP.getContextRoot("/app/board/update.do");
 			
 	  	var url = $scope.readItem.articleSeq == 0 ? addUrl : updateUrl; 
 	  	var content = $scope.oEditors.getById["content"].getIR();
@@ -145,7 +145,7 @@
 		  param["searchOption"] = $scope.searchParam.option;
 		  param["searchWord"] = $scope.searchParam.word;
 		  
-			var listUrl = mainCtrl.getUrl("/app/board/list.json.do");
+			var listUrl = $.APP.getContextRoot("/app/board/list.json.do");
 		  $http.get(listUrl, {params: param}).success(function(response) {
 			  $scope.list = response.list;
 			  $scope.pageCount = response.pageCount;
@@ -168,7 +168,7 @@
 	  };
 	  
 	  $scope.remove = function(article){
-			var deleteUrl = mainCtrl.getUrl("/app/board/delete.do");
+			var deleteUrl = $.APP.getContextRoot("/app/board/delete.do");
 	  	if(!confirm("삭제할거야?")){
 	  		return;
 	  	}
@@ -183,7 +183,7 @@
 	  
 	  // 게시판 설정정보 load
 	  $scope.loadBoard = function(){
-			var readBoardManager = mainCtrl.getUrl("/app/board_manager/read.json.do");
+			var readBoardManager = $.APP.getContextRoot("/app/board_manager/read.json.do");
 	  	
 	  	var param = {};
 	  	param["boardCode"] = $scope.boardCode;
@@ -194,7 +194,7 @@
 	  };
 	  
 	  $scope.loadArticle = function(articleSeq){
-			var readArticle = mainCtrl.getUrl("/app/board/read.json.do");
+			var readArticle = $.APP.getContextRoot("/app/board/read.json.do");
 	  	var param = {};
 	  	param["articleSeq"] = articleSeq;
 	  	param["encodeString"] = $scope.encode.encodeString;
@@ -213,7 +213,7 @@
 	  };
 	  
 	  $scope.imgPopup = function(imgPath){
-	  	var url = mainCtrl.getUrl(imgPath);
+	  	var url = $.APP.getContextRoot(imgPath);
 	  	$("._img_popup a").on("click", function(){
 	  		$("._img_popup").dialog("close");
 	  	});
@@ -272,7 +272,7 @@
 	  	nhn.husky.EZCreator.createInIFrame({
 	  		oAppRef: $scope.oEditors,
 	  		elPlaceHolder: "content",
-				sSkinURI : mainCtrl.getUrl("/editor/SmartEditor2Skin.html"),
+				sSkinURI : $.APP.getContextRoot("/editor/SmartEditor2Skin.html"),
 	  		fCreator: "createSEditorInIFrame"
 	  	});
 	  	

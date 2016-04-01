@@ -6,7 +6,7 @@
 	$(function(){
 		var param = {};
 		param["moduleName"] = "<%=CommentModule.MAIN%>";
-		$("._commentAear").load(mainCtrl.getUrl("/app/comment/page.do"), param);
+		$("._commentAear").load($.APP.getContextRoot("/app/comment/page.do"), param);
 	});
 </script>
 <!-- Main... -->

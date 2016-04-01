@@ -17,19 +17,18 @@ nowhappy_pass
 [진행 해야된는 것]
 
 REF_20160208: NoteController.listCategory() 
-NEW_20160208: 복슬note JPA 이용
 
 NEW_20151115: 복슬note 바로 저장하기 버튼 만듦.
 PBM_20150713: 복슬note depthlink 확대(새로고침 시 오류가 발생하는 환경)
-REF_20150712: mainCtrl 없에 버리기    
 PBM_20150707: 복슬메모장 수정 시 쓰기 html escape 문자 처리 오유
 	
 NEW_20150705: depthlink 확대 
 
 
 [진행 된 것]
+REF_20150712(20160401): mainCtrl 없에 버리기    
 REF_20160326(20160401): Dao -> Repository 변경
-PBM_20160327(20160330): 아래 문제 해결
+PBM_20160327(20160328): 아래 문제 해결
 	java.lang.NoClassDefFoundError: com/sun/medialib/mlib/Image
 	        at com.sun.media.jai.mlib.MediaLibAccessor$1.run(MediaLibAccessor.java:248)
 	        at java.security.AccessController.doPrivileged(Native Method)
@@ -40,6 +39,7 @@ PBM_20160327(20160330): 아래 문제 해결
 	        at com.sun.media.jai.mlib.MlibScaleRIF.create(MlibScaleRIF.java:67)
 	        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 NEW_20160328: 섬네일 생성 방법 변경
+NEW_20160208: 복슬note JPA 이용
 PBM_20160327: 게시판 글 쓰기 안되는 문제
 NEW_20160327: 노트 버튼 추가 
 NEW_20160207(20160210): 복슬note 읽기 화면 스타일 변경(폰트 큼)
