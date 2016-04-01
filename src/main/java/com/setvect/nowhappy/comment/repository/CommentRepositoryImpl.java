@@ -9,7 +9,7 @@ import javax.persistence.Query;
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.comment.service.CommentSearch;
-import com.setvect.nowhappy.comment.vo.Comment;
+import com.setvect.nowhappy.comment.vo.CommentVo;
 
 /**
  * 코멘트
@@ -19,7 +19,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 	private EntityManager em;
 
 	@Override
-	public GenericPage<Comment> getCommentPagingList(CommentSearch pageCondition) {
+	public GenericPage<CommentVo> getCommentPagingList(CommentSearch pageCondition) {
 		String q = "select count(*) from Comment c" + getWhereClause(pageCondition);
 		Query query = em.createQuery(q);
 		int totalCount = ((Long) query.getSingleResult()).intValue();
@@ -30,8 +30,8 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 		query.setMaxResults(pageCondition.getReturnCount());
 
 		@SuppressWarnings("unchecked")
-		List<Comment> resultList = query.getResultList();
-		GenericPage<Comment> resultPage = new GenericPage<Comment>(resultList, pageCondition.getStartCursor(), totalCount);
+		List<CommentVo> resultList = query.getResultList();
+		GenericPage<CommentVo> resultPage = new GenericPage<CommentVo>(resultList, pageCondition.getStartCursor(), totalCount);
 
 		return resultPage;
 	}

@@ -24,7 +24,7 @@ import com.setvect.nowhappy.util.DateDiff;
 @Entity
 @Table(name = "TBGA_COMMENT")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Comment {
+public class CommentVo {
 
 	/** 일련번호 */
 	@Id

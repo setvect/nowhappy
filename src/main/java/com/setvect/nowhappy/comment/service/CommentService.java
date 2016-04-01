@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.nowhappy.comment.repository.CommentRepository;
-import com.setvect.nowhappy.comment.vo.Comment;
+import com.setvect.nowhappy.comment.vo.CommentVo;
 
 /**
  * 코멘트 관리
@@ -16,19 +16,19 @@ public class CommentService {
 	@Autowired
 	private CommentRepository commentRepository;
 
-	public Comment getComment(int commentSeq) {
+	public CommentVo getComment(int commentSeq) {
 		return commentRepository.findOne(commentSeq);
 	}
 
-	public GenericPage<Comment> getCommentPagingList(CommentSearch pageCondition) {
+	public GenericPage<CommentVo> getCommentPagingList(CommentSearch pageCondition) {
 		return commentRepository.getCommentPagingList(pageCondition);
 	}
 
-	public void insertComment(Comment comment) {
+	public void insertComment(CommentVo comment) {
 		commentRepository.save(comment);
 	}
 
-	public void updateComment(Comment comment) {
+	public void updateComment(CommentVo comment) {
 		commentRepository.save(comment);
 	}
 

@@ -20,7 +20,7 @@ import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.comment.service.CommentModule;
 import com.setvect.nowhappy.comment.service.CommentSearch;
 import com.setvect.nowhappy.comment.service.CommentService;
-import com.setvect.nowhappy.comment.vo.Comment;
+import com.setvect.nowhappy.comment.vo.CommentVo;
 import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
@@ -70,8 +70,8 @@ public class CommentController {
 	 */
 	@RequestMapping("/app/comment/get.json.do")
 	@ResponseBody
-	public Comment get(@ModelAttribute Comment param) {
-		Comment comment = commentService.getComment(param.getCommentSeq());
+	public CommentVo get(@ModelAttribute CommentVo param) {
+		CommentVo comment = commentService.getComment(param.getCommentSeq());
 		return comment;
 	}
 
@@ -85,14 +85,14 @@ public class CommentController {
 	 */
 	@RequestMapping("/app/comment/list.json.do")
 	@ResponseBody
-	public GenericPage<Comment> list(HttpServletRequest request) {
+	public GenericPage<CommentVo> list(HttpServletRequest request) {
 		String mn = request.getParameter("moduleName");
 		CommentModule moduleName = CommentModule.valueOf(mn);
 		String cursor = StringUtilAd.null2str(request.getParameter("startCursor"), "0");
 		int startCursor = Integer.parseInt(cursor);
 
 		CommentSearch pageCondition = new CommentSearch(moduleName, startCursor, PAGE_PER_ITEM);
-		GenericPage<Comment> page = commentService.getCommentPagingList(pageCondition);
+		GenericPage<CommentVo> page = commentService.getCommentPagingList(pageCondition);
 
 		return page;
 	}
@@ -107,8 +107,8 @@ public class CommentController {
 	 */
 	@RequestMapping("/app/comment/delete.do")
 	@ResponseBody
-	public boolean delete(@ModelAttribute Comment param, HttpServletRequest request) {
-		Comment comment = commentService.getComment(param.getCommentSeq());
+	public boolean delete(@ModelAttribute CommentVo param, HttpServletRequest request) {
+		CommentVo comment = commentService.getComment(param.getCommentSeq());
 		if (comment == null) {
 			return false;
 		}
@@ -135,7 +135,7 @@ public class CommentController {
 	 */
 	@RequestMapping("/app/comment/add.do")
 	@ResponseBody
-	public int add(@ModelAttribute Comment comment, HttpServletRequest request) {
+	public int add(@ModelAttribute CommentVo comment, HttpServletRequest request) {
 		UserVo user = ApplicationUtil.getLoginSession(request);
 		if (user == null) {
 			return -1;

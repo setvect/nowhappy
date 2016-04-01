@@ -15,7 +15,8 @@ nowhappy_pass
 81dc9bdb52d04dc20036dbd8313ed055 = 1234
 
 [진행 해야된는 것]
-
+NEW_20160402: 지식방
+NEW_20160402: 코드 관리 
 REF_20160208: NoteController.listCategory() 
 
 NEW_20151115: 복슬note 바로 저장하기 버튼 만듦.
