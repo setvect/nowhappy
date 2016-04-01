@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationConstant.FileUpload;
 import com.setvect.nowhappy.ApplicationUtil;
-import com.setvect.nowhappy.attach.dao.AttachFileDao;
+import com.setvect.nowhappy.attach.repository.AttachFileRepository;
 import com.setvect.nowhappy.attach.vo.AttachFileVo;
 import com.setvect.nowhappy.util.FileUtil;
 
@@ -24,7 +24,7 @@ import com.setvect.nowhappy.util.FileUtil;
 public class AttachFileService {
 
 	@Autowired
-	private AttachFileDao attachFileDao;
+	private AttachFileRepository attachFileRepository;
 
 	/**
 	 * 첨부파일 저장
@@ -205,23 +205,23 @@ public class AttachFileService {
 	}
 
 	public AttachFileVo getAttachFile(int attachFileSeq) {
-		return attachFileDao.findOne(attachFileSeq);
+		return attachFileRepository.findOne(attachFileSeq);
 	}
 
 	public List<AttachFileVo> listAttachFile(AttachFileModule moduleName, int moduleItemId) {
-		return attachFileDao.findByModuleNameAndModuleId(moduleName, String.valueOf(moduleItemId));
+		return attachFileRepository.findByModuleNameAndModuleId(moduleName, String.valueOf(moduleItemId));
 	}
 
 	public List<AttachFileVo> listAttachFile(AttachFileModule moduleName, String moduleItemId) {
-		return attachFileDao.findByModuleNameAndModuleId(moduleName, moduleItemId);
+		return attachFileRepository.findByModuleNameAndModuleId(moduleName, moduleItemId);
 	}
 
 	public void createAttachFile(AttachFileVo attachFile) {
-		attachFileDao.save(attachFile);
+		attachFileRepository.save(attachFile);
 	}
 
 	public void removeAttachFile(int seq) {
-		attachFileDao.delete(seq);
+		attachFileRepository.delete(seq);
 	}
 
 }

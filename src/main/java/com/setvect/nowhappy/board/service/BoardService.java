@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.setvect.common.util.GenericPage;
-import com.setvect.nowhappy.board.dao.BoardArticleDao;
-import com.setvect.nowhappy.board.dao.BoardDao;
+import com.setvect.nowhappy.board.repository.BoardArticleRepository;
+import com.setvect.nowhappy.board.repository.BoardRepository;
 import com.setvect.nowhappy.board.vo.BoardArticleVo;
 import com.setvect.nowhappy.board.vo.BoardVo;
 
@@ -16,10 +16,10 @@ import com.setvect.nowhappy.board.vo.BoardVo;
 public class BoardService {
 
 	@Autowired
-	private BoardDao boardDao;
+	private BoardRepository boardRepository;
 
 	@Autowired
-	private BoardArticleDao boardArticleDao;
+	private BoardArticleRepository boardArticleRepository;
 
 	/**
 	 * @param code
@@ -27,7 +27,7 @@ public class BoardService {
 	 * @return 정보
 	 */
 	public BoardVo getBoard(String code) {
-		return boardDao.findOne(code);
+		return boardRepository.findOne(code);
 	}
 
 	/**
@@ -35,14 +35,14 @@ public class BoardService {
 	 * @return 정보 항목
 	 */
 	public GenericPage<BoardVo> getBoardPagingList(BoardManagerSearch pageCondition) {
-		return boardDao.getBoardPagingList(pageCondition);
+		return boardRepository.getBoardPagingList(pageCondition);
 	}
 
 	/**
 	 * @param BoardVo
 	 */
 	public void insertBoard(BoardVo BoardVo) {
-		boardDao.save(BoardVo);
+		boardRepository.save(BoardVo);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class BoardService {
 	 *            게시물 아이디
 	 */
 	public void updateBoard(BoardVo BoardVo) {
-		boardDao.save(BoardVo);
+		boardRepository.save(BoardVo);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class BoardService {
 	 *            게시물 코드
 	 */
 	public void deleteBoard(String code) {
-		boardDao.delete(code);
+		boardRepository.delete(code);
 	}
 
 	// --------------- 게시물
@@ -67,7 +67,7 @@ public class BoardService {
 	 * @return
 	 */
 	public BoardArticleVo getArticle(int articleSeq) {
-		return boardArticleDao.findOne(articleSeq);
+		return boardArticleRepository.findOne(articleSeq);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class BoardService {
 	 * @return 게시물 페이지 값
 	 */
 	public GenericPage<BoardArticleVo> getArticlePagingList(BoardArticleSearch pageCondition) {
-		return boardArticleDao.getArticlePagingList(pageCondition);
+		return boardArticleRepository.getArticlePagingList(pageCondition);
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class BoardService {
 	 *            게시물
 	 */
 	public void insertArticle(BoardArticleVo article) {
-		boardArticleDao.insertArticle(article);
+		boardArticleRepository.insertArticle(article);
 	}
 
 	/**
@@ -98,14 +98,14 @@ public class BoardService {
 	 *            부모 게시물
 	 */
 	public void insertArticleReply(BoardArticleVo article, int parentId) {
-		boardArticleDao.insertArticleReply(article, parentId);
+		boardArticleRepository.insertArticleReply(article, parentId);
 	}
 
 	/**
 	 * @param article
 	 */
 	public void updateArticle(BoardArticleVo article) {
-		boardArticleDao.save(article);
+		boardArticleRepository.save(article);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class BoardService {
 	 * @param articleSeq
 	 */
 	public void updateArticleIncrementHit(int articleSeq) {
-		BoardArticleVo article = boardArticleDao.findOne(articleSeq);
+		BoardArticleVo article = boardArticleRepository.findOne(articleSeq);
 		article.setHitCount(article.getHitCount() + 1);
 	}
 
@@ -122,6 +122,6 @@ public class BoardService {
 	 * @param articleSeq
 	 */
 	public void deleteArticle(int articleSeq) {
-		boardArticleDao.delete(articleSeq);
+		boardArticleRepository.delete(articleSeq);
 	}
 }

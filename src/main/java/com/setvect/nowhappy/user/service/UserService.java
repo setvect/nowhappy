@@ -11,9 +11,9 @@ import com.setvect.nowhappy.auth.AuthChangeListener;
 import com.setvect.nowhappy.auth.vo.AuthMapVo;
 import com.setvect.nowhappy.auth.vo.AuthMapVoKey;
 import com.setvect.nowhappy.auth.vo.AuthVo;
-import com.setvect.nowhappy.user.dao.AuthDao;
-import com.setvect.nowhappy.user.dao.AuthMapDao;
-import com.setvect.nowhappy.user.dao.UserDao;
+import com.setvect.nowhappy.user.repository.AuthRepository;
+import com.setvect.nowhappy.user.repository.AuthMapRepository;
+import com.setvect.nowhappy.user.repository.UserRepository;
 import com.setvect.nowhappy.user.vo.UserSearchCondition;
 import com.setvect.nowhappy.user.vo.UserVo;
 
@@ -23,11 +23,11 @@ import com.setvect.nowhappy.user.vo.UserVo;
 @Service(value = "UserService")
 public class UserService {
 	@Autowired
-	private UserDao userDao;
+	private UserRepository userRepository;
 	@Autowired
-	private AuthDao authDao;
+	private AuthRepository authRepository;
 	@Autowired
-	private AuthMapDao authMapDao;
+	private AuthMapRepository authMapRepository;
 
 	/** 권한 변경 이벤트 */
 	@Autowired
@@ -41,11 +41,11 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public UserVo getUser(String id) {
-		return userDao.findOne(id);
+		return userRepository.findOne(id);
 	}
 
 	public GenericPage<UserVo> listUser(UserSearchCondition searchVo) {
-		return userDao.listUser(searchVo);
+		return userRepository.listUser(searchVo);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public void insertUser(UserVo user) {
-		userDao.save(user);
+		userRepository.save(user);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public void updateUser(UserVo user) {
-		userDao.save(user);
+		userRepository.save(user);
 	}
 
 	/**
@@ -72,49 +72,49 @@ public class UserService {
 	 * @throws Exception
 	 */
 	public void deleteUser(String id) {
-		userDao.delete(id);
+		userRepository.delete(id);
 	}
 
 	// ---------------- 권한
 	public AuthVo getAuth(int authSeq) {
-		return authDao.findOne(authSeq);
+		return authRepository.findOne(authSeq);
 	}
 
 	public List<AuthVo> getAuthPagingList() {
-		return authDao.findAll();
+		return authRepository.findAll();
 	}
 
 	public void createAuth(AuthVo auth) {
-		authDao.save(auth);
+		authRepository.save(auth);
 		fireEventAuth();
 	}
 
 	public void updateAuth(AuthVo auth) {
-		authDao.save(auth);
+		authRepository.save(auth);
 		fireEventAuth();
 	}
 
 	public void removeAuth(int authSeq) {
-		authDao.delete(authSeq);
+		authRepository.delete(authSeq);
 		fireEventAuth();
 	}
 
 	// ---------------- 권한 맵핑
 	public AuthMapVo getAuthMap(AuthMapVoKey key) {
-		return authMapDao.findOne(key);
+		return authMapRepository.findOne(key);
 	}
 
 	public List<AuthMapVo> getAuthMapPagingList() {
-		return authMapDao.findAll();
+		return authMapRepository.findAll();
 	}
 
 	public void createAuthMap(AuthMapVo authMap) {
-		authMapDao.save(authMap);
+		authMapRepository.save(authMap);
 		fireEventAuthMap();
 	}
 
 	public void removeAuthMap(AuthMapVoKey key) {
-		authMapDao.delete(key);
+		authMapRepository.delete(key);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class UserService {
 	 * @param userId
 	 */
 	public void removeAuthMapForUserId(String userId) {
-		authMapDao.deleteByKeyUserId(userId);
+		authMapRepository.deleteByKeyUserId(userId);
 	}
 
 	// ---------------- 권한 변경 이벤트

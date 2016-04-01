@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.setvect.common.util.GenericPage;
-import com.setvect.nowhappy.note.dao.NoteCategoryDao;
-import com.setvect.nowhappy.note.dao.NoteDao;
+import com.setvect.nowhappy.note.repository.NoteCategoryRepository;
+import com.setvect.nowhappy.note.repository.NoteRepository;
 import com.setvect.nowhappy.note.vo.NoteCategoryVo;
 import com.setvect.nowhappy.note.vo.NoteVo;
 
@@ -16,9 +16,9 @@ import com.setvect.nowhappy.note.vo.NoteVo;
 public class NoteService {
 
 	@Autowired
-	private NoteDao noteDao;
+	private NoteRepository noteRepository;
 	@Autowired
-	private NoteCategoryDao noteCategoryDao;
+	private NoteCategoryRepository noteCategoryRepository;
 
 	// --------------- 관리
 
@@ -28,7 +28,7 @@ public class NoteService {
 	 * @return 정보
 	 */
 	public NoteCategoryVo getNoteCategory(int categorySeq) {
-		return noteCategoryDao.findOne(categorySeq);
+		return noteCategoryRepository.findOne(categorySeq);
 	}
 
 	/**
@@ -37,21 +37,21 @@ public class NoteService {
 	 */
 	public GenericPage<NoteCategoryVo> getNoteCategoryPagingList(NoteCategorySearch pageCondition) {
 
-		return noteCategoryDao.getNoteCategoryPagingList(pageCondition);
+		return noteCategoryRepository.getNoteCategoryPagingList(pageCondition);
 	}
 
 	/**
 	 * @param noteCategory
 	 */
 	public void insertNoteCategory(NoteCategoryVo noteCategory) {
-		noteCategoryDao.save(noteCategory);
+		noteCategoryRepository.save(noteCategory);
 	}
 
 	/**
 	 * @param noteCategory
 	 */
 	public void updateNoteCategory(NoteCategoryVo noteCategory) {
-		noteCategoryDao.save(noteCategory);
+		noteCategoryRepository.save(noteCategory);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class NoteService {
 	 *            일련번호
 	 */
 	public void deleteBoard(int categorySeq) {
-		noteCategoryDao.delete(categorySeq);
+		noteCategoryRepository.delete(categorySeq);
 	}
 
 	// --------------- 노트
@@ -68,7 +68,7 @@ public class NoteService {
 	 * @return
 	 */
 	public NoteVo getNote(int noteSeq) {
-		return noteDao.findOne(noteSeq);
+		return noteRepository.findOne(noteSeq);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class NoteService {
 	 * @return 노트
 	 */
 	public GenericPage<NoteVo> getNotePagingList(NoteSearch pageCondition) {
-		return noteDao.getNotePagingList(pageCondition);
+		return noteRepository.getNotePagingList(pageCondition);
 	}
 
 	/**
@@ -87,20 +87,20 @@ public class NoteService {
 	 *            노트
 	 */
 	public void insertNote(NoteVo article) {
-		noteDao.save(article);
+		noteRepository.save(article);
 	}
 
 	/**
 	 * @param article
 	 */
 	public void updateNote(NoteVo article) {
-		noteDao.save(article);
+		noteRepository.save(article);
 	}
 
 	/**
 	 * @param articleSeq
 	 */
 	public void deleteNote(int noteSeq) {
-		noteDao.delete(noteSeq);
+		noteRepository.delete(noteSeq);
 	}
 }

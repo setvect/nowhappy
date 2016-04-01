@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.setvect.common.util.GenericPage;
-import com.setvect.nowhappy.comment.dao.CommentDao;
+import com.setvect.nowhappy.comment.repository.CommentRepository;
 import com.setvect.nowhappy.comment.vo.Comment;
 
 /**
@@ -14,26 +14,26 @@ import com.setvect.nowhappy.comment.vo.Comment;
 public class CommentService {
 
 	@Autowired
-	private CommentDao commentDao;
+	private CommentRepository commentRepository;
 
 	public Comment getComment(int commentSeq) {
-		return commentDao.findOne(commentSeq);
+		return commentRepository.findOne(commentSeq);
 	}
 
 	public GenericPage<Comment> getCommentPagingList(CommentSearch pageCondition) {
-		return commentDao.getCommentPagingList(pageCondition);
+		return commentRepository.getCommentPagingList(pageCondition);
 	}
 
 	public void insertComment(Comment comment) {
-		commentDao.save(comment);
+		commentRepository.save(comment);
 	}
 
 	public void updateComment(Comment comment) {
-		commentDao.save(comment);
+		commentRepository.save(comment);
 	}
 
 	public void deleteComment(int commentSeq) {
-		commentDao.delete(commentSeq);
+		commentRepository.delete(commentSeq);
 	}
 
 }

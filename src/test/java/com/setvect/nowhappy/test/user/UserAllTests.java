@@ -7,6 +7,6 @@ import org.junit.runners.Suite;
  * 전체 테스트
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ UserDaoTestCase.class, UserServiceTestCase.class })
+@Suite.SuiteClasses({ UserRepositoryTestCase.class, UserServiceTestCase.class })
 public class UserAllTests {
 }

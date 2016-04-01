@@ -15,8 +15,8 @@ import com.setvect.nowhappy.ApplicationConstant.FileUpload;
 import com.setvect.nowhappy.attach.service.AttachFileModule;
 import com.setvect.nowhappy.attach.service.AttachFileService;
 import com.setvect.nowhappy.attach.vo.AttachFileVo;
-import com.setvect.nowhappy.board.dao.BoardArticleDao;
-import com.setvect.nowhappy.board.dao.BoardDao;
+import com.setvect.nowhappy.board.repository.BoardArticleRepository;
+import com.setvect.nowhappy.board.repository.BoardRepository;
 import com.setvect.nowhappy.board.vo.BoardArticleVo;
 import com.setvect.nowhappy.util.FileUtil;
 
@@ -29,9 +29,9 @@ public class MigrationService {
 	private EntityManager em;
 
 	@Inject
-	private BoardDao boardDao;
+	private BoardRepository boardRepository;
 	@Inject
-	private BoardArticleDao boardArticleDao;
+	private BoardArticleRepository boardArticleRepository;
 
 	public String runMigration(File destDir) {
 
@@ -53,7 +53,7 @@ public class MigrationService {
 			String saveName = (String) row[3];
 			int size = (Integer) row[4];
 
-			BoardArticleVo boardArticle = boardArticleDao.findOne(articleSeq);
+			BoardArticleVo boardArticle = boardArticleRepository.findOne(articleSeq);
 
 			File saveDayPath = FileUtil.makeDayDir(attachPath, boardArticle.getRegDate());
 			String dayPath = AttachFileService.getDayPath(attachPath, saveDayPath);
