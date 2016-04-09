@@ -1,15 +1,12 @@
 package com.setvect.nowhappy.code.web;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.setvect.nowhappy.code.service.CodeService;
@@ -24,13 +21,10 @@ public class CodeController {
 	private CodeService codeService;
 
 	/**
-	 * @param req
-	 * @param res
 	 * @return
-	 * @throws IOException
 	 */
 	@RequestMapping("/app/code/page.do")
-	public String page(HttpServletRequest request, HttpServletResponse response) {
+	public String page() {
 		return "/app/code/code_page";
 	}
 
@@ -39,43 +33,46 @@ public class CodeController {
 	 *
 	 * @param param
 	 * @return
-	 * @throws IOException
 	 */
 	@RequestMapping("/app/code/get.json.do")
 	@ResponseBody
-	public CodeVo get(@ModelAttribute CodeVo param) {
-		CodeVo code = codeService.getCode(param.getCodeSeq());
+	public CodeVo get(@RequestParam("codeSeq") int codeSeq) {
+		CodeVo code = codeService.getCode(codeSeq);
 		return code;
 	}
 
 	/**
 	 * 코드 조회 목록
 	 *
-	 * @param request
-	 * @param response
 	 * @return
-	 * @throws IOException
 	 */
 	@RequestMapping("/app/code/list.json.do")
 	@ResponseBody
-	public List<CodeVo> list(@ModelAttribute CodeVo param) {
-		List<CodeVo> page = codeService.listCode(param.getMajorCode());
+	public List<CodeVo> list(@RequestParam("majorCode") String majorCode) {
+		List<CodeVo> page = codeService.listCode(majorCode);
 		return page;
 	}
 
 	/**
 	 * 코드 추가
 	 *
-	 * @param request
-	 * @param response
 	 * @return 추가한 코드 아이디
-	 * @throws IOException
 	 */
 	@RequestMapping("/app/code/add.do")
 	@ResponseBody
-	public int add(@ModelAttribute CodeVo code, HttpServletRequest request) {
+	public void add(@ModelAttribute CodeVo code) {
 		codeService.createCode(code);
-		return code.getCodeSeq();
+	}
+
+	/**
+	 * 코드 수정
+	 *
+	 * @return 추가한 코드 아이디
+	 */
+	@RequestMapping("/app/code/update.do")
+	@ResponseBody
+	public void update(@ModelAttribute CodeVo code) {
+		add(code);
 	}
 
 	/**
@@ -84,13 +81,11 @@ public class CodeController {
 	 * @param request
 	 * @param response
 	 * @return
-	 * @throws IOException
 	 */
 	@RequestMapping("/app/code/delete.do")
 	@ResponseBody
-	public boolean delete(@ModelAttribute CodeVo param, HttpServletRequest request) {
-		codeService.removeCode(param.getCodeSeq());
+	public boolean delete(@RequestParam("codeSeq") int codeSeq) {
+		codeService.removeCode(codeSeq);
 		return true;
 	}
-
 }
