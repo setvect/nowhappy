@@ -62,7 +62,7 @@ public class BoardController {
 
 	/**
 	 * 표시할 게시물 목록 페이지 설정
-	 * 
+	 *
 	 * @param request
 	 */
 	private void settingListPage(HttpServletRequest request) {
@@ -131,7 +131,7 @@ public class BoardController {
 
 	/**
 	 * 게시물 목록
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -162,7 +162,7 @@ public class BoardController {
 
 	/**
 	 * 검색 조건 적용
-	 * 
+	 *
 	 * @param request
 	 * @param pageCondition
 	 */
@@ -173,8 +173,7 @@ public class BoardController {
 		if (StringUtils.isNotEmpty(option)) {
 			if (option.equals("title")) {
 				pageCondition.setSearchTitle(word);
-			}
-			else if (option.equals("content")) {
+			} else if (option.equals("content")) {
 				pageCondition.setSearchContent(word);
 			}
 		}
@@ -182,7 +181,7 @@ public class BoardController {
 
 	/**
 	 * 게시물 본문
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -207,7 +206,7 @@ public class BoardController {
 
 	/**
 	 * 게시물 등록
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return 추가한 코멘트 아이디
@@ -238,7 +237,7 @@ public class BoardController {
 
 	/**
 	 * 게시물 수정
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return 추가한 코멘트 아이디
@@ -267,7 +266,7 @@ public class BoardController {
 
 	/**
 	 * 삭제 선택 파일 삭제 처리
-	 * 
+	 *
 	 * @param request
 	 */
 	private void deleteFile(HttpServletRequest request) {
@@ -281,7 +280,7 @@ public class BoardController {
 
 	/**
 	 * 게시물 삭제
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -299,7 +298,7 @@ public class BoardController {
 
 	/**
 	 * 암호화 글 처리
-	 * 
+	 *
 	 * @param request
 	 * @param article
 	 */
@@ -310,28 +309,25 @@ public class BoardController {
 		if (!StringUtilAd.isEmpty(encrypt)) {
 			article.setContent(StringEncrypt.encodeJ(article.getContent(), encrypt));
 			article.setEncodeF(true);
-		}
-		else {
+		} else {
 			article.setEncodeF(false);
 		}
 	}
 
 	/**
 	 * 첨부파일 저장
-	 * 
+	 *
 	 * @param request
 	 * @param article
 	 *            관계 글
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 */
-	private void saveAttachFile(HttpServletRequest request, BoardArticleVo article) throws IOException,
-			FileNotFoundException {
+	private void saveAttachFile(HttpServletRequest request, BoardArticleVo article) throws IOException, FileNotFoundException {
 		String destDir = request.getSession().getServletContext().getRealPath("/");
 		File destPath = new File(destDir);
 		MultipartFile[] attachFiles = article.getAttachFile();
 		UserVo user = ApplicationUtil.getLoginSession(request);
-		attachFileService.process(destPath, attachFiles, AttachFileModule.BOARD, article.getArticleSeq(),
-				user.getUserId());
+		attachFileService.process(destPath, attachFiles, AttachFileModule.BOARD, article.getArticleSeq(), user.getUserId());
 	}
 }

@@ -20,11 +20,11 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
 	@Override
 	public GenericPage<CommentVo> getCommentPagingList(CommentSearch pageCondition) {
-		String q = "select count(*) from Comment c" + getWhereClause(pageCondition);
+		String q = "select count(*) from CommentVo c" + getWhereClause(pageCondition);
 		Query query = em.createQuery(q);
 		int totalCount = ((Long) query.getSingleResult()).intValue();
 
-		q = "select c from Comment c " + getWhereClause(pageCondition) + " order by c.commentSeq desc";
+		q = "select c from CommentVo c " + getWhereClause(pageCondition) + " order by c.commentSeq desc";
 		query = em.createQuery(q);
 		query.setFirstResult(pageCondition.getStartCursor());
 		query.setMaxResults(pageCondition.getReturnCount());

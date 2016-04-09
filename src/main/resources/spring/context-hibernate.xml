@@ -71,6 +71,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				
 				<value>com.setvect.nowhappy.note.vo</value>
 				
+				<value>com.setvect.nowhappy.code.vo</value>
 			</array>
 		</property>
 	</bean>
