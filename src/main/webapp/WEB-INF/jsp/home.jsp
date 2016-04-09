@@ -35,6 +35,9 @@
 		$("._mainAear").load($.APP.getContextRoot("<%=loadPage%>"));
 		$("._boardManager").on("click", function(){
 			$("._mainAear").load($.APP.getContextRoot("/app/board_manager/page.do"));
+		});
+		$("._codeManager").on("click", function(){
+			$("._mainAear").load($.APP.getContextRoot("/app/code/page.do"));
 		}); 
 	});
 	
@@ -101,6 +104,7 @@
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Manager<span	class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby="themes">
 							<li><a href="#" class="_boardManager">게시판관리</a></li>
+							<li><a href="#" class="_codeManager">코드관리</a></li>
 							<li class="divider"></li>
 							<li data-ng-repeat="x in list">
 								<a href="#" data-ng-click="loadBoardMg(x.boardCode)">{{x.name}}</a>
