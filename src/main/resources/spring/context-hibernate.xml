@@ -81,7 +81,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 <!-- 		<jdbc:script location="classpath:/db/init.sql" encoding="utf-8"/> -->
 <!-- 	</jdbc:initialize-database> -->
 
-	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="${com.setvect.nowhappy.db.driver}" />
 		<property name="url" value="${com.setvect.nowhappy.db.url}" />
 		<property name="username" value="${com.setvect.nowhappy.db.user}" />
