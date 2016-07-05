@@ -13,6 +13,6 @@ import com.setvect.nowhappy.code.vo.CodeVo;
  */
 public interface CodeRepository extends JpaRepository<CodeVo, Integer> {
 
-	public List<CodeVo> findByMajorCode(String majorCode);
+	public List<CodeVo> findByMajorCodeOrderByOrderNoAsc(String majorCode);
 
 }

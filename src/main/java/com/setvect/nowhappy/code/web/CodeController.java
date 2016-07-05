@@ -1,8 +1,6 @@
 package com.setvect.nowhappy.code.web;
 
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.setvect.nowhappy.code.service.CodeService;
 import com.setvect.nowhappy.code.vo.CodeVo;
 
@@ -65,7 +64,7 @@ public class CodeController {
 	@RequestMapping("/app/code/add.do")
 	@ResponseBody
 	public boolean add(@ModelAttribute CodeVo code) {
-		codeService.createCode(code);
+		codeService.createOrUpdateCode(code);
 		return true;
 	}
 
@@ -92,10 +91,15 @@ public class CodeController {
 	 */
 	@RequestMapping("/app/code/changeOrder.do")
 	@ResponseBody
-	public boolean chagneOrder(@ModelAttribute List<CodeVo> code, HttpServletRequest request) {
-		System.out.println(request);
-		Map a = request.getParameterMap();
-		Enumeration aa = request.getParameterNames();
+	public boolean chagneOrder(HttpServletRequest request) {
+		String json = request.getParameter("codeList");
+		Gson gson = new Gson();
+
+		CodeVo[] codeList = gson.fromJson(json, CodeVo[].class);
+
+		for (CodeVo c : codeList) {
+			codeService.createOrUpdateCode(c);
+		}
 
 		return true;
 	}

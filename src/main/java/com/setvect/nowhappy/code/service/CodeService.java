@@ -19,10 +19,10 @@ public class CodeService {
 	}
 
 	public List<CodeVo> listCode(String majorCode) {
-		return codeRepository.findByMajorCode(majorCode);
+		return codeRepository.findByMajorCodeOrderByOrderNoAsc(majorCode);
 	}
 
-	public void createCode(CodeVo codeVo) {
+	public void createOrUpdateCode(CodeVo codeVo) {
 		codeRepository.save(codeVo);
 	}
 

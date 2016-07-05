@@ -15,6 +15,7 @@
 		var updateUrl = $.APP.getContextRoot("/app/code/update.do");
 		var deleteUrl = $.APP.getContextRoot("/app/code/delete.do");
 		var changeOrderUrl = $.APP.getContextRoot("/app/code/changeOrder.do");
+		var postHeaders = {headers: {'Content-Type': 'application/x-www-form-urlencoded;'}};
 		
 		$scope.rootCode = "<%=CodeConstant.ROOT%>";
 		$scope.majorCode = $scope.rootCode;
@@ -51,8 +52,7 @@
 	  $scope.writeOrUpdateSummit = function(){
 	  	var url = $scope.view == "write" ? addUrl : updateUrl; 
 
-	  	var headers = {headers: {'Content-Type': 'application/x-www-form-urlencoded;'}};
-  		$http.post(url, $.param($scope.readItem), headers).success(function(response) {
+  		$http.post(url, $.param($scope.readItem), postHeaders).success(function(response) {
 		  	if(response){
 		  		$scope.listView();
 		  	}
@@ -72,7 +72,8 @@
 	  
 	  // 정렬 순서 수정
 	  $scope.orderSet = function(){
-  		$http.get(changeOrderUrl, {params: $scope.codeList}).success(function(response) {
+	  	var dataObject = {codeList : JSON.stringify($scope.codeList)};
+  		$http.post(changeOrderUrl, $.param(dataObject), postHeaders).success(function(response) {
 		  	if(response){
 		  		$scope.listView();
 		  	}
