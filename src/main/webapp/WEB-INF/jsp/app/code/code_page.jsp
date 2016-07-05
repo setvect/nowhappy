@@ -7,7 +7,103 @@
 	UserVo user = (UserVo)request.getAttribute(WebAttributeKey.USER_SESSION_KEY);
 %>
 <script type="text/javascript">
+	var appBoardManager = angular.module('boardMangerApp', []);
+	appBoardManager.controller('boardManagerController', function($scope, $http) {
+		var listUrl = $.APP.getContextRoot("/app/board_manager/list.json.do");
+		var addUrl = $.APP.getContextRoot("/app/code/add.do");
+		var updateUrl = $.APP.getContextRoot("/app/code/update.do");
+		var deleteUrl = $.APP.getContextRoot("/app/code/delete.do");
+		
+		$scope.view = "list";
+		$scope.list = [];
+		$scope.readItem = null;
+		$scope.pageNumber = 1;
+		$scope.pageCount = 0;
+		$scope.pageItem = [];
+		
+		$scope.searchOption = "code";
+		$scope.searchWord = "";
+
+		$scope.page = function(pageNumber){
+		  var param = {};
+		  $scope.pageNumber = pageNumber;
+		  param["pageNumber"] = $scope.pageNumber;
+		  param["searchOption"] = $scope.searchOption;
+		  param["searchWord"] = $scope.searchWord;
+		  $http.get(listUrl, {params: param}).success(function(response) {
+			  $scope.list = response.list;
+			  $scope.view = "list";
+			  $scope.pageCount = response.pageCount;
+			  $scope.pageItem = [];
+			  for(var i= 0; i< $scope.pageCount; i++){
+				  $scope.pageItem.push(i + 1);
+			  }
+		  });
+	  };
+	  
+	  $scope.search = function(){
+	  	$scope.page(1);
+	  };
+	  
+	  $scope.searchCancel = function(){
+	  	$scope.searchOption = "code";
+			$scope.searchWord = "";
+			$scope.page(1);
+	  };
+	  
+	  $scope.listback = function(){
+	  	$scope.view = "list";	  	
+	  };
+	  
+	  $scope.read = function(board){
+	  	$scope.readItem = angular.copy(board);
+	  	$scope.view = "read";
+	  };
+	  
+	  $scope.write = function(){
+	  	$scope.readItem = {};
+	  	$scope.readItem["replyF"] = false;
+	  	$scope.readItem["commentF"] = false;
+	  	$scope.readItem["attachF"] = true;
+	  	$scope.readItem["encodeF"] = false;
+	  	$scope.view = "write";
+	  }
+
+	  $scope.update = function(board){
+	  	// deep copy
+	  	$scope.readItem = angular.copy(board);
+	  	$scope.view = "update";
+	  };
+	  
+	  $scope.writeOrUpdateSummit = function(){
+	  	var url = $scope.view == "write" ? addUrl : updateUrl; 
+
+  		$http.get(url, {params: $scope.readItem}).success(function(response) {
+		  	if(response){
+		  		$scope.page($scope.pageNumber);
+		  	}
+		  });
+	  };
+	  
+	  $scope.remove = function(board){
+	  	if(confirm("삭제할거야?")){
+	  		$http.get(deleteUrl, {params: {boardCode: board.boardCode}}).success(function(response) {
+			  	if(response){
+			  		$scope.page($scope.pageNumber);
+			  	}
+			  });
+	  	}
+	  };
+
+	  $scope.page(1);
+	});	
 	
+	var injector = angular.injector(['ng', 'boardMangerApp'])
+	injector.invoke(function($rootScope, $compile, $document) {
+		var appNode = $(".boardManger")[0];
+	  $compile(appNode)($rootScope);
+	  $rootScope.$digest();
+	});		
 </script>
 <div class="codeManger" data-ng-app="codeMangerApp"  data-ng-controller="codeManagerController">
 	<!-- 목록 폼 -->

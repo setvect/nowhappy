@@ -7,11 +7,9 @@
 
 [메모]
 스타일 - http://blackrockdigital.github.io/startbootstrap-sb-admin-2/pages/index.html
-
 jdbc:h2:tcp://localhost:9092/E:/workspace_git/nowhappy/db/nowhappy_db
 nowhappy_user
 nowhappy_pass
-
 81dc9bdb52d04dc20036dbd8313ed055 = 1234
 
 [진행 해야된는 것]
@@ -25,7 +23,6 @@ PBM_20150713: 복슬note depthlink 확대(새로고침 시 오류가 발생하�
 PBM_20150707: 복슬메모장 수정 시 쓰기 html escape 문자 처리 오유
 	
 NEW_20150705: depthlink 확대 
-
 
 [진행 된 것]
 REF_20150712(20160401): mainCtrl 없에 버리기    
