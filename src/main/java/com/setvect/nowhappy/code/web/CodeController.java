@@ -1,6 +1,10 @@
 package com.setvect.nowhappy.code.web;
 
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,19 +64,40 @@ public class CodeController {
 	 */
 	@RequestMapping("/app/code/add.do")
 	@ResponseBody
-	public void add(@ModelAttribute CodeVo code) {
+	public boolean add(@ModelAttribute CodeVo code) {
 		codeService.createCode(code);
+		return true;
 	}
 
 	/**
 	 * 코드 수정
 	 *
+	 * @return
+	 *
 	 * @return 추가한 코드 아이디
 	 */
 	@RequestMapping("/app/code/update.do")
 	@ResponseBody
-	public void update(@ModelAttribute CodeVo code) {
+	public boolean update(@ModelAttribute CodeVo code) {
 		add(code);
+		return true;
+	}
+
+	/**
+	 * 코드 삭제
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/app/code/changeOrder.do")
+	@ResponseBody
+	public boolean chagneOrder(@ModelAttribute List<CodeVo> code, HttpServletRequest request) {
+		System.out.println(request);
+		Map a = request.getParameterMap();
+		Enumeration aa = request.getParameterNames();
+
+		return true;
 	}
 
 	/**

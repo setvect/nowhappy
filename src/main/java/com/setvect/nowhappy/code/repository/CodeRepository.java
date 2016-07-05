@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.setvect.nowhappy.code.vo.CodeVo;
 
 /**
- * 첨부파일
+ * 코드관리
  *
  * @version $Id$
  */
