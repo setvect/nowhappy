@@ -18,14 +18,14 @@
 		var postHeaders = {headers: {'Content-Type': 'application/x-www-form-urlencoded;'}};
 		
 		$scope.rootCode = "<%=CodeConstant.ROOT%>";
-		$scope.majorCode = $scope.rootCode;
+		$scope.currentMajorCode = $scope.rootCode;
 		$scope.view = "list";
 		$scope.codeList = [];
 		$scope.readItem = null;
 		
 		$scope.listView = function(){
 		  var param = {};
-		  param["majorCode"] = $scope.majorCode;
+		  param["majorCode"] = $scope.currentMajorCode;
 		  $http.get(listUrl, {params: param}).success(function(response) {
 			  $scope.codeList = response;
 			  $scope.view = "list";
@@ -38,7 +38,7 @@
 	  
 	  $scope.write = function(){
 	  	$scope.readItem = {};
-	  	$scope.readItem["majorCode"] = $scope.majorCode;
+	  	$scope.readItem["majorCode"] = $scope.currentMajorCode;
 	  	$scope.readItem["orderNo"] = $scope.codeList.length + 1;
 	  	$scope.view = "write";
 	  }
@@ -79,6 +79,12 @@
 		  	}
 		  });
 	  };
+	  
+	  // 상위 코드 변경
+	  $scope.changeMajorCode = function(changeCode){
+	  	$scope.currentMajorCode = changeCode;
+	  	$scope.listView();
+	  };
 
 	  $scope.listView();
 	});	
@@ -94,6 +100,11 @@
 	<!-- 목록 폼 -->
 	<div data-ng-show="view =='list'">
 		<div class="panel panel-default">
+			<div>
+				<button class="btn btn-info btn-xs" data-ng-click="changeMajorCode(rootCode)" style="margin-right: 10px;">최상위 코드로 이동</button>
+				현재 코드: {{currentMajorCode}}
+			</div>
+			
 			<!-- Table -->
 			<table class="table">
 				<thead>
@@ -111,10 +122,10 @@
 					<tr data-ng-repeat="x in codeList">
 						<td>{{$index + 1}}</td>
 						<td>{{x.majorCode}}</td>
-						<td>{{x.minorCode}}</td>
+						<td><a href="javascript:void(0);" data-ng-click="changeMajorCode(x.minorCode)">{{x.minorCode}}</a></td>
 						<td>{{x.codeValue}}</td>
 						<td>
-							<input type="number" data-ng-model="x.orderNo" style="color: black;">
+							<input type="number" data-ng-model="x.orderNo" style="color: black; width: 50px;">
 						</td>
 						<td><a href="#" data-ng-click="update(codeList[$index])" class="btn btn-default btn-xs">수정</a></td>
 						<td><a href="#" data-ng-click="remove(codeList[$index])" class="btn btn-default btn-xs">삭제</a></td>
@@ -131,7 +142,7 @@
 		<div class="well bs-component">
 			<form class="form-horizontal" name="writeForm">
 				<fieldset>
-					<legend>게시판 등록</legend>
+					<legend>코드 등록</legend>
 					<div class="form-group">
 						<label class="col-lg-2 control-label">상위분류</label>
 						<div class="col-lg-10">
