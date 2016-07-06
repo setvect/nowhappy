@@ -1,6 +1,9 @@
 .table .date{
 	text-align: right;
 }
+.table .center{
+	text-align: center;
+}
 .pagination{
 	margin: 0 !important;
 }
