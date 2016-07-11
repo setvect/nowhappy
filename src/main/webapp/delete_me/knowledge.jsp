@@ -16,10 +16,6 @@
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.2.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/editor/js/HuskyEZCreator.js"/>"></script>
 
-
-
-
-
 <script type="text/javascript">
 	$(function(){
 		var oEditors = [];		
@@ -52,8 +48,6 @@
 	});
 </script>
 
-
-
 </head>
 <body>
 	<div id="wrapper">
@@ -72,6 +66,8 @@
 				
 				
 					<div class="col-lg-12">
+					
+					
 						<div class="panel panel-default">
 							<form class="navbar-form navbar-left" role="search">
 								<div class="form-group">
@@ -125,6 +121,9 @@
 								<li><a href="#">»</a></li>
 							</ul>
 						</div>
+						
+						
+						
 					</div>
 					
 					

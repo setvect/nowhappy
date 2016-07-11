@@ -45,13 +45,14 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 	private String getArticleWhereClause(KnowledgeSearch search) {
 		String where = " where 1=1 ";
 
-		// 두개 이상 동시에 검색 조건에 포함 될 수 없음
-		if (!StringUtilAd.isEmpty(search.getSearchTitle())) {
-			where += " and b.title like " + StringUtilAd.getSqlStringLike(search.getSearchTitle());
-		} else if (!StringUtilAd.isEmpty(search.getSearchProblem())) {
-			where += " and b.problem like " + StringUtilAd.getSqlStringLike(search.getSearchProblem());
-		} else if (!StringUtilAd.isEmpty(search.getSearchSolution())) {
-			where += " and b.solution like " + StringUtilAd.getSqlStringLike(search.getSearchSolution());
+		String searchWord = search.getSearchWord();
+		String searchClassify = search.getSearchClassifyC();
+
+		if (StringUtilAd.isNotEmpty(searchWord)) {
+			String wordLikeString = StringUtilAd.getSqlStringLike(searchWord);
+			where += " and ( b.problem like " + wordLikeString + " OR b.solution like " + wordLikeString + " )";
+		} else if (StringUtilAd.isNotEmpty(searchClassify)) {
+			where += " and b.classifyC like " + StringUtilAd.getSqlStringLike(searchClassify);
 		}
 		return where;
 	}

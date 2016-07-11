@@ -29,10 +29,6 @@ public class KnowledgeVo {
 	@Column(name = "CLASSIFY_C")
 	private String classifyC;
 
-	/** 제목 */
-	@Column(name = "TITLE")
-	private String title;
-
 	/** 문제 */
 	@Column(name = "PROBLEM")
 	private String problem;
@@ -73,21 +69,6 @@ public class KnowledgeVo {
 	 */
 	public void setClassifyC(String classifyC) {
 		this.classifyC = classifyC;
-	}
-
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
-
-	/**
-	 * @param title
-	 *            the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	/**
