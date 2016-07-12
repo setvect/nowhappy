@@ -4,10 +4,10 @@
 		<form class="navbar-form navbar-left" role="search">
 			<div class="form-group">
 				<select class="form-control">
-					<option>자바</option>
-					<option>OS및 설치</option>
+					<option data-ng-repeat="cate in category" value="{{cate.minorCode}}">
+						{{cate.codeValue}}
+					</option>
 				</select> 
-	
 				<input type="text" class="form-control" placeholder="Search">
 			</div>
 			<button type="submit" class="btn btn-default">검색</button>

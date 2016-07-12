@@ -3,6 +3,7 @@ package com.setvect.nowhappy.knowledge.web;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,17 +21,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationUtil;
+import com.setvect.nowhappy.code.service.CodeConstant;
+import com.setvect.nowhappy.code.service.CodeService;
+import com.setvect.nowhappy.code.vo.CodeVo;
 import com.setvect.nowhappy.knowledge.service.KnowledgeSearch;
 import com.setvect.nowhappy.knowledge.service.KnowledgeService;
 import com.setvect.nowhappy.knowledge.vo.KnowledgeVo;
 import com.setvect.nowhappy.util.TimestampDateFormat;
 
+@Controller
 public class KnowledgeController {
 	/** 한 페이지당 표시 항목 갯수 */
 	private static final int PAGE_PER_ITEM = 10;
 
 	@Autowired
 	private KnowledgeService knowledgeService;
+
+	@Autowired
+	private CodeService codeService;
 
 	/**
 	 * @param req
@@ -101,6 +110,21 @@ public class KnowledgeController {
 
 		GenericPage<KnowledgeVo> page = knowledgeService.getKnowledgePagingList(pageCondition);
 		return page;
+	}
+
+	/**
+	 * 지식 분류 정보
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/app/knowledge/listCategory.json.do")
+	@ResponseBody
+	public List<CodeVo> listCategory(HttpServletRequest request) {
+		List<CodeVo> codeList = codeService.listCode(CodeConstant.KNOW_TYPE);
+		return codeList;
 	}
 
 	/**

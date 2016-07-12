@@ -33,11 +33,11 @@
 <script type="text/javascript" src="<c:url value="/js/util.js"/>"></script>
 
 <script type="text/javascript">
-	var appknowledge = angular.module('knowledgeApp', ['ngSanitize', 'ngRoute']);
+	var appKnowledge = angular.module('knowledgeApp', ['ngSanitize', 'ngRoute']);
 	
 	var HTML_EDITOR;
 	
-	appknowledge.config(function($routeProvider) {
+	appKnowledge.config(function($routeProvider) {
 		$routeProvider.when('/list', {
 			templateUrl : $.APP.getContextRoot("app/knowledge/list.do"),
 			controller : 'knowledgeListController' 
@@ -55,12 +55,13 @@
 		});
 	});
 	
-	appknowledge.controller('knowledgeController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
+	appKnowledge.controller('knowledgeController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
 		// 한 페이지 이동 네비게이션 네비게이선 상에 묶음 
 		var BULDEL_OF_PAGE = 10;
 		
 		$scope.trustAsHtml = $sce.trustAsHtml;
 		$scope.list = [];
+		$scope.category = [];
 		$scope.readItem = null;
 		$scope.pageNumber = 1;
 		$scope.pageCount = 0;
@@ -131,7 +132,11 @@
 			  for(var i= pageStart; i < $scope.pageCount && i < pageStart + BULDEL_OF_PAGE; i++){
 				  $scope.pageItem.push(i + 1);
 			  }
-			  $scope.resizeImg();
+		  });
+		  
+		  var categoryUrl = $.APP.getContextRoot("app/knowledge/listCategory.json.do");
+		  $http.get(categoryUrl, {params: param}).success(function(response) {
+		  	$scope.category = response;
 		  });
 	  };
 	  
@@ -157,6 +162,23 @@
 		  	$scope.readItem = response;
 		  });
 	  };
+	  
+	  // 본문에 큰 이미지가 있으면 줄임.
+	  $scope.resizeImg = function(){
+	  	setTimeout(function(){
+	      $("._knowledge_content img").each(function() {
+	        var oImgWidth = $(this).width();
+	        var oImgHeight = $(this).height();
+	        
+	        $(this).css({
+	            'max-width':oImgWidth+'px',
+	            'max-height':oImgHeight+'px',
+	            'width':'100%',
+	            'height':'100%'
+	        });
+	    	});
+	  	}, 500);
+	  };	  
 	}]);
 	
 	appKnowledge.controller('knowledgeListController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
@@ -211,7 +233,7 @@
 			</div>
 		</nav>
 		<!-- Page Content -->
-		<div id="page-wrapper">
+		<div>
 			<div class="container-fluid">
 				<div class="row">
 					
