@@ -18,39 +18,31 @@
 			<thead>
 				<tr>
 					<th class="col-md-4">문제</th>
-					<th class="col-md-3">해결</th>
+					<th class="col-md-4">해결</th>
 					<th class="col-md-1 center">분류</th>
-					<th class="col-md-1 center">조회</th>
 					<th class="col-md-1 center">날짜</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td class="col-md-4">몹시 아픈 후 드는 생각</td>
-					<td class="col-md-3">몹시 아픈 후 드는 생각</td>
-					<td class="col-md-1 center">자바</td>
-					<td class="col-md-1 center">11</td>
-					<td class="col-md-1 center">2014-11-16</td>
-				</tr>
-				<tr>
-					<td class="col-md-4">몹시 아픈 후 드는 생각</td>
-					<td class="col-md-3">몹시 아픈 후 드는 생각</td>
-					<td class="col-md-1 center">OS</td>
-					<td class="col-md-1 center">11</td>
-					<td class="col-md-1 center">2014-11-16</td>
+				<tr data-ng-repeat="x in list">
+					<td class="col-md-4">{{x.problem}}</td>
+					<td class="col-md-4">{{x.solution}}</td>
+					<td class="col-md-1 center">{{x.classifyC}}</td>
+					<td class="col-md-1 center">{{x.regDate | date:'yyyy.MM.dd'}</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	<div class="text-center">
-		<ul class="pagination pagination-sm">
-			<li><a href="#">«</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#">»</a></li>
-		</ul>
+		<div class="text-center">
+			<ul class="pagination pagination-sm">
+				<li data-ng-if="pagePreviousGroup != -1"><a href="javascript:" data-ng-click="page(pagePreviousGroup)">이전</a></li>
+				<li data-ng-repeat="n in pageItem track by $index">
+					<a href="javascript:" style="background-color: {{pageNumber == n ? '#FFDEAD':''}}" data-ng-click="page(n)">{{n}}</a>
+				</li>
+				<li data-ng-if="pageNextGroup != -1"><a href="javascript:" data-ng-click="page(pageNextGroup)">다음</a></li>
+			</ul>
+		</div>
+		<a href="#/write/{{searchParam.currentCategory.categorySeq}}" class="btn btn-primary" >글쓰기</a>
 	</div>
 </div>

@@ -121,6 +121,7 @@
 		  
 			var listUrl = $.APP.getContextRoot("app/knowledge/listKnowledge.json.do");
 		  $http.get(listUrl, {params: param}).success(function(response) {
+		  	console.log(response);
 			  $scope.list = response.list;
 			  $scope.pageCount = response.pageCount;
 			  $scope.pageItem = [];
@@ -200,19 +201,31 @@
 	  if($routeParams.knowledgeSeq != null){
 	  	$scope.loadKnowledge($routeParams.knowledgeSeq);
 	  }
+
+		$scope.htmlText = function(textareaId){
+			nhn.husky.EZCreator.createInIFrame({
+				oAppRef : $scope.oEditors,
+				elPlaceHolder : textareaId,
+				sSkinURI : "<c:url value='/editor/SmartEditor2Skin.html'/>",
+				htParams : {
+					bUseToolbar : true, // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+					bUseVerticalResizer : true, // 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+					bUseModeChanger : true, // 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+					//aAdditionalFontList : aAdditionalFontSet,		// 추가 글꼴 목록
+					fOnBeforeUnload : function() {
+						//alert("완료!");
+					}
+				}, //boolean
+				fOnAppLoad : function() {
+					//예제 코드
+					//oEditors.getById["ir1"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."]);
+				},
+				fCreator : "createSEditor2"
+			});
+		}
 	  
-	  $scope.htmlText = function(){
-	  	nhn.husky.EZCreator.createInIFrame({
-	  		oAppRef: $scope.oEditors,
-	  		elPlaceHolder: "content",
-				sSkinURI : $.APP.getContextRoot("editor/SmartEditor2Skin.html"),
-	  		fCreator: "createSEditorInIFrame"
-	  	});
-
-	  	HTML_EDITOR = $scope.oEditors;
-	  };
-
-	  $scope.htmlText();
+		$scope.htmlText("problemText");
+		$scope.htmlText("solutionText");
 	}]);	
 
 	appKnowledge.controller('knowledgeReadController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
