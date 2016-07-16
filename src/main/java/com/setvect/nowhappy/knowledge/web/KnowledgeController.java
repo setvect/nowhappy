@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -109,7 +110,23 @@ public class KnowledgeController {
 		setSearchCondition(request, pageCondition);
 
 		GenericPage<KnowledgeVo> page = knowledgeService.getKnowledgePagingList(pageCondition);
+
+		convertListView(page.getList());
+
 		return page;
+	}
+
+	/**
+	 * 목록화면에서 출력될 용으로
+	 *
+	 * @param list
+	 */
+	private void convertListView(List<KnowledgeVo> list) {
+		Map<String, CodeVo> codeMap = codeService.mapCode(CodeConstant.KNOW_TYPE);
+		for(KnowledgeVo v : list){
+			CodeVo c = codeMap.get(v.getClassifyC());
+			v.setClassifyCode(c);
+		}
 	}
 
 	/**

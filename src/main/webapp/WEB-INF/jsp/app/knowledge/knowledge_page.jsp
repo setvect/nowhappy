@@ -82,8 +82,14 @@
 	  };
 
 	  $scope.writeOrUpdateKnowledgeSummit = function(){
-	  	var problem = $scope.oEditors.getById["problem"].getIR();
-	  	var solution = $scope.oEditors.getById["solution"].getIR();
+	  	var problem = $scope.oEditors.getById["problemText"].getIR();
+	  	var solution = $scope.oEditors.getById["solutionText"].getIR();
+	  	console.log($scope.readItem);
+	  	if($scope.readItem.classifyC == null){
+	  		alert("분야를 선택하세요.");
+	  		$("select[name='classifyC']").focus();
+	  		return;
+	  	}
 	  	
 	  	if(removeTags(problem.trim()) == ""){
 	  		alert("문제 내용을 입력해 주세요");
@@ -91,13 +97,16 @@
 	  	}
 	  	
 	  	// 에디터의 내용을 에디터 생성시에 사용했던 textarea에 넣어 줍니다.
-	  	$scope.oEditors.getById["problem"].exec("UPDATE_CONTENTS_FIELD", []);
-	  	$scope.oEditors.getById["solution"].exec("UPDATE_CONTENTS_FIELD", []);
+	  	$scope.oEditors.getById["problemText"].exec("UPDATE_CONTENTS_FIELD", []);
+	  	$scope.oEditors.getById["solutionText"].exec("UPDATE_CONTENTS_FIELD", []);
 
 		  //TODO multipart 사용 안함.
 	  	var fd = new FormData();
 	  	fd.append("knowledgeSeq", $scope.readItem.knowledgeSeq);
-	  	fd.append("problem", content.trim());
+	  	fd.append("problem", problem.trim());
+	  	fd.append("solution", solution.trim());
+	  	fd.append("classifyC", $scope.readItem.classifyC);
+	  	
 			var headers = {headers: {'Content-Type': undefined}};
 	  	
 			var addUrl = $.APP.getContextRoot("app/knowledge/addKnowledge.do");
@@ -135,8 +144,12 @@
 			  }
 		  });
 		  
+			$scope.loadCategoryCode();
+	  };
+	  
+	  $scope.loadCategoryCode = function(){
 		  var categoryUrl = $.APP.getContextRoot("app/knowledge/listCategory.json.do");
-		  $http.get(categoryUrl, {params: param}).success(function(response) {
+		  $http.get(categoryUrl).success(function(response) {
 		  	$scope.category = response;
 		  });
 	  };
@@ -179,7 +192,14 @@
 	        });
 	    	});
 	  	}, 500);
-	  };	  
+	  };
+	  
+	  $scope.initReadItem = function(){
+	  	$scope.readItem = {};
+			// Controller에서 VO Bind를 하기 위해.
+			$scope.readItem.knowledgeSeq = 0;
+	  };
+	  
 	}]);
 	
 	appKnowledge.controller('knowledgeListController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
@@ -200,6 +220,9 @@
 		var INTERVAL_TIME = 3;
 	  if($routeParams.knowledgeSeq != null){
 	  	$scope.loadKnowledge($routeParams.knowledgeSeq);
+	  }
+	  else{
+	  	$scope.initReadItem();
 	  }
 
 		$scope.htmlText = function(textareaId){
@@ -226,6 +249,7 @@
 	  
 		$scope.htmlText("problemText");
 		$scope.htmlText("solutionText");
+		$scope.loadCategoryCode();
 	}]);	
 
 	appKnowledge.controller('knowledgeReadController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {

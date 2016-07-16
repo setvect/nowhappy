@@ -8,11 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
+
+import com.setvect.nowhappy.code.vo.CodeVo;
 
 @Entity
 @Table(name = "TBEA_KNOWLEDGE")
@@ -28,6 +31,10 @@ public class KnowledgeVo {
 	/** 분류 코드 */
 	@Column(name = "CLASSIFY_C")
 	private String classifyC;
+
+	/** 분류 코드 */
+	@Transient
+	private CodeVo classifyCode;
 
 	/** 문제 */
 	@Column(name = "PROBLEM")
@@ -114,6 +121,21 @@ public class KnowledgeVo {
 	 */
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
+	}
+
+	/**
+	 * @return the classifyCode
+	 */
+	public CodeVo getClassifyCode() {
+		return classifyCode;
+	}
+
+	/**
+	 * @param classifyCode
+	 *            the classifyCode to set
+	 */
+	public void setClassifyCode(CodeVo classifyCode) {
+		this.classifyCode = classifyCode;
 	}
 
 	/*

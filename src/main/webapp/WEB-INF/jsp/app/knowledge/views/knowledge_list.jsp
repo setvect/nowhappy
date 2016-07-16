@@ -27,8 +27,8 @@
 				<tr data-ng-repeat="x in list">
 					<td class="col-md-4">{{x.problem}}</td>
 					<td class="col-md-4">{{x.solution}}</td>
-					<td class="col-md-1 center">{{x.classifyC}}</td>
-					<td class="col-md-1 center">{{x.regDate | date:'yyyy.MM.dd'}</td>
+					<td class="col-md-1 center">{{x.classifyCode.codeValue}}</td>
+					<td class="col-md-1 center">{{x.regDate | date:'yyyy.MM.dd'}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -43,6 +43,6 @@
 				<li data-ng-if="pageNextGroup != -1"><a href="javascript:" data-ng-click="page(pageNextGroup)">다음</a></li>
 			</ul>
 		</div>
-		<a href="#/write/{{searchParam.currentCategory.categorySeq}}" class="btn btn-primary" >글쓰기</a>
+		<a href="#/write/{{searchParam.currentCategory.categorySeq}}" class="btn btn-primary" style="float: left;" >글쓰기</a>
 	</div>
 </div>

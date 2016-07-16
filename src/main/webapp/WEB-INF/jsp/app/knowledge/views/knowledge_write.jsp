@@ -8,9 +8,10 @@
 					<div class="form-group"> 
 						<label for="title" class="col-lg-1 control-label">분야</label>
 						<div class="col-lg-11">
-							<select class="form-control">
-								<option>자바</option>
-								<option>OS및 설치</option>
+							<select class="form-control" name="classifyC" data-ng-model="readItem.classifyC">
+								<option data-ng-repeat="cate in category" value="{{cate.minorCode}}">
+									{{cate.codeValue}}
+								</option>
 							</select> 
 						</div>
 					</div>									
@@ -29,7 +30,7 @@
 					<div class="form-group">
 						<div class="col-lg-12">
 							<button type="submit" class="btn btn-default" data-ng-click="listback()">취소</button>
-							<button type="submit" class="btn btn-primary" data-ng-click="writeOrUpdateNoteSummit()" data-ng-disabled="writeForm.title.$invalid">쓰기</button>
+							<button type="submit" class="btn btn-primary" data-ng-click="writeOrUpdateKnowledgeSummit()" data-ng-disabled="writeForm.title.$invalid">쓰기</button>
 						</div>
 					</div>
 				</fieldset>

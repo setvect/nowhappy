@@ -72,7 +72,6 @@
       			start: function( event, ui ) {
       				ui.helper.css("z-index", 1000);
       			}
-      			
  				});
       	$( "._droppable" ).droppable({
       		hoverClass :"drop-active",
@@ -108,14 +107,11 @@
 	});
 	
 	appNote.controller('noteController', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
-
-		
 		// 한 페이지 이동 네비게이션 네비게이선 상에 묶음 
 		var BULDEL_OF_PAGE = 10;
 		
 		$scope.trustAsHtml = $sce.trustAsHtml;
 		$scope.list = [];
-		$scope.readItem = null;
 		$scope.pageNumber = 1;
 		$scope.pageCount = 0;
 		// 묶음단위 이전 이후
