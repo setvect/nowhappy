@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "classpath:spring/context-common.xml", "classpath:spring/context-hibernate.xml",
 		"classpath:springmvc/context-*.xml" })
 @Transactional
-@Rollback(false)
+@Rollback(true)
 public class MainTestBase {
 
 }

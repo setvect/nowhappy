@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -22,6 +23,7 @@ import com.setvect.nowhappy.util.StringEtcUtil;
 
 /**
  * 복슬지식 엑셀데이터 -> DB로 마이그레이션
+ *
  * @Rollback(false)로 셋팅 해야됨.
  */
 public class KnowledgeTestCase extends MainTestBase {
@@ -72,7 +74,11 @@ public class KnowledgeTestCase extends MainTestBase {
 			XSSFCell problem = row.getCell(2);
 			XSSFCell code = row.getCell(3);
 			String problemString = problem.getStringCellValue();
-			problemString = StringEtcUtil.toBr(problemString);
+			if (StringUtils.isEmpty(problemString.trim())) {
+				continue;
+			}
+
+			problemString = StringEtcUtil.toText(problemString);
 
 			k.setProblem(problemString);
 			String codeValue = code.getStringCellValue();
