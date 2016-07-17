@@ -3,36 +3,37 @@
 	<div class="panel panel-default">
 		<form class="navbar-form navbar-left" role="search">
 			<div class="form-group">
-				<select class="form-control">
+				<select class="form-control"  data-ng-model="searchParam.classifyC" data-ng-change="search();">
 				<option value="">--전체--</option>
 					<option data-ng-repeat="cate in category" value="{{cate.minorCode}}">
 						{{cate.codeValue}}
 					</option>
 				</select> 
-				<input type="text" class="form-control" placeholder="Search">
+				<input type="text" class="form-control" placeholder="Search" data-ng-model="searchParam.word">
 			</div>
-			<button type="submit" class="btn btn-default">검색</button>
+			<button type="submit" class="btn btn-default" data-ng-click="search();">검색</button>
+			<button type="submit" class="btn btn-default" data-ng-click="searchCancel();" data-ng-show="searchParam.word != ''">검색 취소</button>
 		</form>
 	
 		<!-- Table -->
 		<table class="table">
 			<thead>
 				<tr>
+					<th class="col-md-1 center">분류</th>
 					<th class="col-md-4">문제</th>
 					<th class="col-md-4">해결</th>
-					<th class="col-md-1 center">분류</th>
 					<th class="col-md-1 center">날짜</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr data-ng-repeat="x in list">	
+					<td class="col-md-1 center">{{x.classifyCode.codeValue}}</td>
 					<td class="col-md-4 td_ellipsis">
 						<a href="#/read/{{x.knowledgeSeq}}" data-note-seq="{{x.knowledgeSeq}}">{{x.problem | clearHtml}}</a>
 					</td>
 					<td class="col-md-4 td_ellipsis">
 						<a href="#/read/{{x.knowledgeSeq}}" data-note-seq="{{x.knowledgeSeq}}">{{x.solution | clearHtml}}</a>
 					</td>
-					<td class="col-md-1 center">{{x.classifyCode.codeValue}}</td>
 					<td class="col-md-1 center">{{x.regDate | date:'yyyy.MM.dd'}}</td>
 				</tr>
 			</tbody>

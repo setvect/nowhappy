@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <div class="col-lg-12">
-	<div class="panel panel-default">
+	<div class="panel panel-default _knowledge_content">
 		<div class="panel-body">
 			<h4>문제</h4>
 			<div><p data-ng-bind-html="trustAsHtml(readItem.problem)"></p></div>

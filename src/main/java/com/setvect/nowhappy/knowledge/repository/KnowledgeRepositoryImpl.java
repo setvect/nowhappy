@@ -6,8 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.setvect.common.util.GenericPage;
 import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.knowledge.service.KnowledgeSearch;
@@ -19,8 +17,6 @@ import com.setvect.nowhappy.knowledge.vo.KnowledgeVo;
 public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 	@PersistenceContext
 	private EntityManager em;
-	@Autowired
-	private KnowledgeRepository KnowledgeRepository;
 
 	@Override
 	public GenericPage<KnowledgeVo> getKnowledgePagingList(KnowledgeSearch pageCondition) {
@@ -52,7 +48,7 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 			String wordLikeString = StringUtilAd.getSqlStringLike(searchWord);
 			where += " and ( b.problem like " + wordLikeString + " OR b.solution like " + wordLikeString + " )";
 		} else if (StringUtilAd.isNotEmpty(searchClassify)) {
-			where += " and b.classifyC like " + StringUtilAd.getSqlStringLike(searchClassify);
+			where += " and b.classifyC = " + StringUtilAd.getSqlString(searchClassify);
 		}
 		return where;
 	}

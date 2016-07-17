@@ -220,6 +220,7 @@ public class KnowledgeController {
 		knowledge.setClassifyC(param.getClassifyC());
 		knowledge.setProblem(param.getProblem());
 		knowledge.setSolution(param.getSolution());
+		knowledgeService.updateKnowledge(knowledge);
 
 		return true;
 	}

@@ -229,7 +229,7 @@
 	appKnowledge.controller('knowledgeWriteController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
 	  if($routeParams.knowledgeSeq != null){
 	  	$scope.loadKnowledge($routeParams.knowledgeSeq, function(){
-	  		// 이전 값으로 selected 선택 
+	  		// 이전 값으로 selected 선택. jquery 안 쓰고 angularjs로만 사용하는 방법이 있을 것 같은데...
 	  		$("form[name='writeForm'] select[name='classifyC']").val($scope.readItem.classifyC)
 	  	});
 	  }
@@ -264,7 +264,9 @@
 	}]);	
 
 	appKnowledge.controller('knowledgeReadController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
-		$scope.loadKnowledge($routeParams.knowledgeSeq);
+		$scope.loadKnowledge($routeParams.knowledgeSeq, function(){
+			$scope.resizeImg();
+		});
 	}]);	
 </script>
 

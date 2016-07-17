@@ -14,7 +14,6 @@ nowhappy_pass
 
 [진행 해야된는 것]
 PBM_20160402: 게시판 등록 오류
-NEW_20160402: 지식방
 REF_20160208: NoteController.listCategory() 
 
 NEW_20151115: 복슬note 바로 저장하기 버튼 만듦.
@@ -24,6 +23,7 @@ PBM_20150707: 복슬메모장 수정 시 쓰기 html escape 문자 처리 오유
 NEW_20150705: depthlink 확대 
 
 [진행 된 것]
+NEW_20160402(20160717): 복슬지식 - 완료
 NEW_20160402(20160705): 코드 관리 
 REF_20150712(20160401): mainCtrl 없에 버리기    
 REF_20160326(20160401): Dao -> Repository 변경
