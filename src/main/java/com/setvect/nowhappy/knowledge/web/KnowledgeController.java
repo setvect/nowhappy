@@ -41,6 +41,8 @@ public class KnowledgeController {
 	@Autowired
 	private CodeService codeService;
 
+	private Map<String, CodeVo> classifyMap;
+
 	/**
 	 * @param req
 	 * @param res
@@ -111,22 +113,29 @@ public class KnowledgeController {
 
 		GenericPage<KnowledgeVo> page = knowledgeService.getKnowledgePagingList(pageCondition);
 
-		convertListView(page.getList());
+		addCodeValue(page.getList());
 
 		return page;
 	}
 
 	/**
-	 * 목록화면에서 출력될 용으로
+	 * 코드값 추가
 	 *
 	 * @param list
 	 */
-	private void convertListView(List<KnowledgeVo> list) {
-		Map<String, CodeVo> codeMap = codeService.mapCode(CodeConstant.KNOW_TYPE);
-		for(KnowledgeVo v : list){
-			CodeVo c = codeMap.get(v.getClassifyC());
-			v.setClassifyCode(c);
+	private void addCodeValue(List<KnowledgeVo> list) {
+		for (KnowledgeVo v : list) {
+			addCodeValue(v);
 		}
+	}
+
+	private void addCodeValue(KnowledgeVo v) {
+		if (classifyMap == null) {
+			classifyMap = codeService.mapCode(CodeConstant.KNOW_TYPE);
+		}
+
+		CodeVo c = classifyMap.get(v.getClassifyC());
+		v.setClassifyCode(c);
 	}
 
 	/**
@@ -228,6 +237,7 @@ public class KnowledgeController {
 	@ResponseBody
 	public boolean deleteKnowledge(@ModelAttribute KnowledgeVo knowledge, HttpServletRequest request) {
 		KnowledgeVo knowledgeSave = knowledgeService.getKnowledge(knowledge.getKnowledgeSeq());
+		knowledgeSave.setDeleteF(true);
 		knowledgeService.updateKnowledge(knowledgeSave);
 		return true;
 	}

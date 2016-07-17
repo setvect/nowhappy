@@ -4,6 +4,7 @@
 		<form class="navbar-form navbar-left" role="search">
 			<div class="form-group">
 				<select class="form-control">
+				<option value="">--전체--</option>
 					<option data-ng-repeat="cate in category" value="{{cate.minorCode}}">
 						{{cate.codeValue}}
 					</option>
@@ -24,9 +25,13 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr data-ng-repeat="x in list">
-					<td class="col-md-4">{{x.problem}}</td>
-					<td class="col-md-4">{{x.solution}}</td>
+				<tr data-ng-repeat="x in list">	
+					<td class="col-md-4 td_ellipsis">
+						<a href="#/read/{{x.knowledgeSeq}}" data-note-seq="{{x.knowledgeSeq}}">{{x.problem | clearHtml}}</a>
+					</td>
+					<td class="col-md-4 td_ellipsis">
+						<a href="#/read/{{x.knowledgeSeq}}" data-note-seq="{{x.knowledgeSeq}}">{{x.solution | clearHtml}}</a>
+					</td>
 					<td class="col-md-1 center">{{x.classifyCode.codeValue}}</td>
 					<td class="col-md-1 center">{{x.regDate | date:'yyyy.MM.dd'}}</td>
 				</tr>

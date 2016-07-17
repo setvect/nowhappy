@@ -43,7 +43,7 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 	}
 
 	private String getArticleWhereClause(KnowledgeSearch search) {
-		String where = " where 1=1 ";
+		String where = " where b.deleteF = 'N' ";
 
 		String searchWord = search.getSearchWord();
 		String searchClassify = search.getSearchClassifyC();

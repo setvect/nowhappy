@@ -33,7 +33,17 @@
 <script type="text/javascript" src="<c:url value="/js/util.js"/>"></script>
 
 <script type="text/javascript">
-	var appKnowledge = angular.module('knowledgeApp', ['ngSanitize', 'ngRoute']);
+
+	angular.module('core', []);
+
+	angular.module('core').filter('clearHtml', function() {
+		return function(html) {
+			var tmp = document.createElement("DIV");
+		  tmp.innerHTML = html;
+		  return tmp.textContent || tmp.innerText || "";
+		};
+	});
+	var appKnowledge = angular.module('knowledgeApp', ['core', 'ngSanitize', 'ngRoute']);
 	
 	var HTML_EDITOR;
 	
@@ -80,11 +90,10 @@
 		$scope.listback = function(){
 	  	location.href="#/list";   	
 	  };
-
+	  
 	  $scope.writeOrUpdateKnowledgeSummit = function(){
 	  	var problem = $scope.oEditors.getById["problemText"].getIR();
 	  	var solution = $scope.oEditors.getById["solutionText"].getIR();
-	  	console.log($scope.readItem);
 	  	if($scope.readItem.classifyC == null){
 	  		alert("분야를 선택하세요.");
 	  		$("select[name='classifyC']").focus();
@@ -130,7 +139,6 @@
 		  
 			var listUrl = $.APP.getContextRoot("app/knowledge/listKnowledge.json.do");
 		  $http.get(listUrl, {params: param}).success(function(response) {
-		  	console.log(response);
 			  $scope.list = response.list;
 			  $scope.pageCount = response.pageCount;
 			  $scope.pageItem = [];
@@ -143,8 +151,6 @@
 				  $scope.pageItem.push(i + 1);
 			  }
 		  });
-		  
-			$scope.loadCategoryCode();
 	  };
 	  
 	  $scope.loadCategoryCode = function(){
@@ -168,12 +174,15 @@
 	  	});	  	
 	  };
 	  
-	  $scope.loadKnowledge = function(knowledgeSeq){
+	  $scope.loadKnowledge = function(knowledgeSeq, callBack){
 			var readKnowledge = $.APP.getContextRoot("app/knowledge/readKnowledge.json.do");
 	  	var param = {};
 	  	param["knowledgeSeq"] = knowledgeSeq;
 		  $http.get(readKnowledge, {params: param}).success(function(response) {
 		  	$scope.readItem = response;
+				if(callBack != null){
+		  		callBack();
+		  	}
 		  });
 	  };
 	  
@@ -200,6 +209,7 @@
 			$scope.readItem.knowledgeSeq = 0;
 	  };
 	  
+	  $scope.loadCategoryCode();
 	}]);
 	
 	appKnowledge.controller('knowledgeListController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
@@ -217,9 +227,11 @@
 	}]);	
 
 	appKnowledge.controller('knowledgeWriteController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
-		var INTERVAL_TIME = 3;
 	  if($routeParams.knowledgeSeq != null){
-	  	$scope.loadKnowledge($routeParams.knowledgeSeq);
+	  	$scope.loadKnowledge($routeParams.knowledgeSeq, function(){
+	  		// 이전 값으로 selected 선택 
+	  		$("form[name='writeForm'] select[name='classifyC']").val($scope.readItem.classifyC)
+	  	});
 	  }
 	  else{
 	  	$scope.initReadItem();
@@ -249,7 +261,6 @@
 	  
 		$scope.htmlText("problemText");
 		$scope.htmlText("solutionText");
-		$scope.loadCategoryCode();
 	}]);	
 
 	appKnowledge.controller('knowledgeReadController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {

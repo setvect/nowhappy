@@ -14,6 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import com.setvect.nowhappy.code.vo.CodeVo;
 
@@ -47,6 +48,11 @@ public class KnowledgeVo {
 	/** 등록일 */
 	@Column(name = "REG_DATE")
 	private Date regDate;
+
+	/** 삭제여부 */
+	@Column(name = "DELETE_F")
+	@Type(type = "yes_no")
+	private boolean deleteF;
 
 	/**
 	 * @return the knowledgeSeq
@@ -136,6 +142,21 @@ public class KnowledgeVo {
 	 */
 	public void setClassifyCode(CodeVo classifyCode) {
 		this.classifyCode = classifyCode;
+	}
+
+	/**
+	 * @return the deleteF
+	 */
+	public boolean isDeleteF() {
+		return deleteF;
+	}
+
+	/**
+	 * @param deleteF
+	 *            the deleteF to set
+	 */
+	public void setDeleteF(boolean deleteF) {
+		this.deleteF = deleteF;
 	}
 
 	/*

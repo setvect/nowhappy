@@ -42,3 +42,9 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+.td_ellipsis{
+	max-width: 100px; 
+	overflow: hidden; 
+	text-overflow: ellipsis; 
+	white-space: nowrap;
+}

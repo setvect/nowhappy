@@ -12,19 +12,19 @@
 								<option data-ng-repeat="cate in category" value="{{cate.minorCode}}">
 									{{cate.codeValue}}
 								</option>
-							</select> 
+							</select>  
 						</div>
 					</div>									
 					<div class="form-group">
-						<label for="title" class="col-lg-1 control-label">문제</label>
+						<label for="problemText" class="col-lg-1 control-label">문제</label>
 						<div class="col-lg-11">
-							<textarea id="problemText" rows="10" cols="100" style="width: 100%; height: 200px; display: none;"></textarea>
+							<textarea id="problemText" rows="10" cols="100" data-ng-model="readItem.problem" style="width: 100%; height: 200px; display: none;"></textarea>
 						</div>
 					</div>									
 					<div class="form-group">
-						<label for="title" class="col-lg-1 control-label">해결</label>
+						<label for="solutionText" class="col-lg-1 control-label">해결</label>
 						<div class="col-lg-11">
-							<textarea id="solutionText" rows="10" cols="100" style="width: 100%; height: 200px; display: none;"></textarea>
+							<textarea id="solutionText" rows="10" cols="100" data-ng-model="readItem.solution" style="width: 100%; height: 200px; display: none;"></textarea>
 						</div>
 					</div>										
 					<div class="form-group">
