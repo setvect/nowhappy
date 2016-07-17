@@ -7,7 +7,7 @@
 		<a href="javascript:" data-ng-click="remove(readItem)" class="btn btn-warning">삭제</a> 
 		<a href="#list/{{searchParam.currentCategory.categorySeq}}" class="btn btn-default">목록</a>
 		<br/><br/> 
-		<div class="panel panel-default">
+		<div class="panel panel-default _note_content">
 			<div class="panel-body">
 				<p data-ng-bind-html="trustAsHtml(readItem.content)"></p>
 				
