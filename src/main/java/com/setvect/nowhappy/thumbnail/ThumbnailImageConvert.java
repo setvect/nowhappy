@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.coobird.thumbnailator.Thumbnails;
 
+
 /**
  * 섬네일 이미지 제작
  *
