@@ -17,7 +17,6 @@ import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
 
 @Controller
 public class LottoController {
-	private static final int MAX_LOTTERY_COUNT = 5;
 
 	@RequestMapping("/lotto.do")
 	public String lotto(HttpServletRequest request, HttpServletResponse response) {
@@ -29,7 +28,7 @@ public class LottoController {
 	public String luck(HttpServletRequest request, HttpServletResponse response) {
 
 		String dayString = DateUtil.getSysDate();
-		List<Set<Integer>> luckList = makeLottoNumber(dayString.hashCode(), MAX_LOTTERY_COUNT);
+		List<Set<Integer>> luckList = makeLottoNumber(dayString.hashCode());
 		request.setAttribute(WebAttributeKey.LOTTO, luckList);
 
 		return "/app/lotto/lotto";
@@ -38,13 +37,12 @@ public class LottoController {
 	/**
 	 * @param seed
 	 *            랜덤 씨드
-	 * @param lotteryCount
-	 *            로또 추첨 수 1~5
 	 * @return 운명의 번호
 	 */
-	public static List<Set<Integer>> makeLottoNumber(int seed, int lotteryCount) {
+	public static List<Set<Integer>> makeLottoNumber(int seed) {
 		List<Set<Integer>> result = new ArrayList<>();
 		Random random = new Random(seed);
+		int lotteryCount = random.nextInt(5) + 1;
 
 		for (int i = 0; i < lotteryCount; i++) {
 			Set<Integer> r = new TreeSet<Integer>();

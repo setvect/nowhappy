@@ -7,7 +7,7 @@
 	List<Set<Integer>> luckList = (List<Set<Integer>>)request.getAttribute(WebAttributeKey.LOTTO);
 %>
 <div class="panel panel-default">
-	<h5>내 운명을  바꿀 숫자</h5>
+	<h5>오늘 나온 행운 번호</h5>
 	<table class="table">
 		<tbody>
 <%
