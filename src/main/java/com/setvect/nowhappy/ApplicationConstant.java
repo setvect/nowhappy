@@ -77,6 +77,7 @@ public class ApplicationConstant {
 		/** 서비스 주소 저장 */
 		public static final String SERVLET_URL = "SERVLET_URL";
 		public static final String RETURN_URL = "RETURN_URL";
+		public static final String LOTTO = "LOTTO";
 	}
 
 	/** 패스워드 암호화 알고리즘 */
