@@ -27,7 +27,7 @@
 	<h2 class="form-signin-heading">넌 누구냐?</h2>
 	<input name="userId" type="text" class="form-control" placeholder="ID" autofocus> 
 	<input name="passwd" type="password" class="form-control"	placeholder="Password"> 
-	<label class="checkbox"> <input type="checkbox" value="remember-me">
+	<label class="checkbox"> <input type="checkbox" value="remember-me" name="statusSave">
 		Remember me
 	</label>
 	<button class="btn btn-lg btn-primary btn-block _loginBtn" >들어가기</button>
