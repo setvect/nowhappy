@@ -18,6 +18,9 @@
 
 <style>
 	.drop-active{color:red;}
+	.no-margin{margin-left:0 !important;}
+	.display-hide{display: none;}
+	
 </style>
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
@@ -308,13 +311,13 @@
 			if(!confirm("삭제할거야?")){
 				return;
 			}
-			
+
 			var param = {};
 			param["noteSeq"] = note.noteSeq;
-			
+
 			$http.get(deleteUrl, {params: param}).success(function(response) {
 				location.href="#/list";  	
-			});	  	
+			});
 		};
 
 		$scope.loadNote = function(noteSeq){
@@ -348,7 +351,7 @@
 				width:'auto'
 			});
 		};
-	  
+
 	// 본문에 큰 이미지가 있으면 줄임.
 		$scope.resizeImg = function() {
 			setTimeout(function() {
@@ -380,6 +383,19 @@
 					$scope.page(1);
 				}
 			});
+		};
+		
+		$scope.menuToggle = function(){
+			var display = $('._menu').css('display');
+			if(display == "none"){
+				$('._menu').removeClass("display-hide");
+				$('#page-wrapper').removeClass("no-margin")
+			}
+			else{
+				$('._menu').addClass("display-hide");
+				$('#page-wrapper').addClass("no-margin");
+			}
+			
 		};
 
 		$scope.loadCategory();
@@ -500,14 +516,17 @@
 		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
+				<span class="sr-only">Toggle navigation</span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="<c:url value="/note/page.do#/list"/>">복슬노트</a>
+				<a class="navbar-brand _menu_showhide" data-ng-click="menuToggle()" href="javascript:void(0)"><span class="glyphicon glyphicon-menu-left"></span></a>
 			</div>
 			<!-- /.navbar-top-links -->
 			<div class="navbar-default sidebar" role="navigation">
-				<div class="sidebar-nav navbar-collapse">
+				<div class="sidebar-nav navbar-collapse _menu">
 					<ul class="nav" id="side-menu">
 						
 						<li class="sidebar-search">
