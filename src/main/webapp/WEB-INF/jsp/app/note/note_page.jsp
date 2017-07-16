@@ -271,7 +271,7 @@
 				if(response){
 					location.href="#/list/" + categorySeq;
 				}
-			});			
+			});
 		};
 
 		// 페이지. 1부터 시작
@@ -414,7 +414,7 @@
 
 		$scope.searchParam.currentCategory = $scope.getCategory($routeParams.categorySeq);
 		$scope.page(1);
-	}]);	
+	}]);
 
 	appNote.controller('noteWriteController', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
 		var DEFAULT_AUTO_SAVE_TIME = 15;
