@@ -25,8 +25,6 @@ import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
  * 이메일 주소 알아 내기
- *
- * @version $Id$
  */
 @Controller
 public class CommentController {

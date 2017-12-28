@@ -4,8 +4,6 @@ import com.setvect.common.util.SearchListVo;
 
 /**
  * 노트 카테고리 페이지 검색 조건
- * 
- * @version $Id$
  */
 public class NoteCategorySearch extends SearchListVo {
 

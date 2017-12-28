@@ -4,8 +4,6 @@ import com.setvect.common.util.SearchListVo;
 
 /**
  * 코멘트 검색 조건
- * 
- * @version $Id$
  */
 public class CommentSearch extends SearchListVo {
 

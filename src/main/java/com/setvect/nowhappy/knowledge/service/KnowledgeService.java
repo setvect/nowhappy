@@ -8,7 +8,6 @@ import com.setvect.nowhappy.knowledge.repository.KnowledgeRepository;
 import com.setvect.nowhappy.knowledge.vo.KnowledgeVo;
 
 /**
- * @version $Id$
  */
 @Service("KnowledgeService")
 public class KnowledgeService {

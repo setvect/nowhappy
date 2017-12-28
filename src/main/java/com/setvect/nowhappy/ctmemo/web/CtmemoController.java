@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -26,7 +26,7 @@ import com.setvect.nowhappy.ctmemo.vo.WorkspaceVo;
 @Controller
 public class CtmemoController {
 
-	@Inject
+	@Autowired
 	private CtmemoService ctmemoService;
 
 	@RequestMapping("/ctmemo/page.do")

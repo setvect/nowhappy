@@ -5,8 +5,6 @@ import com.setvect.common.util.StringUtilAd;
 
 /**
  * 게시물 관리 목록 페이징 및 검색 조건
- * 
- * @version $Id$
  */
 public class BoardManagerSearch extends SearchListVo {
 

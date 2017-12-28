@@ -1,10 +1,9 @@
 package com.setvect.nowhappy.test.user;
 
-import javax.inject.Inject;
-
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.setvect.common.util.GenericPage;
 import com.setvect.nowhappy.test.MainTestBase;
@@ -14,7 +13,7 @@ import com.setvect.nowhappy.user.vo.UserSearchCondition;
 import com.setvect.nowhappy.user.vo.UserVo;
 
 public class UserServiceTestCase extends MainTestBase {
-	@Inject
+	@Autowired
 	private UserService service;
 
 	@Test

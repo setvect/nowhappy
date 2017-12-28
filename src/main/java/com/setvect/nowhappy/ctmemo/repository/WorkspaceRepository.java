@@ -6,8 +6,6 @@ import com.setvect.nowhappy.ctmemo.vo.WorkspaceVo;
 
 /**
  * 메모장 Repository
- *
- * @version $Id$
  */
 public interface WorkspaceRepository extends JpaRepository<WorkspaceVo, Integer> {
 

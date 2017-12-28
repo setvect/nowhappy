@@ -2,11 +2,10 @@ package com.setvect.nowhappy.test.ctmemo;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.setvect.nowhappy.ctmemo.CtmemoSearchCondition;
@@ -16,7 +15,7 @@ import com.setvect.nowhappy.test.MainTestBase;
 import com.setvect.nowhappy.test.UnitTestUtil;
 
 public class CtmemoServiceTestCase extends MainTestBase {
-	@Inject
+	@Autowired
 	private CtmemoService service;
 
 	@Test

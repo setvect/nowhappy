@@ -1,10 +1,9 @@
 package com.setvect.nowhappy.test.home;
 
-import javax.inject.Inject;
-
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -12,7 +11,7 @@ import com.setvect.nowhappy.home.web.HomeController;
 import com.setvect.nowhappy.test.MainTestBase;
 
 public class HomeControllerTestCase extends MainTestBase {
-	@Inject
+	@Autowired
 	private HomeController controller;
 
 	@Test

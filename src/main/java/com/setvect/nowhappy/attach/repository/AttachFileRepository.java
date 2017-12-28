@@ -9,8 +9,6 @@ import com.setvect.nowhappy.attach.vo.AttachFileVo;
 
 /**
  * 첨부파일
- * 
- * @version $Id$
  */
 public interface AttachFileRepository extends JpaRepository<AttachFileVo, Integer> {
 

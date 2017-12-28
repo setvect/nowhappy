@@ -16,23 +16,19 @@ import org.slf4j.LoggerFactory;
 
 import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationConstant.FileUpload;
-import com.setvect.nowhappy.SessionCheckInterceptor;
 
 /**
  * 웹 루트 바깥에 있는 이미지 파일을 열어서 데이터를 뿌여 주는 클래스 <br>
  * ex) <img src="/servlet/Thumbnail?i=이름지명&w=넓이&h=높이"> 이런 식으로 사용 하면 된다.
- *
- * @version $Id$
  */
 public class ThumbnailImageServlet extends HttpServlet {
-
 	/** */
 	private static final long serialVersionUID = 3865935617999439844L;
 
 	/** 섬네일 대상 이미지가 들어 있는 기본 경로 */
 	public final static String BASE_DIR_SESSION_NAME = "_thum_base_dir";
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SessionCheckInterceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ThumbnailImageServlet.class);
 
 	/**
 	 * 썸네일 이미지
@@ -60,8 +56,7 @@ public class ThumbnailImageServlet extends HttpServlet {
 		if (baseDir == null) {
 			// 기본 경로가 없을 경우 웹 루트 경로를 기본으로 한다.
 			sourceImageFile = new File(getServletConfig().getServletContext().getRealPath(orgImagePath));
-		}
-		else {
+		} else {
 			sourceImageFile = new File(baseDir, orgImagePath);
 		}
 
@@ -76,7 +71,8 @@ public class ThumbnailImageServlet extends HttpServlet {
 		String tempImg = FilenameUtils.getBaseName(orgImagePath) + "_w" + width + "_h" + height + "."
 				+ FilenameUtils.getExtension(orgImagePath);
 
-		File saveDir = new File(getServletConfig().getServletContext().getRealPath(FileUpload.THUMBNAIL_PATH), orgImagePath).getParentFile();
+		File saveDir = new File(getServletConfig().getServletContext().getRealPath(FileUpload.THUMBNAIL_PATH),
+				orgImagePath).getParentFile();
 		if (!saveDir.exists()) {
 			saveDir.mkdirs();
 		}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.2.201712210913-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/main/resources/spring/context-transaction.xml</config>
+	</configs>
+	<autoconfigs>
+		<config>src/main/resources/springmvc/context-servlet.xml</config>
+		<config>java:com.setvect.nowhappy.NowHappyApplication</config>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

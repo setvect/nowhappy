@@ -3,8 +3,6 @@ package com.setvect.nowhappy.util;
 
 /**
  *  숫자 포맵 변환 관련 클래스
- * 
- * @version $Id: NumberFormat.java,v 1.5 2006/06/28 06:28:23 setvect Exp $
  */
 public class NumberFormat {
 

@@ -7,8 +7,6 @@ import javax.persistence.Embeddable;
 
 /**
  * 사용자와 권한 맵핑
- * 
- * @version $Id: ConnKey.java 590 2009-06-02 10:29:25Z setvect $
  */
 @Embeddable
 public class AuthMapVoKey implements Serializable {

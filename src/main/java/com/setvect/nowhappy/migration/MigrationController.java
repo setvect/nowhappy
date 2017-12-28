@@ -2,9 +2,9 @@ package com.setvect.nowhappy.migration;
 
 import java.io.File;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class MigrationController {
-	@Inject
+	@Autowired
 	private MigrationService service;
 
 //	@RequestMapping("/migration/run.do")

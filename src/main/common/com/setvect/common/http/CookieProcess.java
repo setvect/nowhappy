@@ -3,8 +3,6 @@ package com.setvect.common.http;
 /**
  * request에서 쿠키 값을 파싱한뒤 쿠키 명과 이름을 Hashtable에 저장 시켜 놓고 get()을 이용하여 쿠키이름에 해당하는 값을
  * 가져온다.
- * 
- * @version $Id: CookieProcess.java,v 1.5 2005/06/20 09:25:46 setvect Exp $
  */
 import java.util.HashMap;
 import java.util.Map;

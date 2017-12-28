@@ -7,8 +7,6 @@ import com.setvect.common.util.StringUtilAd;
 
 /**
  * 노트 페이징 및 검색 조건
- * 
- * @version $Id$
  */
 public class NoteSearch extends SearchListVo {
 	public enum NoteSort {

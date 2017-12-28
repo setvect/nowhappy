@@ -8,8 +8,6 @@ import com.setvect.nowhappy.auth.vo.AuthVo;
 
 /**
  * 권한 수정 여부
- * 
- * @version $Id$
  */
 public interface AuthChangeListener {
 	/**

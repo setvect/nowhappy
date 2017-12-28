@@ -114,8 +114,6 @@ public class FileUtil extends FileUtils {
 	/**
 	 * 하위 폴더를 탐색하여 특정 확장자를 갖는 파일 목록을 검색 <br>
 	 * TODO 공통 라이브러리로 이동
-	 * 
-	 * @version $Id$
 	 */
 	private static class FileFinder {
 		private List<File> files = new ArrayList<File>();

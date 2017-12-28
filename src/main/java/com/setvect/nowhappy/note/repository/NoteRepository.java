@@ -6,8 +6,6 @@ import com.setvect.nowhappy.note.vo.NoteVo;
 
 /**
  * 노트 내용
- *
- * @version $Id$
  */
 public interface NoteRepository extends JpaRepository<NoteVo, Integer>, NoteRepositoryCustom {
 }

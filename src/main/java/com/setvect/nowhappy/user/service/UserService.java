@@ -18,7 +18,6 @@ import com.setvect.nowhappy.user.vo.UserSearchCondition;
 import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
- * @version $Id: MemoService.java 63 2010-08-16 12:24:44Z setvect@naver.com $
  */
 @Service(value = "UserService")
 public class UserService {

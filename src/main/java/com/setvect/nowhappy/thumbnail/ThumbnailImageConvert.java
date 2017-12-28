@@ -11,8 +11,6 @@ import net.coobird.thumbnailator.Thumbnails;
 
 /**
  * 섬네일 이미지 제작
- *
- * @version $Id$
  */
 public class ThumbnailImageConvert {
 	private static Logger logger = LogManager.getLogger(ThumbnailImageConvert.class);

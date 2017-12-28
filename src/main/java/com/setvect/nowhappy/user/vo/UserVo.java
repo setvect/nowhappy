@@ -7,20 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 import com.setvect.nowhappy.ApplicationConstant;
 
 /**
  * 회원
- * 
- * @version $Id: Board.java 54 2010-08-09 14:25:54Z setvect@naver.com $
  */
 @Entity
 @Table(name = "TBAA_USER")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserVo implements Serializable {
 	/** */
 	private static final long serialVersionUID = 4058914352122647610L;

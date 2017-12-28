@@ -14,8 +14,6 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 
 /**
  * Request 값을 VO 클래스의 바인드
- * 
- * @version $Id$
  */
 public class Binder {
 	/**

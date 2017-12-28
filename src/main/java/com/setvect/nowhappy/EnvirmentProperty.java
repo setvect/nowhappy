@@ -13,8 +13,6 @@ import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 
 /**
  * 프로젝트 설정 정보 제공
- * 
- * @version $Id$
  */
 public class EnvirmentProperty {
 	private static PropertiesConfiguration config;

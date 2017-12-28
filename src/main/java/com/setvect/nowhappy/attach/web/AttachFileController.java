@@ -29,7 +29,7 @@ public class AttachFileController {
 
 	/**
 	 * 첨부파일 목록
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @return
@@ -55,7 +55,7 @@ public class AttachFileController {
 		String downName;
 
 		ApplicationUtil.checkAllowUploadFile(saveName);
-		
+
 		// 별도의 디코드 파일이 없으면 저장파일 이름을 다운로드
 		if (StringUtilAd.isEmpty(request.getParameter("d"))) {
 			// 다운로도될 파일이름
@@ -64,8 +64,7 @@ public class AttachFileController {
 				n = saveName.lastIndexOf("\\");
 			}
 			downName = saveName.substring(n + 1);
-		}
-		else {
+		} else {
 			// 다운로도될 파일이름
 			downName = StringUtilAd.decodeString(request.getParameter("d"));
 		}

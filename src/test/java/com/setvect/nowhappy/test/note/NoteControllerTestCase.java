@@ -2,9 +2,8 @@ package com.setvect.nowhappy.test.note;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.setvect.nowhappy.note.vo.NoteCategoryVo;
@@ -12,7 +11,7 @@ import com.setvect.nowhappy.note.web.NoteController;
 import com.setvect.nowhappy.test.MainTestBase;
 
 public class NoteControllerTestCase extends MainTestBase {
-	@Inject
+	@Autowired
 	private NoteController controller;
 
 	@Test

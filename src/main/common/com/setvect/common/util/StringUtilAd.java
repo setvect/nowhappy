@@ -13,8 +13,6 @@ import sun.misc.BASE64Encoder;
 
 /**
  * anyframe.common.util.StringUtil에서 사용하고 있는 Methd Delegate
- * 
- * @version $Id$
  */
 public class StringUtilAd extends StringUtils {
 

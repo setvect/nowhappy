@@ -10,7 +10,6 @@ import com.setvect.nowhappy.note.vo.NoteCategoryVo;
 import com.setvect.nowhappy.note.vo.NoteVo;
 
 /**
- * @version $Id$
  */
 @Service("NoteService")
 public class NoteService {

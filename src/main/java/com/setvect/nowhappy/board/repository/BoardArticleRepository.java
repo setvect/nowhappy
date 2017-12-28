@@ -6,8 +6,6 @@ import com.setvect.nowhappy.board.vo.BoardArticleVo;
 
 /**
  * 게시물
- * 
- * @version $Id$
  */
 public interface BoardArticleRepository extends JpaRepository<BoardArticleVo, Integer>, BoardArticleRepositoryCustom {
 }

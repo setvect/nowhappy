@@ -3,11 +3,10 @@ package com.setvect.nowhappy.test.ctmemo;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,7 @@ import com.setvect.nowhappy.test.MainTestBase;
 
 public class CtmemoControllerTestCase extends MainTestBase {
 	private static final String CONTENT_STRING = "복슬이 멍멍";
-	@Inject
+	@Autowired
 	private CtmemoController controller;
 
 	@Test

@@ -3,12 +3,12 @@ package com.setvect.nowhappy.migration;
 import java.io.File;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.setvect.nowhappy.ApplicationConstant.FileUpload;
@@ -28,9 +28,9 @@ public class MigrationService {
 	@PersistenceContext
 	private EntityManager em;
 
-	@Inject
+	@Autowired
 	private BoardRepository boardRepository;
-	@Inject
+	@Autowired
 	private BoardArticleRepository boardArticleRepository;
 
 	public String runMigration(File destDir) {

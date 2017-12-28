@@ -16,8 +16,6 @@ import sun.misc.BASE64Encoder;
 
 /**
  * 직렬화 객체를 만들고, 직렬화된 객체를 복원 시킨다.
- * 
- * @version $Id: SerializerUtil.java,v 1.1 2006/07/12 05:33:59 setvect Exp $
  */
 public class SerializerUtil {
 

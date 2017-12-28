@@ -9,8 +9,6 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -18,7 +16,6 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "TBYC_CODE")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class CodeVo {
 	@Id
 	@Column(name = "CODE_SEQ")

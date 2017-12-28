@@ -8,8 +8,6 @@ import com.setvect.nowhappy.code.vo.CodeVo;
 
 /**
  * 코드관리
- *
- * @version $Id$
  */
 public interface CodeRepository extends JpaRepository<CodeVo, Integer> {
 

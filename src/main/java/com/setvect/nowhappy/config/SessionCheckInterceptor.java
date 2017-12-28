@@ -1,4 +1,4 @@
-package com.setvect.nowhappy;
+package com.setvect.nowhappy.config;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -15,10 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.setvect.common.util.SerializerUtil;
 import com.setvect.common.util.StringUtilAd;
+import com.setvect.nowhappy.ApplicationConstant;
+import com.setvect.nowhappy.ApplicationException;
+import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
 import com.setvect.nowhappy.ApplicationConstant.WebCommon;
 import com.setvect.nowhappy.auth.AccessChecker;
@@ -29,6 +33,7 @@ import com.setvect.nowhappy.user.vo.UserVo;
  * 로그인 체크<br>
  * 모든 액션에 대해서 로그인 여부를 검사하여 로그인이 되지 않으면 로그인 페이지로 이동
  */
+@Service
 public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SessionCheckInterceptor.class);
 
@@ -44,7 +49,8 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 		LOGGER.info("init. application.");
 	}
 
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+	@Override
+	public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
 			throws UnsupportedEncodingException, IOException {
 		String currentUrl = removeHeadSlash(request);
 
@@ -69,7 +75,7 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 
-		if (hasAuth == false && user == null) {
+		if (!hasAuth && user == null) {
 			String returnUrl = currentUrl + "?" + StringUtilAd.null2str(request.getQueryString(), "");
 			String loginPage = AccessChecker.LOGIN_URL + "?" + WebCommon.RETURN_URL + "="
 					+ URLEncoder.encode(returnUrl, request.getCharacterEncoding());
@@ -84,7 +90,7 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 	/**
 	 * http://도메인//abc/a.do 이런식으로 도메인 다음 슬래시가 두 번 들어오면 URL 권한 체크가 안되는 문제가 있음. <br/>
 	 * 중복된 슬래시를 제거해 하나만 표시하도록 함.
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -104,7 +110,7 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 
 	/**
 	 * 강제 로그인
-	 * 
+	 *
 	 * @param response
 	 * @return
 	 * @throws IOException
@@ -132,14 +138,13 @@ public class SessionCheckInterceptor extends HandlerInterceptorAdapter {
 	/**
 	 * 파라미터 맵을 만듬 <br>
 	 * 참고로 request.getParameterMap()을 사용하면 값에 타입이 String[] 됨
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
 	private Map<String, String> makeParamMap(HttpServletRequest request) {
 		Map<String, String> param = new HashMap<String, String>();
 
-		@SuppressWarnings("unchecked")
 		Enumeration<String> paramNames = request.getParameterNames();
 		while (paramNames.hasMoreElements()) {
 			String key = paramNames.nextElement();

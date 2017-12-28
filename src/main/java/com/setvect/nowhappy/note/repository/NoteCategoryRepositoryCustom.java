@@ -6,8 +6,6 @@ import com.setvect.nowhappy.note.vo.NoteCategoryVo;
 
 /**
  * 노트 카테고리
- *
- * @version $Id$
  */
 public interface NoteCategoryRepositoryCustom {
 

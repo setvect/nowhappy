@@ -2,18 +2,17 @@ package com.setvect.nowhappy.test.code;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.setvect.nowhappy.code.vo.CodeVo;
 import com.setvect.nowhappy.code.web.CodeController;
 import com.setvect.nowhappy.test.MainTestBase;
 
 public class CodeControllerTestCase extends MainTestBase {
-	@Inject
+	@Autowired
 	private CodeController controller;
 
 	@Test

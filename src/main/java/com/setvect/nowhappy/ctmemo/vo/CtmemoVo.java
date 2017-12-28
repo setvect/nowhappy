@@ -11,14 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "TBCA_CTMEMO")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class CtmemoVo implements Serializable {
 	private static final long serialVersionUID = 4659097867395968759L;
 

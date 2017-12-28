@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -22,7 +20,6 @@ import com.setvect.common.util.TreeItem;
 
 @Entity
 @Table(name = "TBDA_NOTE_CATEGORY")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 	/** ROOT 카테고리 아이디 */
 	public static final int ROOT_CATEGORY_ID = 0;

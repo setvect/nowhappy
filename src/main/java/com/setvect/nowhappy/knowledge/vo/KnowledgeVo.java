@@ -11,8 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -20,7 +18,6 @@ import com.setvect.nowhappy.code.vo.CodeVo;
 
 @Entity
 @Table(name = "TBEA_KNOWLEDGE")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class KnowledgeVo {
 	/** key */
 	@Id

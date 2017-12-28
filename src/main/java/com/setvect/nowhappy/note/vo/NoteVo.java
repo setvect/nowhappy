@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +22,6 @@ import com.setvect.nowhappy.util.DateDiff;
 
 @Entity
 @Table(name = "TBDB_NOTE")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class NoteVo implements Serializable {
 
 	/** */

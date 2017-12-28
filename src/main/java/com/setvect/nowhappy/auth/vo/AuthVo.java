@@ -8,18 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
  * 권한 정보
- * 
- * @version $Id: Board.java 54 2010-08-09 14:25:54Z setvect@naver.com $
  */
 @Entity
 @Table(name = "TBAB_AUTH")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AuthVo {
 	@Id
 	@Column(name = "AUTH_SEQ")

@@ -21,8 +21,6 @@ import com.setvect.nowhappy.util.FileUtil;
 
 /**
  * 이미지 업로드
- * 
- * @version $Id$
  */
 @Controller
 public class ImageUploadController {

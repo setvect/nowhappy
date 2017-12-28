@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -16,7 +14,6 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "TBCB_WORKSPACE")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class WorkspaceVo {
 	/** 일련번호 */
 	@Id

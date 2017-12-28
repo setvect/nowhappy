@@ -6,8 +6,6 @@ import com.setvect.nowhappy.comment.vo.CommentVo;
 
 /**
  * 코멘트
- *
- * @version $Id$
  */
 public interface CommentRepositoryCustom {
 

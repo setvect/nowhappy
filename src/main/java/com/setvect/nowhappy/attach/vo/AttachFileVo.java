@@ -15,8 +15,6 @@ import javax.persistence.Transient;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.setvect.common.util.StringUtilAd;
@@ -29,7 +27,6 @@ import com.setvect.nowhappy.user.vo.UserVo;
  */
 @Entity
 @Table(name = "TBYA_ATTACH_FILE")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AttachFileVo {
 
 	@Id

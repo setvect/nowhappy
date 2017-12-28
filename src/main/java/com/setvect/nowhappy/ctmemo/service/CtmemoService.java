@@ -3,8 +3,7 @@ package com.setvect.nowhappy.ctmemo.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +16,9 @@ import com.setvect.nowhappy.ctmemo.vo.WorkspaceVo;
 
 @Service
 public class CtmemoService {
-	@Inject
+	@Autowired
 	private WorkspaceRepository workspaceRepository;
-	@Inject
+	@Autowired
 	private CtmemoRepository ctmemoRepository;
 
 	public WorkspaceVo getWorkspace(int workspaceSeq) {

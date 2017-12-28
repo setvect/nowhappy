@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,10 @@ public class LoginController {
 		String userId = request.getParameter("userId");
 		String passwd = request.getParameter("passwd");
 
-		UserVo user = userService.getUser(userId);
+		UserVo u = userService.getUser(userId);
+		// JPA 영속에서 벗어나기 위해 객체를 복사
+		UserVo user = (UserVo) BeanUtils.cloneBean(u);
+
 		boolean loginStat = false;
 		if (user == null) {
 			result.put(WebAttributeKey.PROCESS_RESULT, false);

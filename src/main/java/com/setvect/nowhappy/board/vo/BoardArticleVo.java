@@ -13,8 +13,6 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,12 +22,9 @@ import com.setvect.nowhappy.util.DateDiff;
 
 /**
  * 게시물 VO
- *
- * @version $Id$
  */
 @Entity
 @Table(name = "TBBB_BOARD_ARTICLE")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class BoardArticleVo {
 	/** */
 	@Id

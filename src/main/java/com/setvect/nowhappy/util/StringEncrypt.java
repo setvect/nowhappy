@@ -10,8 +10,6 @@ import java.util.BitSet;
  * 아래 구조로 스트링에 특정 키값을 합치면 HEX로 변환된 스트링 코드가 나온다. encode, decode가 가능하다.
  * 
  * 스트링 + 키값을 = HEX로 변환된 스트링
- * 
- * @version $Id: StringEncrypt.java,v 1.7 2006/10/24 13:47:42 setvect Exp $
  */
 public class StringEncrypt {
 

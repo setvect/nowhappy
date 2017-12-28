@@ -14,11 +14,15 @@ import com.setvect.nowhappy.ApplicationConstant.WebAttributeKey;
 import com.setvect.nowhappy.ApplicationConstant.WebCommon;
 
 /**
- * @version $Id$
  */
 @Controller
 public class HomeController {
 	private Logger logger = LogManager.getLogger(getClass());
+
+	@RequestMapping("/")
+	public String index() {
+		return "redirect:/home.do";
+	}
 
 	@RequestMapping("/home.do")
 	public String home(HttpServletRequest request, HttpServletResponse response) {

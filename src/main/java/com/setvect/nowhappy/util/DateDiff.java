@@ -11,14 +11,28 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class DateDiff {
+	/** 리소스 */
 	private static MessageSourceAccessor messageBundle;
 
+	/**
+	 * @param msa
+	 *            리소스 번들
+	 */
 	@Autowired(required = true)
-	public void setCommonCodeManager(MessageSourceAccessor msa) {
+	public void setCommonCodeManager(final MessageSourceAccessor msa) {
 		messageBundle = msa;
 	}
 
-	public static String diff(Date nowDate, Date sourceDate) {
+	/**
+	 * 상대적 시간 차이를 문자열로 표현
+	 *
+	 * @param nowDate
+	 *            현재 시간
+	 * @param sourceDate
+	 *            기준 시간
+	 * @return 시간 차이
+	 */
+	public static String diff(final Date nowDate, final Date sourceDate) {
 		long diff = nowDate.getTime() - sourceDate.getTime();
 		int min = (int) (diff / (1000 * 60));
 		if (min == 0) {

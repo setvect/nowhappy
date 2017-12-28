@@ -2,8 +2,6 @@ package com.setvect.nowhappy.ctmemo.repository;
 
 /**
  * 메모장 Repository
- *
- * @version $Id$
  */
 public interface CtmemoRepositoryCustom {
 	/**

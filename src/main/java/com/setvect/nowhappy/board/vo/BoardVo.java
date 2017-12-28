@@ -5,18 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
  * 게시판 설정
- * 
- * @version $Id$
  */
 @Entity
 @Table(name = "TBBA_BOARD_MANAGER")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class BoardVo {
 	@Id
 	@Column(name = "BOARD_CODE")

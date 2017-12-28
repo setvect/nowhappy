@@ -15,7 +15,6 @@ import com.setvect.nowhappy.auth.vo.AuthVo;
 import com.setvect.nowhappy.user.vo.UserVo;
 
 /**
- * @version $Id$
  */
 public class AccessChecker {
 

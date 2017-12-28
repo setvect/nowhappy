@@ -115,4 +115,7 @@ public class ApplicationConstant {
 		/** 메뉴로 노출 시킬 게시판 코드 */
 		public static final List<String> VIEW_LIST = EnvirmentProperty.getList("com.setvect.nowhappy.board.view_list");
 	}
+	/** 테스트 실행 여부을 알수 있는 System property 이름 */
+	public static final String TEST_CHECK_PROPERTY_NAME = "test_run";
+
 }
