@@ -26,7 +26,7 @@ public class AuthMapVo {
 	 * @param authSeq
 	 *            the authSeq to set
 	 */
-	public void setAuthSeq(int authSeq) {
+	public void setAuthSeq(final int authSeq) {
 		key.setAuthSeq(authSeq);
 	}
 
@@ -41,7 +41,7 @@ public class AuthMapVo {
 	 * @param userId
 	 *            the userId to set
 	 */
-	public void setUserId(String userId) {
+	public void setUserId(final String userId) {
 		key.setUserId(userId);
 	}
 
@@ -55,7 +55,7 @@ public class AuthMapVo {
 	/**
 	 * @param key the key to set
 	 */
-	public void setKey(AuthMapVoKey key) {
+	public void setKey(final AuthMapVoKey key) {
 		this.key = key;
 	}
 }

@@ -17,13 +17,13 @@ import org.hibernate.annotations.GenericGenerator;
 public class WorkspaceVo {
 	/** 일련번호 */
 	@Id
-	@Column(name = "WORKSPACE_SEQ")
+	@Column(name = "WORKSPACE_SEQ", nullable = false)
 	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
 	private int workspaceSeq;
 
 	/** 내용 */
-	@Column(name = "TITLE")
+	@Column(name = "TITLE", nullable = false, length = 200)
 	private String title;
 
 	/**
@@ -37,7 +37,7 @@ public class WorkspaceVo {
 	 * @param workspaceSeq
 	 *            the workspaceSeq to set
 	 */
-	public void setWorkspaceSeq(int workspaceSeq) {
+	public void setWorkspaceSeq(final int workspaceSeq) {
 		this.workspaceSeq = workspaceSeq;
 	}
 
@@ -52,7 +52,7 @@ public class WorkspaceVo {
 	 * @param title
 	 *            the title to set
 	 */
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 }

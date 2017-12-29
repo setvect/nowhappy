@@ -9,8 +9,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
-import com.setvect.nowhappy.ApplicationConstant;
-
 /**
  * 회원
  */
@@ -20,30 +18,34 @@ public class UserVo implements Serializable {
 	/** */
 	private static final long serialVersionUID = 4058914352122647610L;
 
+	/** 아이디 */
 	@Id
-	@Column(name = "USER_ID")
+	@Column(name = "USER_ID", unique = true, nullable = false, length = 20)
 	private String userId;
 
-	@Column(name = "NAME")
+	/** 이름 */
+	@Column(name = "NAME", nullable = false, length = 50)
 	private String name;
 
 	/**
 	 * MD5로 암호화
-	 * 
-	 * @see ApplicationConstant#PASSWD_ALGORITHM
+	 *
+	 * @see com.setvect.nowhappy.ApplicationConstant.ApplicationConstant#PASSWD_ALGORITHM
 	 */
-	@Column(name = "PASSWD")
+	@Column(name = "PASSWD", nullable = false, length = 50)
 	private String passwd;
 
-	@Column(name = "EMAIL")
+	/** 이메일 */
+	@Column(name = "EMAIL", nullable = false, length = 100)
 	private String email;
 
 	/** 관리자 여부 */
-	@Column(name = "ADMIN_F")
+	@Column(name = "ADMIN_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean adminF;
 
-	@Column(name = "DELETE_F")
+	/** 삭제 여부 */
+	@Column(name = "DELETE_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean deleteF;
 
@@ -58,7 +60,7 @@ public class UserVo implements Serializable {
 	 * @param userId
 	 *            the userId to set
 	 */
-	public void setUserId(String userId) {
+	public void setUserId(final String userId) {
 		this.userId = userId;
 	}
 
@@ -73,7 +75,7 @@ public class UserVo implements Serializable {
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -88,7 +90,7 @@ public class UserVo implements Serializable {
 	 * @param passwd
 	 *            the passwd to set
 	 */
-	public void setPasswd(String passwd) {
+	public void setPasswd(final String passwd) {
 		this.passwd = passwd;
 	}
 
@@ -103,7 +105,7 @@ public class UserVo implements Serializable {
 	 * @param email
 	 *            the email to set
 	 */
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 
@@ -118,7 +120,7 @@ public class UserVo implements Serializable {
 	 * @param adminF
 	 *            the adminF to set
 	 */
-	public void setAdminF(boolean adminF) {
+	public void setAdminF(final boolean adminF) {
 		this.adminF = adminF;
 	}
 
@@ -133,15 +135,10 @@ public class UserVo implements Serializable {
 	 * @param deleteF
 	 *            the deleteF to set
 	 */
-	public void setDeleteF(boolean deleteF) {
+	public void setDeleteF(final boolean deleteF) {
 		this.deleteF = deleteF;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -150,26 +147,25 @@ public class UserVo implements Serializable {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(final Object obj) {
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		UserVo other = (UserVo) obj;
 		if (userId == null) {
-			if (other.userId != null)
+			if (other.userId != null) {
 				return false;
-		}
-		else if (!userId.equals(other.userId))
+			}
+		} else if (!userId.equals(other.userId)) {
 			return false;
+		}
 		return true;
 	}
 

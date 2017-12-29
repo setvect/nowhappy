@@ -16,21 +16,23 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "TBAB_AUTH")
 public class AuthVo {
+	/** */
 	@Id
-	@Column(name = "AUTH_SEQ")
+	@Column(name = "AUTH_SEQ", unique = true, nullable = false)
 	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
 	private int authSeq;
 
 	/** 권한 구분 이름 */
-	@Column(name = "NAME")
+	@Column(name = "NAME", nullable = false, length = 100)
 	private String name;
 
-	@Column(name = "URL")
+	/** URL */
+	@Column(name = "URL", nullable = false, length = 200)
 	private String url;
 
 	/** 총 게시물 파일 업로드 제한 */
-	@Column(name = "PARAMETER")
+	@Column(name = "PARAMETER", nullable = false, length = 100)
 	private String parameter;
 	/** 권한 부여 여부 */
 	@Transient
@@ -47,7 +49,7 @@ public class AuthVo {
 	 * @param authSeq
 	 *            the authSeq to set
 	 */
-	public void setAuthSeq(int authSeq) {
+	public void setAuthSeq(final int authSeq) {
 		this.authSeq = authSeq;
 	}
 
@@ -62,7 +64,7 @@ public class AuthVo {
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -77,7 +79,7 @@ public class AuthVo {
 	 * @param url
 	 *            the url to set
 	 */
-	public void setUrl(String url) {
+	public void setUrl(final String url) {
 		this.url = url;
 	}
 
@@ -92,7 +94,7 @@ public class AuthVo {
 	 * @param parameter
 	 *            the parameter to set
 	 */
-	public void setParameter(String parameter) {
+	public void setParameter(final String parameter) {
 		this.parameter = parameter;
 	}
 
@@ -107,7 +109,7 @@ public class AuthVo {
 	 * @param have
 	 *            the have to set
 	 */
-	public void setAuthHave(boolean have) {
+	public void setAuthHave(final boolean have) {
 		this.authHave = have;
 	}
 

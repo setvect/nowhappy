@@ -17,19 +17,27 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "TBYC_CODE")
 public class CodeVo {
+	/** 일련번호 */
 	@Id
-	@Column(name = "CODE_SEQ")
+	@Column(name = "CODE_SEQ", nullable = false)
 	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
 	private int codeSeq;
 
-	@Column(name = "MAJOR_CODE")
+	/** 메인코드 */
+	@Column(name = "MAJOR_CODE", nullable = false, length = 20)
 	private String majorCode;
-	@Column(name = "MINOR_CODE")
+
+	/** 코드 */
+	@Column(name = "MINOR_CODE", nullable = false, length = 20)
 	private String minorCode;
-	@Column(name = "CODE_VALUE")
+
+	/** 코드값 */
+	@Column(name = "CODE_VALUE", nullable = false, length = 100)
 	private String codeValue;
-	@Column(name = "ORDER_NO")
+
+	/** 순서 */
+	@Column(name = "ORDER_NO", nullable = false)
 	private int orderNo;
 
 	/**
@@ -43,7 +51,7 @@ public class CodeVo {
 	 * @param codeSeq
 	 *            the codeSeq to set
 	 */
-	public void setCodeSeq(int codeSeq) {
+	public void setCodeSeq(final int codeSeq) {
 		this.codeSeq = codeSeq;
 	}
 
@@ -58,7 +66,7 @@ public class CodeVo {
 	 * @param majorCode
 	 *            the majorCode to set
 	 */
-	public void setMajorCode(String majorCode) {
+	public void setMajorCode(final String majorCode) {
 		this.majorCode = majorCode;
 	}
 
@@ -73,7 +81,7 @@ public class CodeVo {
 	 * @param minorCode
 	 *            the minorCode to set
 	 */
-	public void setMinorCode(String minorCode) {
+	public void setMinorCode(final String minorCode) {
 		this.minorCode = minorCode;
 	}
 
@@ -88,7 +96,7 @@ public class CodeVo {
 	 * @param codeValue
 	 *            the codeValue to set
 	 */
-	public void setCodeValue(String codeValue) {
+	public void setCodeValue(final String codeValue) {
 		this.codeValue = codeValue;
 	}
 
@@ -103,7 +111,7 @@ public class CodeVo {
 	 * @param orderNo
 	 *            the orderNo to set
 	 */
-	public void setOrderNo(int orderNo) {
+	public void setOrderNo(final int orderNo) {
 		this.orderNo = orderNo;
 	}
 

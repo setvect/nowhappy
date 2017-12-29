@@ -13,36 +13,41 @@ import org.hibernate.annotations.Type;
 @Entity
 @Table(name = "TBBA_BOARD_MANAGER")
 public class BoardVo {
+	/** 게시판 코드 */
 	@Id
-	@Column(name = "BOARD_CODE")
+	@Column(name = "BOARD_CODE", nullable = false, length = 20)
 	private String boardCode;
 
-	@Column(name = "NAME")
+	/** 게시판 이름 */
+	@Column(name = "NAME", nullable = false, length = 50)
 	private String name;
 
 	/** 총 게시물 파일 업로드 제한 */
-	@Column(name = "UPLOAD_LIMIT")
+	@Column(name = "UPLOAD_LIMIT", nullable = false)
 	private int uploadLimit;
 
-	@Column(name = "REPLY_F")
+	/** 답변 여부 */
+	@Column(name = "REPLY_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean replyF;
 
-	@Column(name = "COMMENT_F")
+	/** 코멘트 여부 */
+	@Column(name = "COMMENT_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean commentF;
 
-	@Column(name = "ATTACH_F")
+	/** 자료실 여부 */
+	@Column(name = "ATTACH_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean attachF;
 
 	/** 암호화 게시물 허용 여부 */
-	@Column(name = "ENCODE_F")
+	@Column(name = "ENCODE_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean encodeF;
 
 	/** 게시판 삭제 여부 */
-	@Column(name = "DELETE_F")
+	@Column(name = "DELETE_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean deleteF;
 
@@ -57,7 +62,7 @@ public class BoardVo {
 	 * @param boardCode
 	 *            the boardCode to set
 	 */
-	public void setBoardCode(String boardCode) {
+	public void setBoardCode(final String boardCode) {
 		this.boardCode = boardCode;
 	}
 
@@ -72,7 +77,7 @@ public class BoardVo {
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -87,7 +92,7 @@ public class BoardVo {
 	 * @param uploadLimit
 	 *            the uploadLimit to set
 	 */
-	public void setUploadLimit(int uploadLimit) {
+	public void setUploadLimit(final int uploadLimit) {
 		this.uploadLimit = uploadLimit;
 	}
 
@@ -102,7 +107,7 @@ public class BoardVo {
 	 * @param replyF
 	 *            the replyF to set
 	 */
-	public void setReplyF(boolean replyF) {
+	public void setReplyF(final boolean replyF) {
 		this.replyF = replyF;
 	}
 
@@ -117,7 +122,7 @@ public class BoardVo {
 	 * @param commentF
 	 *            the commentF to set
 	 */
-	public void setCommentF(boolean commentF) {
+	public void setCommentF(final boolean commentF) {
 		this.commentF = commentF;
 	}
 
@@ -132,7 +137,7 @@ public class BoardVo {
 	 * @param pdsF
 	 *            the pdsF to set
 	 */
-	public void setAttachF(boolean pdsF) {
+	public void setAttachF(final boolean pdsF) {
 		this.attachF = pdsF;
 	}
 
@@ -147,7 +152,7 @@ public class BoardVo {
 	 * @param encodeF
 	 *            the encodeF to set
 	 */
-	public void setEncodeF(boolean encodeF) {
+	public void setEncodeF(final boolean encodeF) {
 		this.encodeF = encodeF;
 	}
 
@@ -162,7 +167,7 @@ public class BoardVo {
 	 * @param deleteF
 	 *            the deleteF to set
 	 */
-	public void setDeleteF(boolean deleteF) {
+	public void setDeleteF(final boolean deleteF) {
 		this.deleteF = deleteF;
 	}
 

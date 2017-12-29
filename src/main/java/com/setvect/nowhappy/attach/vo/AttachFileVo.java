@@ -29,63 +29,94 @@ import com.setvect.nowhappy.user.vo.UserVo;
 @Table(name = "TBYA_ATTACH_FILE")
 public class AttachFileVo {
 
+	/** 일련번호 */
 	@Id
-	@Column(name = "ATTACH_FIlE_SEQ")
+	@Column(name = "ATTACH_FIlE_SEQ", nullable = false)
 	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
 	private int attachFileSeq;
 
-	@Column(name = "MODULE_NAME")
+	/** 모듈이름 */
+	@Column(name = "MODULE_NAME", nullable = false, length = 20)
 	@Enumerated(EnumType.STRING)
 	private AttachFileModule moduleName;
 
-	@Column(name = "MODULE_ID")
+	/** 모듈내 항목 번호 */
+	@Column(name = "MODULE_ID", nullable = false, length = 50)
 	private String moduleId;
 
-	@Column(name = "ORIGINAL_NAME")
+	/** 원본파일명 */
+	@Column(name = "ORIGINAL_NAME", nullable = false, length = 250)
 	private String originalName;
 
-	@Column(name = "SAVE_NAME")
+	/** 저장파일명 */
+	@Column(name = "SAVE_NAME", nullable = false, length = 250)
 	private String saveName;
 
-	@Column(name = "SIZE")
+	/** 파일 사이즈 */
+	@Column(name = "SIZE", nullable = false)
 	private int size;
 
 	/** 아이디 */
-	@Column(name = "USER_ID")
+	@Column(name = "USER_ID", nullable = false, length = 20)
 	private String userId;
+
 	/** 등록일 */
-	@Column(name = "REG_DATE")
+	@Column(name = "REG_DATE", nullable = false)
 	private Date regDate;
 
 	/** 등록자 */
 	@Transient
 	private UserVo user;
 
+	/**
+	 * @return 일련번호
+	 */
 	public int getAttachFileSeq() {
 		return attachFileSeq;
 	}
 
-	public void setAttachFileSeq(int attachFileSeq) {
+	/**
+	 * @param attachFileSeq
+	 *            일련번호
+	 */
+	public void setAttachFileSeq(final int attachFileSeq) {
 		this.attachFileSeq = attachFileSeq;
 	}
 
+	/**
+	 * @return 모듈이름
+	 */
 	public AttachFileModule getModuleName() {
 		return moduleName;
 	}
 
-	public void setModuleName(AttachFileModule moduleName) {
+	/**
+	 * @param moduleName
+	 *            모듈이름
+	 */
+	public void setModuleName(final AttachFileModule moduleName) {
 		this.moduleName = moduleName;
 	}
 
+	/**
+	 * @return 모듈내 항목 번호
+	 */
 	public String getModuleId() {
 		return moduleId;
 	}
 
-	public void setModuleId(String moduleID) {
+	/**
+	 * @param moduleID
+	 *            모듈내 항목 번호
+	 */
+	public void setModuleId(final String moduleID) {
 		this.moduleId = moduleID;
 	}
 
+	/**
+	 * @return 원본파일명
+	 */
 	public String getOriginalName() {
 		return originalName;
 	}
@@ -97,10 +128,17 @@ public class AttachFileVo {
 		return StringUtilAd.encodeString(originalName);
 	}
 
-	public void setOriginalName(String originalName) {
+	/**
+	 * @param originalName
+	 *            원본파일명
+	 */
+	public void setOriginalName(final String originalName) {
 		this.originalName = originalName;
 	}
 
+	/**
+	 * @return 저장파일명
+	 */
 	public String getSaveName() {
 		return saveName;
 	}
@@ -109,8 +147,8 @@ public class AttachFileVo {
 	 * @return 웹루트를 기준으로 첨부파일 경로.(파일명 포함)
 	 */
 	public String getSavePath() {
-		File basePath = new File(ApplicationConstant.FileUpload.ATTACH_PATH);
-		File f = new File(basePath, saveName);
+		final File basePath = new File(ApplicationConstant.FileUpload.ATTACH_PATH);
+		final File f = new File(basePath, saveName);
 		return f.getPath();
 	}
 
@@ -132,7 +170,7 @@ public class AttachFileVo {
 	 * @param saveName
 	 *            the saveName to set
 	 */
-	public void setSaveName(String saveName) {
+	public void setSaveName(final String saveName) {
 		this.saveName = saveName;
 	}
 
@@ -147,7 +185,7 @@ public class AttachFileVo {
 	 * @param size
 	 *            the size to set
 	 */
-	public void setSize(int size) {
+	public void setSize(final int size) {
 		this.size = size;
 	}
 
@@ -162,7 +200,7 @@ public class AttachFileVo {
 	 * @param userId
 	 *            the userId to set
 	 */
-	public void setUserId(String userId) {
+	public void setUserId(final String userId) {
 		this.userId = userId;
 	}
 
@@ -177,17 +215,17 @@ public class AttachFileVo {
 	 * @param regDate
 	 *            the regDate to set
 	 */
-	public void setRegDate(Date regDate) {
+	public void setRegDate(final Date regDate) {
 		this.regDate = regDate;
 	}
 
 	/**
 	 * 확장자를 기준으로 이미지 파일 여부 체크
-	 * 
+	 *
 	 * @return 이미지 파일이면 true
 	 */
 	public boolean isImage() {
-		String ext = FilenameUtils.getExtension(originalName);
+		final String ext = FilenameUtils.getExtension(originalName);
 		return ApplicationConstant.WebCommon.IMAGE_EXT.contains(ext.toLowerCase());
 	}
 

@@ -15,11 +15,11 @@ public class AuthMapVoKey implements Serializable {
 	private static final long serialVersionUID = -8519884056908412301L;
 
 	/** 권한 일련정보 */
-	@Column(name = "AUTH_SEQ")
+	@Column(name = "AUTH_SEQ", nullable = false)
 	private int authSeq;
 
 	/** 사용자 */
-	@Column(name = "USER_ID")
+	@Column(name = "USER_ID", nullable = false, length = 100)
 	private String userId;
 
 	/**
@@ -33,7 +33,7 @@ public class AuthMapVoKey implements Serializable {
 	 * @param authSeq
 	 *            the authSeq to set
 	 */
-	public void setAuthSeq(int authSeq) {
+	public void setAuthSeq(final int authSeq) {
 		this.authSeq = authSeq;
 	}
 
@@ -48,13 +48,13 @@ public class AuthMapVoKey implements Serializable {
 	 * @param userId
 	 *            the userId to set
 	 */
-	public void setUserId(String userId) {
+	public void setUserId(final String userId) {
 		this.userId = userId;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -68,25 +68,31 @@ public class AuthMapVoKey implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(final Object obj) {
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		AuthMapVoKey other = (AuthMapVoKey) obj;
-		if (authSeq != other.authSeq)
+		if (authSeq != other.authSeq) {
 			return false;
+		}
 		if (userId == null) {
-			if (other.userId != null)
+			if (other.userId != null) {
 				return false;
-		} else if (!userId.equals(other.userId))
+			}
+		} else if (!userId.equals(other.userId)) {
 			return false;
+		}
 		return true;
 	}
 }

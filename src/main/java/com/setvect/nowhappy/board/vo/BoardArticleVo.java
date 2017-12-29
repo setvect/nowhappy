@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -28,77 +29,79 @@ import com.setvect.nowhappy.util.DateDiff;
 public class BoardArticleVo {
 	/** */
 	@Id
-	@Column(name = "ARTICLE_SEQ")
+	@Column(name = "ARTICLE_SEQ", nullable = false)
 	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
 	private int articleSeq;
 
 	/** */
-	@Column(name = "BOARD_CODE")
+	@Column(name = "BOARD_CODE", nullable = false, length = 20)
 	private String boardCode;
 
 	/** */
-	@Column(name = "USER_ID")
+	@Column(name = "USER_ID", nullable = true, length = 20)
 	private String userId;
 
 	/** */
-	@Column(name = "IDX1")
+	@Column(name = "IDX1", nullable = false)
 	private int idx1;
 
 	/** */
-	@Column(name = "IDX2")
+	@Column(name = "IDX2", nullable = false)
 	private int idx2;
 
 	/** */
-	@Column(name = "IDX3")
+	@Column(name = "IDX3", nullable = false)
 	private int idx3;
 
 	/** 깊이 1부터 시작 */
-	@Column(name = "DEPTH_LEVEL")
+	@Column(name = "DEPTH_LEVEL", nullable = false)
 	private int depthLevel;
 
-	/** */
-	@Column(name = "TITLE")
+	/** 제목 */
+	@Column(name = "TITLE", nullable = false, length = 200)
 	private String title;
 
-	/** */
-	@Column(name = "NAME")
+	/** 이름 */
+	@Column(name = "NAME", nullable = false, length = 50)
 	private String name;
 
-	/** */
-	@Column(name = "EMAIL")
+	/** 이메일 */
+	@Column(name = "EMAIL", nullable = true, length = 100)
 	private String email;
 
-	/** */
-	@Column(name = "PASSWD")
+	/** 암호 */
+	@Column(name = "PASSWD", nullable = true, length = 10)
 	private String passwd;
 
-	/** */
-	@Column(name = "CONTENT")
+	/** 본문 */
+	@Column(name = "CONTENT", nullable = false)
+	@Lob
 	private String content;
 
-	/** */
-	@Column(name = "IP")
+	/** 아이피 */
+	@Column(name = "IP", nullable = false, length = 20)
 	private String ip;
 
 	/** 조회수 */
-	@Column(name = "HIT_COUNT")
+	@Column(name = "HIT_COUNT", nullable = false)
 	private int hitCount;
 
 	/** 암호화된 글 여부 */
-	@Column(name = "ENCODE_F")
+	@Column(name = "ENCODE_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean encodeF;
 
 	/** */
-	@Column(name = "REG_DATE")
+	@Column(name = "REG_DATE", nullable = false)
 	private Date regDate;
 
 	/** 게시물 삭제 여부 */
-	@Column(name = "DELETE_F")
+	@Column(name = "DELETE_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean deleteF;
 
+	/** 첨부파일 */
 	@Transient
 	private MultipartFile[] attachFile;
 
@@ -117,7 +120,7 @@ public class BoardArticleVo {
 	 * @param articleSeq
 	 *            the articleSeq to set
 	 */
-	public void setArticleSeq(int articleSeq) {
+	public void setArticleSeq(final int articleSeq) {
 		this.articleSeq = articleSeq;
 	}
 
@@ -132,7 +135,7 @@ public class BoardArticleVo {
 	 * @param boardCode
 	 *            the boardCode to set
 	 */
-	public void setBoardCode(String boardCode) {
+	public void setBoardCode(final String boardCode) {
 		this.boardCode = boardCode;
 	}
 
@@ -147,7 +150,7 @@ public class BoardArticleVo {
 	 * @param memberId
 	 *            the memberId to set
 	 */
-	public void setUserId(String memberId) {
+	public void setUserId(final String memberId) {
 		this.userId = memberId;
 	}
 
@@ -162,7 +165,7 @@ public class BoardArticleVo {
 	 * @param idx1
 	 *            the idx1 to set
 	 */
-	public void setIdx1(int idx1) {
+	public void setIdx1(final int idx1) {
 		this.idx1 = idx1;
 	}
 
@@ -177,7 +180,7 @@ public class BoardArticleVo {
 	 * @param idx2
 	 *            the idx2 to set
 	 */
-	public void setIdx2(int idx2) {
+	public void setIdx2(final int idx2) {
 		this.idx2 = idx2;
 	}
 
@@ -192,7 +195,7 @@ public class BoardArticleVo {
 	 * @param idx3
 	 *            the idx3 to set
 	 */
-	public void setIdx3(int idx3) {
+	public void setIdx3(final int idx3) {
 		this.idx3 = idx3;
 	}
 
@@ -207,7 +210,7 @@ public class BoardArticleVo {
 	 * @param depthLevel
 	 *            the depthLevel to set
 	 */
-	public void setDepthLevel(int depthLevel) {
+	public void setDepthLevel(final int depthLevel) {
 		this.depthLevel = depthLevel;
 	}
 
@@ -222,7 +225,7 @@ public class BoardArticleVo {
 	 * @param title
 	 *            the title to set
 	 */
-	public void setTitle(String title) {
+	public void setTitle(final String title) {
 		this.title = title;
 	}
 
@@ -237,7 +240,7 @@ public class BoardArticleVo {
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -252,7 +255,7 @@ public class BoardArticleVo {
 	 * @param email
 	 *            the email to set
 	 */
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 
@@ -267,7 +270,7 @@ public class BoardArticleVo {
 	 * @param passwd
 	 *            the passwd to set
 	 */
-	public void setPasswd(String passwd) {
+	public void setPasswd(final String passwd) {
 		this.passwd = passwd;
 	}
 
@@ -282,7 +285,7 @@ public class BoardArticleVo {
 	 * @param content
 	 *            the content to set
 	 */
-	public void setContent(String content) {
+	public void setContent(final String content) {
 		this.content = content;
 	}
 
@@ -297,7 +300,7 @@ public class BoardArticleVo {
 	 * @param ip
 	 *            the ip to set
 	 */
-	public void setIp(String ip) {
+	public void setIp(final String ip) {
 		this.ip = ip;
 	}
 
@@ -312,7 +315,7 @@ public class BoardArticleVo {
 	 * @param hitCount
 	 *            the hitCount to set
 	 */
-	public void setHitCount(int hitCount) {
+	public void setHitCount(final int hitCount) {
 		this.hitCount = hitCount;
 	}
 
@@ -327,7 +330,7 @@ public class BoardArticleVo {
 	 * @param encodeF
 	 *            the encodeF to set
 	 */
-	public void setEncodeF(boolean encodeF) {
+	public void setEncodeF(final boolean encodeF) {
 		this.encodeF = encodeF;
 	}
 
@@ -342,7 +345,7 @@ public class BoardArticleVo {
 	 * @param regDate
 	 *            the regDate to set
 	 */
-	public void setRegDate(Date regDate) {
+	public void setRegDate(final Date regDate) {
 		this.regDate = regDate;
 	}
 
@@ -357,7 +360,7 @@ public class BoardArticleVo {
 	 * @param deleteF
 	 *            the deleteF to set
 	 */
-	public void setDeleteF(boolean deleteF) {
+	public void setDeleteF(final boolean deleteF) {
 		this.deleteF = deleteF;
 	}
 
@@ -372,7 +375,7 @@ public class BoardArticleVo {
 	 * @param attachFile
 	 *            the attachFile to set
 	 */
-	public void setAttachFile(MultipartFile[] attachFile) {
+	public void setAttachFile(final MultipartFile[] attachFile) {
 		this.attachFile = attachFile;
 	}
 
@@ -387,10 +390,13 @@ public class BoardArticleVo {
 	 * @param attach
 	 *            the attach to set
 	 */
-	public void setAttach(List<AttachFileVo> attach) {
+	public void setAttach(final List<AttachFileVo> attach) {
 		this.attach = attach;
 	}
 
+	/**
+	 * @return 차이
+	 */
 	public String getRegDateDiff() {
 		return DateDiff.diff(new Date(), regDate);
 	}

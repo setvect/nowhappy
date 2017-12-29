@@ -14,6 +14,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
+/**
+ * 메모장
+ */
 @Entity
 @Table(name = "TBCA_CTMEMO")
 public class CtmemoVo implements Serializable {
@@ -21,58 +24,58 @@ public class CtmemoVo implements Serializable {
 
 	/** 일련번호 */
 	@Id
-	@Column(name = "CTMEMO_SEQ")
+	@Column(name = "CTMEMO_SEQ", nullable = false)
 	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
 	private int ctmemoSeq;
 
 	/** 내용 */
-	@Column(name = "CONTENT")
+	@Column(name = "CONTENT", nullable = false, length = 4000)
 	private String content;
 
 	/** 글자색 css */
-	@Column(name = "FONT_CSS")
+	@Column(name = "FONT_CSS", nullable = false, length = 20)
 	private String fontCss;
 
 	/** 배경색 css */
-	@Column(name = "BG_CSS")
+	@Column(name = "BG_CSS", nullable = false, length = 20)
 	private String bgCss;
 
 	/** HTML 레이어에서 Z-INDEX */
-	@Column(name = "Z_INDEX")
+	@Column(name = "Z_INDEX", nullable = false)
 	private int zIndex;
 
 	/** 넓이(픽셀) */
-	@Column(name = "WIDTH")
+	@Column(name = "WIDTH", nullable = false)
 	private int width;
 
 	/** 높이(픽셀 */
-	@Column(name = "HEIGHT")
+	@Column(name = "HEIGHT", nullable = false)
 	private int height;
 
 	/** 좌표 X */
-	@Column(name = "POSITION_X")
+	@Column(name = "POSITION_X", nullable = false)
 	private int positionX;
 
 	/** 좌표 Y */
-	@Column(name = "POSITION_Y")
+	@Column(name = "POSITION_Y", nullable = false)
 	private int positionY;
 
 	/** 마지막 수정일 */
-	@Column(name = "UPT_DATE")
+	@Column(name = "UPT_DATE", nullable = true)
 	private Date uptDate;
 
 	/** 처음 등록일 */
-	@Column(name = "REG_DATE")
+	@Column(name = "REG_DATE", nullable = true)
 	private Date regDate;
 
 	/** 삭제여부 */
-	@Column(name = "DELETE_F")
+	@Column(name = "DELETE_F", nullable = false)
 	@Type(type = "yes_no")
 	private boolean deleteF;
 
 	/** 워크스페이스 일련번호 */
-	@Column(name = "WORKSPACE_SEQ")
+	@Column(name = "WORKSPACE_SEQ", nullable = false)
 	private int workspaceSeq;
 
 	/**
@@ -86,7 +89,7 @@ public class CtmemoVo implements Serializable {
 	 * @param memoSeq
 	 *            the memoSeq to set
 	 */
-	public void setCtmemoSeq(int memoSeq) {
+	public void setCtmemoSeq(final int memoSeq) {
 		this.ctmemoSeq = memoSeq;
 	}
 
@@ -101,7 +104,7 @@ public class CtmemoVo implements Serializable {
 	 * @param content
 	 *            the content to set
 	 */
-	public void setContent(String content) {
+	public void setContent(final String content) {
 		this.content = content;
 	}
 
@@ -116,7 +119,7 @@ public class CtmemoVo implements Serializable {
 	 * @param fontColor
 	 *            the fontColor to set
 	 */
-	public void setFontCss(String fontColor) {
+	public void setFontCss(final String fontColor) {
 		this.fontCss = fontColor;
 	}
 
@@ -131,7 +134,7 @@ public class CtmemoVo implements Serializable {
 	 * @param bgColor
 	 *            the bgColor to set
 	 */
-	public void setBgCss(String bgColor) {
+	public void setBgCss(final String bgColor) {
 		this.bgCss = bgColor;
 	}
 
@@ -146,7 +149,7 @@ public class CtmemoVo implements Serializable {
 	 * @param zIndex
 	 *            the zIndex to set
 	 */
-	public void setzIndex(int zIndex) {
+	public void setzIndex(final int zIndex) {
 		this.zIndex = zIndex;
 	}
 
@@ -161,7 +164,7 @@ public class CtmemoVo implements Serializable {
 	 * @param width
 	 *            the width to set
 	 */
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 	}
 
@@ -176,7 +179,7 @@ public class CtmemoVo implements Serializable {
 	 * @param height
 	 *            the height to set
 	 */
-	public void setHeight(int height) {
+	public void setHeight(final int height) {
 		this.height = height;
 	}
 
@@ -191,7 +194,7 @@ public class CtmemoVo implements Serializable {
 	 * @param positionX
 	 *            the positionX to set
 	 */
-	public void setPositionX(int positionX) {
+	public void setPositionX(final int positionX) {
 		this.positionX = positionX;
 	}
 
@@ -206,7 +209,7 @@ public class CtmemoVo implements Serializable {
 	 * @param positionY
 	 *            the positionY to set
 	 */
-	public void setPositionY(int positionY) {
+	public void setPositionY(final int positionY) {
 		this.positionY = positionY;
 	}
 
@@ -221,7 +224,7 @@ public class CtmemoVo implements Serializable {
 	 * @param uptDate
 	 *            the uptDate to set
 	 */
-	public void setUptDate(Date uptDate) {
+	public void setUptDate(final Date uptDate) {
 		this.uptDate = uptDate;
 	}
 
@@ -236,7 +239,7 @@ public class CtmemoVo implements Serializable {
 	 * @param regDate
 	 *            the regDate to set
 	 */
-	public void setRegDate(Date regDate) {
+	public void setRegDate(final Date regDate) {
 		this.regDate = regDate;
 	}
 
@@ -251,7 +254,7 @@ public class CtmemoVo implements Serializable {
 	 * @param deleteF
 	 *            the deleteF to set
 	 */
-	public void setDeleteF(boolean deleteF) {
+	public void setDeleteF(final boolean deleteF) {
 		this.deleteF = deleteF;
 	}
 
@@ -266,13 +269,13 @@ public class CtmemoVo implements Serializable {
 	 * @param workspaceSeq
 	 *            the workspaceSeq to set
 	 */
-	public void setWorkspaceSeq(int workspaceSeq) {
+	public void setWorkspaceSeq(final int workspaceSeq) {
 		this.workspaceSeq = workspaceSeq;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -285,20 +288,24 @@ public class CtmemoVo implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(final Object obj) {
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
-		CtmemoVo other = (CtmemoVo) obj;
-		if (ctmemoSeq != other.ctmemoSeq)
+		}
+		final CtmemoVo other = (CtmemoVo) obj;
+		if (ctmemoSeq != other.ctmemoSeq) {
 			return false;
+		}
 		return true;
 	}
 

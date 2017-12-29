@@ -18,6 +18,9 @@ import org.hibernate.annotations.Type;
 
 import com.setvect.common.util.TreeItem;
 
+/**
+ * 노트 카테고리
+ */
 @Entity
 @Table(name = "TBDA_NOTE_CATEGORY")
 public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
@@ -28,29 +31,29 @@ public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 
 	/** 일련번호 */
 	@Id
-	@Column(name = "CATEGORY_SEQ")
+	@Column(name = "CATEGORY_SEQ", nullable = false)
 	@GenericGenerator(name = "hibernate-increment", strategy = "increment")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "hibernate-increment")
 	private int categorySeq;
 
 	/**
 	 * 부모 카테고리 아이디
-	 * 
+	 *
 	 * @see #categorySeq
 	 */
-	@Column(name = "PARENT_ID")
+	@Column(name = "PARENT_ID", nullable = false)
 	private int parentId;
 
 	/** 이름 */
-	@Column(name = "NAME")
+	@Column(name = "NAME", nullable = false, length = 50)
 	private String name;
 
 	/** 처음 등록일 */
-	@Column(name = "REG_DATE")
+	@Column(name = "REG_DATE", nullable = false)
 	private Date regDate;
 
 	/** 삭제여부 */
-	@Column(name = "DELETE_F")
+	@Column(name = "DELETE_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean deleteF;
 
@@ -73,7 +76,7 @@ public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 	 * @param categorySeq
 	 *            the categorySeq to set
 	 */
-	public void setCategorySeq(int categorySeq) {
+	public void setCategorySeq(final int categorySeq) {
 		this.categorySeq = categorySeq;
 	}
 
@@ -88,7 +91,7 @@ public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -103,7 +106,7 @@ public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 	 * @param regDate
 	 *            the regDate to set
 	 */
-	public void setRegDate(Date regDate) {
+	public void setRegDate(final Date regDate) {
 		this.regDate = regDate;
 	}
 
@@ -118,7 +121,7 @@ public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 	 * @param deleteF
 	 *            the deleteF to set
 	 */
-	public void setDeleteF(boolean deleteF) {
+	public void setDeleteF(final boolean deleteF) {
 		this.deleteF = deleteF;
 	}
 
@@ -133,24 +136,23 @@ public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 	 * @param children
 	 *            the children to set
 	 */
-	public void setChildren(List<NoteCategoryVo> children) {
+	public void setChildren(final List<NoteCategoryVo> children) {
 		this.children = children;
 	}
 
 	/**
 	 * 이름 순으로 오름차순 정렬
-	 * 
+	 *
 	 * @param o
 	 * @return
 	 */
 	@Override
-	public int compareTo(TreeItem<Integer> o) {
-		NoteCategoryVo oCategory = (NoteCategoryVo) o;
-		int compare = name.compareTo(oCategory.name);
+	public int compareTo(final TreeItem<Integer> o) {
+		final NoteCategoryVo oCategory = (NoteCategoryVo) o;
+		final int compare = name.compareTo(oCategory.name);
 		if (compare != 0) {
 			return compare;
-		}
-		else {
+		} else {
 			return getId().compareTo(oCategory.getId());
 		}
 	}
@@ -164,23 +166,23 @@ public class NoteCategoryVo implements Serializable, TreeItem<Integer> {
 	public Integer getParentId() {
 		return parentId;
 	}
-	
 
 	/**
-	 * @param parentId the parentId to set
+	 * @param parentId
+	 *            the parentId to set
 	 */
-	public void setParentId(int parentId) {
+	public void setParentId(final int parentId) {
 		this.parentId = parentId;
 	}
 
 	@Override
-	public void setDepth(int depth) {
+	public void setDepth(final int depth) {
 		this.depth = depth;
 	}
 
 	/**
 	 * 카테고리 Depth 단계. 0부터 시작
-	 * 
+	 *
 	 * @return the level
 	 */
 	public int getDepth() {
