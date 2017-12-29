@@ -2,6 +2,7 @@ package com.setvect.nowhappy.test.user;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,6 +17,11 @@ public class UserRepositoryTestCase extends MainTestBase {
 
 	@Autowired
 	private UserRepository repository;
+
+	@Before
+	public void after() {
+		insertInitValue();
+	}
 
 	@Test
 	public void test() throws InterruptedException {

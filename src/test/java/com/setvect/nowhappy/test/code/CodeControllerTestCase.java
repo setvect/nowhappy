@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +15,11 @@ import com.setvect.nowhappy.test.MainTestBase;
 public class CodeControllerTestCase extends MainTestBase {
 	@Autowired
 	private CodeController controller;
+
+	@Before
+	public void after() {
+		insertInitValue();
+	}
 
 	@Test
 	public void test() {

@@ -33,9 +33,9 @@ import com.setvect.nowhappy.thumbnail.ThumbnailImageServlet;
 @ImportResource({ "classpath:/spring/context-transaction.xml" })
 public class NowHappyApplication extends SpringBootServletInitializer {
 	/** 설정 파일 경로. */
-	private static final String CONFIG_CONFIG_PROPERTIES = "/application.properties";
+	private static final String CONFIG_PROPERTIES = "/application.properties";
 	/** 테스트 설정 파일 경로 */
-	public static final String CONFIG_CONFIG_PROPERTIES_TEST = "./src/test/resources/test.properties";
+	public static final String CONFIG_PROPERTIES_TEST = "./src/test/resources/test.properties";
 
 	/**
 	 * Application 시작점.
@@ -65,10 +65,10 @@ public class NowHappyApplication extends SpringBootServletInitializer {
 		return () -> {
 			String testEnv = System.getProperty(ApplicationConstant.TEST_CHECK_PROPERTY_NAME);
 			if (Boolean.parseBoolean(testEnv)) {
-				File configFile = new File(CONFIG_CONFIG_PROPERTIES_TEST);
+				File configFile = new File(CONFIG_PROPERTIES_TEST);
 				EnvirmentProperty.init(configFile);
 			} else {
-				URL configUrl = NowHappyApplication.class.getResource(CONFIG_CONFIG_PROPERTIES);
+				URL configUrl = NowHappyApplication.class.getResource(CONFIG_PROPERTIES);
 				EnvirmentProperty.init(configUrl);
 			}
 
