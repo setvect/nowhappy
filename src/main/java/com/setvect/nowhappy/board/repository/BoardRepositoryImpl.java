@@ -32,8 +32,8 @@ class BoardRepositoryImpl implements BoardRepositoryCustom {
 		@SuppressWarnings("unchecked")
 		List<BoardVo> resultList = query.getResultList();
 
-		GenericPage<BoardVo> resultPage = new GenericPage<BoardVo>(resultList, pageCondition.getStartCursor(), totalCount,
-				pageCondition.getReturnCount());
+		GenericPage<BoardVo> resultPage = new GenericPage<BoardVo>(resultList, pageCondition.getStartCursor(),
+				totalCount, pageCondition.getReturnCount());
 		return resultPage;
 	}
 
@@ -47,9 +47,11 @@ class BoardRepositoryImpl implements BoardRepositoryCustom {
 
 		// 두개가 동새에 검색 조건에 포함 될 수 없음
 		if (!StringUtilAd.isEmpty(pageCondition.getSearchCode())) {
-			where += " and b.boardCode like " + StringUtilAd.getSqlStringLike(pageCondition.getSearchCode());
+			where += " and upper(b.boardCode) like "
+					+ StringUtilAd.getSqlStringLike(pageCondition.getSearchCode()).toUpperCase();
 		} else if (!StringUtilAd.isEmpty(pageCondition.getSearchName())) {
-			where += " and b.name like " + StringUtilAd.getSqlStringLike(pageCondition.getSearchName());
+			where += " and upper(b.name) like "
+					+ StringUtilAd.getSqlStringLike(pageCondition.getSearchName()).toUpperCase();
 		}
 		return where;
 	}

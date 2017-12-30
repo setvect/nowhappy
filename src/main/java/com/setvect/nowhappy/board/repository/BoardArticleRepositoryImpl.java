@@ -39,8 +39,8 @@ public class BoardArticleRepositoryImpl implements BoardArticleRepositoryCustom 
 		@SuppressWarnings("unchecked")
 		List<BoardArticleVo> resultList = query.getResultList();
 
-		GenericPage<BoardArticleVo> resultPage = new GenericPage<BoardArticleVo>(resultList, pageCondition.getStartCursor(),
-				totalCount, pageCondition.getReturnCount());
+		GenericPage<BoardArticleVo> resultPage = new GenericPage<BoardArticleVo>(resultList,
+				pageCondition.getStartCursor(), totalCount, pageCondition.getReturnCount());
 		return resultPage;
 	}
 
@@ -85,11 +85,12 @@ public class BoardArticleRepositoryImpl implements BoardArticleRepositoryCustom 
 
 		// 두개 이상 동시에 검색 조건에 포함 될 수 없음
 		if (!StringUtilAd.isEmpty(search.getSearchName())) {
-			where += " and b.name like " + StringUtilAd.getSqlStringLike(search.getSearchName());
+			where += " and upper(b.name) like " + StringUtilAd.getSqlStringLike(search.getSearchName()).toUpperCase();
 		} else if (!StringUtilAd.isEmpty(search.getSearchTitle())) {
-			where += " and b.title like " + StringUtilAd.getSqlStringLike(search.getSearchTitle());
+			where += " and upper(b.title) like " + StringUtilAd.getSqlStringLike(search.getSearchTitle()).toUpperCase();
 		} else if (!StringUtilAd.isEmpty(search.getSearchContent())) {
-			where += " and b.content like " + StringUtilAd.getSqlStringLike(search.getSearchContent());
+			where += " and upper(b.content) like "
+					+ StringUtilAd.getSqlStringLike(search.getSearchContent()).toUpperCase();
 		}
 		return where;
 	}

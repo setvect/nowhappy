@@ -43,11 +43,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 		String where = "where u.deleteF = 'N' ";
 
 		if (StringUtils.isNotEmpty(search.getSearchId())) {
-			where += " and u.userId like " + StringEtcUtil.getSqlStringLike(search.getSearchId());
+			where += " and upper(u.userId) like " + StringEtcUtil.getSqlStringLike(search.getSearchId()).toUpperCase();
 		}
 
 		if (StringUtils.isNotEmpty(search.getSearchName())) {
-			where += " and u.name like " + StringEtcUtil.getSqlStringLike(search.getSearchName());
+			where += " and upper(u.name) like " + StringEtcUtil.getSqlStringLike(search.getSearchName()).toUpperCase();
 		}
 		return where;
 	}

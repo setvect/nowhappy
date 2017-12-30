@@ -63,9 +63,10 @@ public class NoteRepositoryImpl implements NoteRepositoryCustom {
 
 		// 두개 이상 동시에 검색 조건에 포함 될 수 없음
 		if (!StringUtilAd.isEmpty(search.getSearchTitle())) {
-			where += " and n.title like " + StringUtilAd.getSqlStringLike(search.getSearchTitle());
+			where += " and upper(n.title) like " + StringUtilAd.getSqlStringLike(search.getSearchTitle()).toUpperCase();
 		} else if (!StringUtilAd.isEmpty(search.getSearchContent())) {
-			where += " and n.content like " + StringUtilAd.getSqlStringLike(search.getSearchContent());
+			where += " and upper(n.content) like "
+					+ StringUtilAd.getSqlStringLike(search.getSearchContent()).toUpperCase();
 		}
 		return where;
 	}

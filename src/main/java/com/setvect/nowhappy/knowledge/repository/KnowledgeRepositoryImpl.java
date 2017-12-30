@@ -54,7 +54,8 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 
 		if (StringUtilAd.isNotEmpty(searchWord)) {
 			String wordLikeString = StringUtilAd.getSqlStringLike(searchWord);
-			where += " and ( b.problem like " + wordLikeString + " OR b.solution like " + wordLikeString + " )";
+			where += " and ( upper(b.problem) like " + wordLikeString.toUpperCase() + " OR upper(b.solution) like "
+					+ wordLikeString.toUpperCase() + " )";
 		}
 		if (StringUtilAd.isNotEmpty(searchClassify)) {
 			where += " and b.classifyC = " + StringUtilAd.getSqlString(searchClassify);
