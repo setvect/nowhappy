@@ -3,11 +3,8 @@
 	<div class="panel panel-default">
 		<form class="navbar-form navbar-left" role="search">
 			<div class="form-group">
-				<select class="form-control"  data-ng-model="searchParam.classifyC" data-ng-change="search();">
-				<option value="">--전체--</option>
-					<option data-ng-repeat="cate in category" value="{{cate.minorCode}}">
-						{{cate.codeValue}}
-					</option>
+				<select class="form-control" data-ng-model="searchParam.classifyC" data-ng-change="search();" data-ng-options="cate.minorCode as cate.codeValue for cate in category">
+					<option value="">--전체--</option>
 				</select> 
 				<input type="text" class="form-control" placeholder="Search" data-ng-model="searchParam.word">
 			</div>

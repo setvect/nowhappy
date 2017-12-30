@@ -14,6 +14,6 @@
 	<div>
 		<a href="#/update/{{readItem.knowledgeSeq}}" class="btn btn-primary">수정</a>
 		<a href="javascript:void(1)" data-ng-click="remove(readItem)" class="btn btn-warning">삭제</a>
-		<a href="#/list" class="btn btn-default">목록</a>					
+		<a href="#/list" class="btn btn-default">목록</a>
 	</div>
 </div>
