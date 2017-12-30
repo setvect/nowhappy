@@ -15,11 +15,12 @@ import com.setvect.nowhappy.knowledge.vo.KnowledgeVo;
  * 게시물 Repository
  */
 public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
+	/** 쿼리 실행 */
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
-	public GenericPage<KnowledgeVo> getKnowledgePagingList(KnowledgeSearch pageCondition) {
+	public GenericPage<KnowledgeVo> getKnowledgePagingList(final KnowledgeSearch pageCondition) {
 		String q = "select count(*) from KnowledgeVo b " + getArticleWhereClause(pageCondition);
 		Query query = em.createQuery(q);
 		int totalCount = ((Long) query.getSingleResult()).intValue();
@@ -33,12 +34,19 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 		@SuppressWarnings("unchecked")
 		List<KnowledgeVo> resultList = query.getResultList();
 
-		GenericPage<KnowledgeVo> resultPage = new GenericPage<KnowledgeVo>(resultList, pageCondition.getStartCursor(), totalCount,
-				pageCondition.getReturnCount());
+		GenericPage<KnowledgeVo> resultPage = new GenericPage<KnowledgeVo>(resultList, pageCondition.getStartCursor(),
+				totalCount, pageCondition.getReturnCount());
 		return resultPage;
 	}
 
-	private String getArticleWhereClause(KnowledgeSearch search) {
+	/**
+	 * 검색 조건
+	 *
+	 * @param search
+	 *            검색 조건
+	 * @return where절
+	 */
+	private String getArticleWhereClause(final KnowledgeSearch search) {
 		String where = " where b.deleteF = 'N' ";
 
 		String searchWord = search.getSearchWord();
@@ -47,10 +55,10 @@ public class KnowledgeRepositoryImpl implements KnowledgeRepositoryCustom {
 		if (StringUtilAd.isNotEmpty(searchWord)) {
 			String wordLikeString = StringUtilAd.getSqlStringLike(searchWord);
 			where += " and ( b.problem like " + wordLikeString + " OR b.solution like " + wordLikeString + " )";
-		} else if (StringUtilAd.isNotEmpty(searchClassify)) {
+		}
+		if (StringUtilAd.isNotEmpty(searchClassify)) {
 			where += " and b.classifyC = " + StringUtilAd.getSqlString(searchClassify);
 		}
 		return where;
 	}
-
 }
