@@ -13,6 +13,7 @@ nowhappy_pass
 81dc9bdb52d04dc20036dbd8313ed055 = 1234
 
 [진행 해야된는 것]
+NEW_20171231: vue.js 변경
 NEW_20161004: JPA Parent child 구조로 사용 
 
 PBM_20160402: 게시판 등록 오류
