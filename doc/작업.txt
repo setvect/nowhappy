@@ -1,3 +1,5 @@
+ㅎㅎㅎㅎㅎ, ㅋㅋㅋㅋㅋ
+
 1. 테이블 만듦.
 	CREATE TABLE TBEA_KNOWLEDGE(
 		KNOWLEDGE_SEQ INT NOT NULL,
