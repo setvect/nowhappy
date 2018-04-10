@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>HTML5 Canvas Winning Wheel</title>
+<link rel="stylesheet" href="main.css" type="text/css" />
+<script type="text/javascript" src="../js/jquery-2.1.3.js"></script>
+<script type="text/javascript" src="../js/jquery.cookie.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script  src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta charset="utf-8">
+<title>Now Happy - 복슬노트</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+
+
+<body>
+	<div class="container">
+		<h2>결정장애를 위한 점심 메뉴 선택</h2>
+		<div class="form-group">
+			<label for="menu">먹고싶은거</label> 
+			<textarea class="form-control" id="menu" placeholder="먹을만한 매뉴를 입력해라." style="height: 150px;"></textarea>
+		</div>
+		<button type="button" class="btn btn-success" onclick="next()">그 다음</button>
+	</div>
+	
+	<script type="text/javascript">
+		$(function(){
+			var menu = $.cookie('lunch-menu');
+			$("#menu").val(menu);
+		});
+	
+		function next(){
+			var menu = $("#menu").val();
+			$.cookie('lunch-menu', menu);
+			location.href='choice.html';
+		}
+	</script>
+	
+</body>
+</html>
