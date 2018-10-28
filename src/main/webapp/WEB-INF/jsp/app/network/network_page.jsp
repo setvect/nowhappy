@@ -42,7 +42,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Project name</a>
+				<a class="navbar-brand" href="#">복슬관계</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
@@ -60,45 +60,57 @@
 		function RelationNetwork(id) {
 			this.id = id;
 			this.network = null;
-			this.displayNetwork(id);
+			var json = $.getJSON("/delete_me/temp/test.json")
+				.done((data) => {
+					this.displayNetwork(id, data);
+				});
 		}
 
-		RelationNetwork.prototype.displayNetwork = function(id) {
-			// create an array with nodes
-			let nodes = new vis.DataSet([
-				{ id: 1, label: 'Node 1' },
-				{ id: 2, label: 'Node 2' },
-				{ id: 3, label: 'Node 3' },
-				{ id: 4, label: 'Node 4' },
-				{ id: 5, label: 'Node 5' }
-			]);
-
-			// create an array with edges
-			let edges = new vis.DataSet([
-				{ from: 1, to: 3 },
-				{ from: 1, to: 2 },
-				{ from: 2, to: 4 },
-				{ from: 2, to: 5 },
-				{ from: 3, to: 3 }
-			]);
-
-			// create a network
+		RelationNetwork.prototype.displayNetwork = function (id, graphData) {
 			let container = document.getElementById(this.id);
 			let data = {
-				nodes: nodes,
-				edges: edges
+				nodes: graphData.nodes,
+				edges: graphData.edges
 			};
-			let options = { physics: false };
-			network = new vis.Network(container, data, options);
+			let options = {
+				physics: false,
+				edges: {
+					smooth: {
+						type: 'continuous'
+					}
+				}
+			};
+			this.network = new vis.Network(container, data, options);
 		}
 
-		RelationNetwork.prototype.toJson = function(){
-			console.log("$$$$$$$$$$$$$$$$");
+		RelationNetwork.prototype.objectToArray = function (obj) {
+			console.log("####", obj);
+			console.log("####", this.network);
+			return Object.keys(obj).map(function (key) {
+				obj[key].id = key;
+				return obj[key];
+			});
+		}
+
+		RelationNetwork.prototype.getJson = function () {
+			var nodes = this.objectToArray(this.network.getPositions());
+
+			nodes.forEach((elem, index) => {
+				// need to replace this with a tree of the network, then get child direct children of the element
+				elem.connections = this.network.getConnectedNodes(index);
+			});
+
+			var exportValue = JSON.stringify(nodes, undefined, 2);
+
+			return exportValue;
 		}
 
 		$(() => {
-			let network = new RelationNetwork('mynetwork');
-			network.toJson();
+			let relation = new RelationNetwork('mynetwork');
+			$("._json").click(() => {
+				var a = relation.getJson();
+				// console.log("$$$$$$$$$", a);
+			});
 		});
 	</script>
 </body>
