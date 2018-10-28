@@ -1,22 +1,46 @@
 {
   "nodes": [
-    { "id": "1", "label": "Node 1", "shape": "ellipse", "color": "#99cc11" },
+    { "id": "1", "label": "Node 1", "shape": "ellipse", "color": "#22ee55" },
     { "id": "2", "label": "Node 2\nline 2", "shape": "box" },
     { "id": "3", "label": "Node 3", "shape": "ellipse" },
     { "id": "4", "label": "Node 4", "shape": "circle" },
     { "id": "5", "label": "Node 5", "shape": "ellipse" }
   ],
   "edges": [
-    { "from": "1", "to": "2", "label": "apples", "dashes": true },
-    { "from": "1", "to": "3", "label": "bananas" },
-    { "from": "2", "to": "4", "label": "cherries" },
-    { "from": "2", "to": "5", "label": "dates" },
+    {
+      "from": "1",
+      "to": "2",
+      "label": "apples",
+      "color": { "color": "red", "highlight": "red" },
+      "dashes": false
+    },
+    {
+      "from": "1",
+      "to": "3",
+      "label": "bananas",
+      "color": { "color": "green", "highlight": "green" },
+      "dashes": false
+    },
+    {
+      "from": "2",
+      "to": "4",
+      "label": "cherries",
+      "color": { "color": "green", "highlight": "green" },
+      "dashes": false
+    },
+    {
+      "from": "2",
+      "to": "5",
+      "label": "dates",
+      "color": { "color": "green", "highlight": "green" },
+      "dashes": false
+    },
     {
       "from": "2",
       "to": "3",
       "label": "EAGLES!",
-      "color": { "color": "green", "highlight": "blue" },
-      "arrows": { "to": { "scaleFactor": "1.25", "type": "circle" } }
+      "color": { "color": "green", "highlight": "green" },
+      "dashes": true
     }
   ]
 }

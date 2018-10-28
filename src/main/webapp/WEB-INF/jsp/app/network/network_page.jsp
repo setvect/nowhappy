@@ -48,9 +48,9 @@
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="javascript:void(0)" class="_list" href="#">목록</a></li>
-					<li><a href="javascript:void(0)" class="_add">추가</a></li>
+					<li><a href="javascript:void(0)" class="_add">노드 추가</a></li>
+					<li><a href="javascript:void(0)" class="_link">연결선 추가</a></li>
 					<li><a href="javascript:void(0)" class="_edit">수정</a></li>
-					<li><a href="javascript:void(0)" class="_link">연결선추가</a></li>
 					<li><a href="javascript:void(0)" class="_remove">삭제</a></li>
 					<li><a href="javascript:void(0)" class="_json">JSON</a></li>
 				</ul>
@@ -60,9 +60,8 @@
 	</nav>
 	<div id="mynetwork"></div>
 
-
-	<!-- Modal -->
-	<div class="modal fade" id="addModal" role="dialog">
+	<!-- 노드 Modal -->
+	<div class="modal fade" id="addNodeModal" role="dialog">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -70,9 +69,9 @@
 					<h4 class="modal-title">노드 추가</h4>
 				</div>
 				<div class="modal-body">
-					<form name="addForm">
+					<form name="addNodeForm">
 						<div class="form-group">
-							<label for="text_01">레이블을</label>
+							<label for="text_01">레이블</label>
 							<input type="input" class="form-control" id="text_01" maxlength="20" name="label">
 						</div>
 						<div class="form-group">
@@ -83,7 +82,7 @@
 								<option value="circle">원</option>
 							</select>
 						</div>
-						<div class="checkbox">
+						<div class="form-group">
 							<label for="text_02">색:</label>
 							<div class="input-group colorpicker-component _colorpicker">
 								<input type="text" value="#00AABB" class="form-control" id="text_02" name="color" />
@@ -93,7 +92,55 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-info _addBtn">확인</button>
+					<button type="button" class="btn btn-info _addNodeBtn">확인</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 연결선 Modal -->
+	<div class="modal fade" id="addEdgeModal" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">연결선 추가</h4>
+				</div>
+				<div class="modal-body">
+					<form name="addEdgeForm">
+						<div class="form-group">
+							<label for="text_01">시작</label>
+							<select class="form-control" name="from" id="select_01">
+								<!--동적으로 등록-->
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="text_01">끝</label>
+							<select class="form-control" name="to" id="select_01">
+								<!--동적으로 등록-->
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="text_01">레이블</label>
+							<input type="input" class="form-control" id="text_01" maxlength="20" name="label">
+						</div>
+						<div class="form-group">
+							<label>선형태:</label>
+							<label><input type="radio" value="false" name="dashes" checked="checked">실선</label>
+							<label><input type="radio" value="true" name="dashes">점선</label>
+						</div>
+						<div class="form-group">
+							<label for="text_02">색:</label>
+							<div class="input-group colorpicker-component _colorpicker">
+								<input type="text" value="#00AABB" class="form-control" id="text_02" name="color" />
+								<span class="input-group-addon"><i></i></span>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info _addEdgeBtn">확인</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 				</div>
 			</div>
@@ -131,22 +178,11 @@
 			this.network = new vis.Network(container, data, options);
 		}
 
-		RelationNetwork.prototype.objectToArray = function (obj) {
-			console.log("####", this.network);
-			console.log("####", this.nodes);
-			console.log("####", this.edges);
-
-			return Object.keys(obj).map(function (key) {
-				obj[key].id = key;
-				return obj[key];
-			});
-		}
-
 		// 선택한 node 반환.
 		// 없으면 null 반환
 		RelationNetwork.prototype.getSelectNodeId = function (obj) {
 			let selectionList = this.network.getSelection();
-			if(selectionList.nodes.length > 0){
+			if (selectionList.nodes.length > 0) {
 				return selectionList.nodes[0];
 			}
 			return null;
@@ -157,10 +193,10 @@
 		RelationNetwork.prototype.getSelectEdgeId = function (obj) {
 			let selectionList = this.network.getSelection();
 			// edge만 선택 시 반환. 즉 노드 선택을 하여 edge가 선택된 경우는 null 반환
-			if(selectionList.nodes.length > 0){
+			if (selectionList.nodes.length > 0) {
 				return null;
 			}
-			if(selectionList.edges.length > 0){
+			if (selectionList.edges.length > 0) {
 				return selectionList.edges[0];
 			}
 			return null;
@@ -168,14 +204,12 @@
 
 		RelationNetwork.prototype.getJson = function () {
 			// TODO Position...
-			this.objectToArray(this.network.getPositions());
-			// console.log("%$%%%%%%%%%", this.nodes.get());
+			// this.network.getPositions()
 			var data = { nodes: this.nodes.get(), edges: this.edges.get() };
 
 			var exportValue = JSON.stringify(data, undefined, 2);
 			return exportValue;
 		}
-
 
 		$(() => {
 			let relation = new RelationNetwork('mynetwork');
@@ -183,23 +217,37 @@
 				console.log("list");
 			});
 			$('._colorpicker').colorpicker();
-			// 등록
+			// 노드 등록
 			$("._add").click(() => {
-				console.log("add");
-				$("#addModal").modal();
+				$("#addNodeModal").modal();
+			});
+			// 연결선 등록
+			$("._link").click(() => {
+				let form = $("form[name='addEdgeForm']");
+				let fSelect = form.find("select[name='from']");
+				let tSelect = form.find("select[name='to']");
+				fSelect.html("");
+				tSelect.html("");
+				relation.nodes.forEach((v)=>{
+					fSelect.append(new Option(v.label, v.id));
+					tSelect.append(new Option(v.label, v.id));
+				});
+
+				let nodeId = relation.getSelectNodeId();
+				if(nodeId){
+					fSelect.val(nodeId);
+				}
+
+				$("#addEdgeModal").modal();
 			});
 			// 수정
 			$("._edit").click(() => {
 				console.log("edit");
 			});
-			// 연결선 추가
-			$("._link").click(() => {
-				console.log("link");
-			});
 
-			// 등록 확인
-			$("._addBtn").click(() => {
-				let form = $("form[name='addForm']");
+			// 노드 등록 확인
+			$("._addNodeBtn").click(() => {
+				let form = $("form[name='addNodeForm']");
 				if ($.FORM.isEmptyRtnMsg(form.find("input[name='label']").get(0), "레이블을 입력하세요.")) {
 					return;
 				}
@@ -209,31 +257,41 @@
 					color: form.find("input[name='color']").val(),
 					id: (Math.random() * 1e7).toString(32)
 				}
-				console.log("####", newNode);
 				relation.nodes.add(newNode);
 
 				let selectNodeId = relation.getSelectNodeId();
-				if(selectNodeId){
+				if (selectNodeId) {
 					relation.edges.add({
 						from: selectNodeId,
 						to: newNode.id
 					})
 				}
-				$("#addModal").modal("hide");
+				$("#addNodeModal").modal("hide");
+			});
+
+			// 연결선 등록 확인
+			$("._addEdgeBtn").click(() => {
+				let form = $("form[name='addEdgeForm']");
+				let newEdge = {
+					from: form.find("select[name='from']").val(),
+					to: form.find("select[name='to']").val(),
+					label: form.find("input[name='label']").val(),
+					dashes: form.find("input[name='dashes']:checked").val() == "true",
+					color: {color: form.find("input[name='color']").val(), highlight: form.find("input[name='color']").val()},
+					id: (Math.random() * 1e7).toString(32)
+				}
+				relation.edges.add(newEdge);
+				$("#addEdgeModal").modal("hide");
 			});
 
 			$("._remove").click(() => {
-				let nodeId = relation.getSelectNodeId();
-				if(nodeId){
-					relation.nodes.remove({ id: nodeId});
-					return;
-				}
-
-				let edgeId = relation.getSelectEdgeId();
-				if(edgeId){
-					relation.edges.remove({ id: edgeId });
-					return;
-				}
+				let selectionList = relation.network.getSelection();
+				selectionList.nodes.forEach((id) => {
+					relation.nodes.remove({ id: id });
+				});
+				selectionList.edges.forEach((id) => {
+					relation.edges.remove({ id: id});
+				});
 			});
 
 			$("._json").click(() => {
