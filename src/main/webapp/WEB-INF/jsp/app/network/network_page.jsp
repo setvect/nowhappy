@@ -70,6 +70,7 @@
 				</div>
 				<div class="modal-body">
 					<form name="addNodeForm">
+						<input type="hidden" name="id" value="" />
 						<div class="form-group">
 							<label for="text_01">레이블</label>
 							<input type="input" class="form-control" id="text_01" maxlength="20" name="label">
@@ -109,6 +110,7 @@
 				</div>
 				<div class="modal-body">
 					<form name="addEdgeForm">
+						<input type="hidden" name="id" value="" />
 						<div class="form-group">
 							<label for="text_01">시작</label>
 							<select class="form-control" name="from" id="select_01">
@@ -148,6 +150,9 @@
 	</div>
 
 	<script type="text/javascript">
+		const DEFAULT_NODE_COLOR = "#ccffcc";
+		const DEFAULT_EDGE_COLOR = "#66ff66";
+
 		function RelationNetwork(id) {
 			this.id = id;
 			this.network = null;
@@ -213,75 +218,111 @@
 
 		$(() => {
 			let relation = new RelationNetwork('mynetwork');
-			$("._list").click(() => {
-				console.log("list");
-			});
-			$('._colorpicker').colorpicker();
-			// 노드 등록
-			$("._add").click(() => {
+
+			function addNodeForm(node) {
+				let form = $("form[name='addNodeForm']");
+				form.find("input[name='id']").val(node.id);
+				form.find("input[name='label']").val(node.label);
+				form.find("select[name='shape']").val(node.shape);
+				form.find("input[name='color']").val(node.color || DEFAULT_NODE_COLOR);
+				$('._colorpicker').colorpicker('destroy');
+				$('._colorpicker').colorpicker({color: node.color || DEFAULT_NODE_COLOR});
 				$("#addNodeModal").modal();
-			});
-			// 연결선 등록
-			$("._link").click(() => {
+			}
+
+			function addEdgeForm() {
 				let form = $("form[name='addEdgeForm']");
 				let fSelect = form.find("select[name='from']");
 				let tSelect = form.find("select[name='to']");
 				fSelect.html("");
 				tSelect.html("");
-				relation.nodes.forEach((v)=>{
+				relation.nodes.forEach((v) => {
 					fSelect.append(new Option(v.label, v.id));
 					tSelect.append(new Option(v.label, v.id));
 				});
 
 				let nodeId = relation.getSelectNodeId();
-				if(nodeId){
+				if (nodeId) {
 					fSelect.val(nodeId);
 				}
 
 				$("#addEdgeModal").modal();
-			});
-			// 수정
-			$("._edit").click(() => {
-				console.log("edit");
-			});
+			}
 
-			// 노드 등록 확인
-			$("._addNodeBtn").click(() => {
+			function addNodeProc() {
 				let form = $("form[name='addNodeForm']");
 				if ($.FORM.isEmptyRtnMsg(form.find("input[name='label']").get(0), "레이블을 입력하세요.")) {
 					return;
 				}
 				let newNode = {
+					id: form.find("input[name='id']").val() || (Math.random() * 1e7).toString(32),
 					label: form.find("input[name='label']").val(),
 					shape: form.find("select[name='shape']").val(),
 					color: form.find("input[name='color']").val(),
-					id: (Math.random() * 1e7).toString(32)
 				}
-				relation.nodes.add(newNode);
+				// 수정
+				if (form.find("input[name='id']").val()) {
 
-				let selectNodeId = relation.getSelectNodeId();
-				if (selectNodeId) {
-					relation.edges.add({
-						from: selectNodeId,
-						to: newNode.id
-					})
+					relation.nodes.update(newNode);
+				}
+				// 추가
+				else {
+					relation.nodes.add(newNode);
+
+					let selectNodeId = relation.getSelectNodeId();
+					if (selectNodeId) {
+						relation.edges.add({
+							from: selectNodeId,
+							to: newNode.id
+						})
+					}
 				}
 				$("#addNodeModal").modal("hide");
-			});
+			}
 
-			// 연결선 등록 확인
-			$("._addEdgeBtn").click(() => {
+			function addEdgeProc() {
 				let form = $("form[name='addEdgeForm']");
 				let newEdge = {
+					id: form.find("input[name='id']").val() || (Math.random() * 1e7).toString(32),
 					from: form.find("select[name='from']").val(),
 					to: form.find("select[name='to']").val(),
 					label: form.find("input[name='label']").val(),
 					dashes: form.find("input[name='dashes']:checked").val() == "true",
-					color: {color: form.find("input[name='color']").val(), highlight: form.find("input[name='color']").val()},
-					id: (Math.random() * 1e7).toString(32)
+					color: { color: form.find("input[name='color']").val(), highlight: form.find("input[name='color']").val() },
 				}
 				relation.edges.add(newEdge);
 				$("#addEdgeModal").modal("hide");
+			}
+
+
+			$("._list").click(() => {
+				console.log("list");
+			});
+
+			// 노드 등록
+			$("._add").click(() => addNodeForm({label:'', shape:'ellipse', color:'#ccffcc'}));
+			// 연결선 등록
+			$("._link").click(() => addEdgeForm());
+
+			// 노드 등록 확인
+			$("._addNodeBtn").click(() => addNodeProc());
+
+			// 연결선 등록 확인
+			$("._addEdgeBtn").click(() => addEdgeProc());
+
+			// 수정
+			$("._edit").click(() => {
+				let nodeId = relation.getSelectNodeId();
+				if (nodeId) {
+					addNodeForm(relation.nodes.get(nodeId));
+					return;
+				}
+				let edgeId = relation.getSelectEdgeId();
+				if (edgeId) {
+					addEdgeForm(relation.edges.get(nodeId));
+					return;
+				}
+				alert("뭐라도 선택해라.")
 			});
 
 			$("._remove").click(() => {
@@ -290,7 +331,7 @@
 					relation.nodes.remove({ id: id });
 				});
 				selectionList.edges.forEach((id) => {
-					relation.edges.remove({ id: id});
+					relation.edges.remove({ id: id });
 				});
 			});
 
