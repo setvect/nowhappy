@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +28,23 @@ public class NetworkController {
 	private NetworkRepository networkRepository;
 
 	/**
-	 * @param req
-	 * @param res
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/network/list.do")
+	public String list(HttpServletRequest request) {
+		if (!ApplicationUtil.isAdmin(request)) {
+			return null;
+		}
+		return "/app/network/network_list";
+	}
+
+	/**
 	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping("/network/page.do")
-	public String page(final HttpServletRequest request, final HttpServletResponse response) {
+	public String page(HttpServletRequest request) {
 		if (!ApplicationUtil.isAdmin(request)) {
 			return null;
 		}
