@@ -11,6 +11,7 @@
 	<link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet">
 	<link href="<c:url value="/css/jquery-ui.css"/>" rel="stylesheet">
 	<link href="<c:url value="/lib/vis/vis.css"/>" rel="stylesheet">
+
 	<style type="text/css">
 		body,
 		html {
@@ -26,7 +27,7 @@
 		#mynetwork {
 			width: 100%;
 			height: 100%;
-			background-color:#f0f0f5;
+			background-color: #f0f0f5;
 		}
 
 		.color_label {
@@ -40,6 +41,11 @@
 	<script type="text/javascript" src="<c:url value='/js/bootswatch.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/js/util.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/lib/vis/vis.js'/>"></script>
+
+	<!-- 오른쪽 마우스 클릭, 메뉴 -->
+	<script src="${pageContext.request.contextPath}/lib/jQuery-contextMenu-master/jquery.contextMenu.js"></script>
+	<script src="${pageContext.request.contextPath}/lib/jQuery-contextMenu-master/jquery.ui.position.js"></script>
+	<link href="${pageContext.request.contextPath}/lib/jQuery-contextMenu-master/jquery.contextMenu.css" rel="stylesheet">
 </head>
 
 <body>
@@ -246,6 +252,7 @@
 			networkSeq = networkSeq || 0;
 			console.log("networkSeq", networkSeq);
 
+
 			if (networkSeq != 0) {
 				$.ajax({
 					url: $.APP.getContextRoot("/network/get.json"),
@@ -262,6 +269,23 @@
 				console.log(data);
 				relation = new RelationNetwork('mynetwork', JSON.parse(data));
 			}
+
+			// 오른쪽 마우스 클릭
+			$.contextMenu({
+				selector: '#mynetwork',
+				callback: function (type, options) {
+					console.log("############", type);
+					console.log("$$$$$$$$$", options);
+					$("." + type).trigger("click");
+				},
+				items: {
+					"_add": { name: "노드추가"},
+					"_link": { name: "연결선 추가" },
+					"_edit": { name: "수정"},
+					"_remove": { name: "제거"},
+				}
+			});
+
 			relation.network.on("select", function (params) {
 				menuDisplay();
 			});
