@@ -25,7 +25,7 @@ public class NetworkRepositoryImpl implements NetworkRepositoryCustom {
 		Query query = em.createQuery(q);
 		int totalCount = ((Long) query.getSingleResult()).intValue();
 
-		q = "select b from NetworkVo b " + getArticleWhereClause(pageCondition) + " order by networkSeq desc";
+		q = "select b from NetworkVo b " + getArticleWhereClause(pageCondition) + " order by editDate desc";
 
 		query = em.createQuery(q);
 		query.setFirstResult(pageCondition.getStartCursor());

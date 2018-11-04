@@ -19,7 +19,7 @@
 		}
 
 		._content {
-			padding-top: 100px;
+			padding-top: 90px;
 			margin-top: -35px;
 			height: 100%;
 		}
