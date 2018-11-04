@@ -11,7 +11,6 @@
 	<link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet">
 	<link href="<c:url value="/css/jquery-ui.css"/>" rel="stylesheet">
 	<link href="<c:url value="/lib/vis/vis.css"/>" rel="stylesheet">
-	<link href="<c:url value="/lib/bootstrap-colorpicker-2.5.2/css/bootstrap-colorpicker.css"/>" rel="stylesheet">
 	<style type="text/css">
 		body,
 		html {
@@ -27,7 +26,12 @@
 		#mynetwork {
 			width: 100%;
 			height: 100%;
-			background-color: beige;
+			background-color:#f0f0f5;
+		}
+
+		.color_label {
+			border: 1px solid #CCC;
+			padding-left: 15px;
 		}
 	</style>
 	<script type="text/javascript" src="<c:url value='/js/jquery-1.11.2.js'/>"></script>
@@ -36,7 +40,6 @@
 	<script type="text/javascript" src="<c:url value='/js/bootswatch.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/js/util.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/lib/vis/vis.js'/>"></script>
-	<script type="text/javascript" src="<c:url value='/lib/bootstrap-colorpicker-2.5.2/js/bootstrap-colorpicker.js'/>"></script>
 </head>
 
 <body>
@@ -57,13 +60,13 @@
 					<li><a href="javascript:void(0)" class="_add">노드 추가</a></li>
 					<li><a href="javascript:void(0)" class="_link">연결선 추가</a></li>
 					<li><a href="javascript:void(0)" class="_edit">수정</a></li>
-					<li><a href="javascript:void(0)" class="_remove">삭제</a></li>
+					<li><a href="javascript:void(0)" class="_remove">제거</a></li>
 					<li>
 						<div style="width: 40px;">&nbsp;</div>
 					</li>
 					<li><a href="javascript:void(0)" class="_remove">앞으로가기</a></li>
 					<li><a href="javascript:void(0)" class="_remove">되돌리기</a></li>
-					<li><a href="javascript:void(0)" class="_json">JSON</a></li>
+					<li><a href="javascript:void(0)" class="_delete">삭제</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -101,10 +104,13 @@
 						</div>
 						<div class="form-group">
 							<label for="text_02">색:</label>
-							<div class="input-group colorpicker-component _colorpicker">
-								<input type="text" value="#00AABB" class="form-control" id="text_02" name="color" />
-								<span class="input-group-addon"><i></i></span>
-							</div>
+							<label><input type="radio" name="color" value="#ffffcc"><span class="color_label" style="background: #ffffcc;"></span></label>
+							<label><input type="radio" name="color" value="#ffffff"><span class="color_label" style="background: #ffffff;"></span></label>
+							<label><input type="radio" name="color" value="#ffff66"><span class="color_label" style="background: #ffff66;"></span></label>
+							<label><input type="radio" name="color" value="#ccff66"><span class="color_label" style="background: #ccff66;"></span></label>
+							<label><input type="radio" name="color" value="#99ccff"><span class="color_label" style="background: #99ccff;"></span></label>
+							<label><input type="radio" name="color" value="#ff99ff"><span class="color_label" style="background: #ff99ff;"></span></label>
+							<label><input type="radio" name="color" value="#eeeeee"><span class="color_label" style="background: #eeeeee;"></span></label>
 						</div>
 					</form>
 				</div>
@@ -150,10 +156,13 @@
 						</div>
 						<div class="form-group">
 							<label for="text_02">색:</label>
-							<div class="input-group colorpicker-component _colorpicker">
-								<input type="text" value="#00AABB" class="form-control" id="text_02" name="color" />
-								<span class="input-group-addon"><i></i></span>
-							</div>
+							<label><input type="radio" name="color" value="#777777"><span class="color_label" style="background: #777777;"></span></label>
+							<label><input type="radio" name="color" value="#006699"><span class="color_label" style="background: #006699;"></span></label>
+							<label><input type="radio" name="color" value="#00ff00"><span class="color_label" style="background: #00ff00;"></span></label>
+							<label><input type="radio" name="color" value="#aa44aa"><span class="color_label" style="background: #aa44aa;"></span></label>
+							<label><input type="radio" name="color" value="#cc9900"><span class="color_label" style="background: #cc9900;"></span></label>
+							<label><input type="radio" name="color" value="#cc0066"><span class="color_label" style="background: #cc0066;"></span></label>
+							<label><input type="radio" name="color" value="#3333ff"><span class="color_label" style="background: #3333ff;"></span></label>
 						</div>
 					</form>
 				</div>
@@ -166,8 +175,8 @@
 	</div>
 
 	<script type="text/javascript">
-		const DEFAULT_NODE_COLOR = "#ccffcc";
-		const DEFAULT_EDGE_COLOR = "#66ff66";
+		const DEFAULT_NODE_COLOR = "#ffffcc";
+		const DEFAULT_EDGE_COLOR = "#777777";
 		let networkSeq = 0;
 
 		function RelationNetwork(id, data) {
@@ -245,6 +254,7 @@
 					async: false,
 					success: function (data) {
 						relation = new RelationNetwork('mynetwork', JSON.parse(data.jsonData));
+						$("input[name='title']").val(data.title);
 					}
 				});
 			} else {
@@ -254,6 +264,11 @@
 			}
 			relation.network.on("select", function (params) {
 				menuDisplay();
+			});
+
+			// 더블 클릭 시 수정 폼
+			relation.network.on("doubleClick", function (params) {
+				editForm();
 			});
 
 			// 수정, 삭제 메뉴 표시 여부
@@ -270,9 +285,8 @@
 				form.find("input[name='id']").val(node.id);
 				form.find("input[name='label']").val(node.label);
 				form.find("select[name='shape']").val(node.shape);
-				form.find("input[name='color']").val(node.color || DEFAULT_NODE_COLOR);
-				$('._colorpicker').colorpicker('destroy');
-				$('._colorpicker').colorpicker({ color: node.color || DEFAULT_NODE_COLOR });
+				let color = node.color || DEFAULT_NODE_COLOR;
+				form.find("input[name='color'][value='" + color + "']").prop('checked', true);
 				$("#addNodeModal").modal();
 			}
 
@@ -299,9 +313,7 @@
 				let dashes = edge.dashes || 'false';
 				form.find("input[name='dashes'][value=" + edge.dashes + "]").prop("checked", true);
 				let color = edge.color ? edge.color.color : DEFAULT_EDGE_COLOR;
-				form.find("input[name='color']").val();
-				$('._colorpicker').colorpicker('destroy');
-				$('._colorpicker').colorpicker({ color: color });
+				form.find("input[name='color'][value='" + color + "']").prop('checked', true);
 				$("#addEdgeModal").modal();
 			}
 
@@ -314,7 +326,7 @@
 					id: form.find("input[name='id']").val() || (Math.random() * 1e7).toString(32),
 					label: form.find("input[name='label']").val(),
 					shape: form.find("select[name='shape']").val(),
-					color: form.find("input[name='color']").val(),
+					color: form.find("input[name='color']:checked").val(),
 				}
 				// 수정
 				if (form.find("input[name='id']").val()) {
@@ -338,13 +350,15 @@
 
 			function addEdgeProc() {
 				let form = $("form[name='addEdgeForm']");
+				let color = form.find("input[name='color']:checked").val()
+
 				let newEdge = {
 					id: form.find("input[name='id']").val() || (Math.random() * 1e7).toString(32),
 					from: form.find("select[name='from']").val(),
 					to: form.find("select[name='to']").val(),
 					label: form.find("input[name='label']").val(),
 					dashes: form.find("input[name='dashes']:checked").val() == "true",
-					color: { color: form.find("input[name='color']").val(), highlight: form.find("input[name='color']").val() },
+					color: { color: color, highlight: color },
 				}
 				// 수정
 				if (form.find("input[name='id']").val()) {
@@ -373,6 +387,21 @@
 				});
 			}
 
+			// 수정 화면
+			function editForm() {
+				let nodeId = relation.getSelectNodeId();
+				if (nodeId) {
+					addNodeForm(relation.nodes.get(nodeId));
+					return;
+				}
+				let edgeId = relation.getSelectEdgeId();
+				if (edgeId) {
+					addEdgeForm(relation.edges.get(edgeId));
+					return;
+				}
+				alert("뭐라도 선택해라.")
+			}
+
 			$("input[name='title']").on("blur", () => {
 				save();
 			});
@@ -390,17 +419,7 @@
 
 			// 수정
 			$("._edit").click(() => {
-				let nodeId = relation.getSelectNodeId();
-				if (nodeId) {
-					addNodeForm(relation.nodes.get(nodeId));
-					return;
-				}
-				let edgeId = relation.getSelectEdgeId();
-				if (edgeId) {
-					addEdgeForm(relation.edges.get(edgeId));
-					return;
-				}
-				alert("뭐라도 선택해라.")
+				editForm();
 			});
 
 			$("._remove").click(() => {
@@ -415,9 +434,12 @@
 				save();
 			});
 
-			$("._json").click(() => {
-				var a = relation.getJson();
-				console.log("%%%", a);
+			$("._delete").click(() => {
+				if (confirm("연결관계 삭제할 거야")) {
+					$.post("/network/delete.do", { networkSeq: networkSeq }, function (data) {
+						location.href = "/network/list.do";
+					});
+				}
 			});
 
 			$("._edit, ._remove").hide();

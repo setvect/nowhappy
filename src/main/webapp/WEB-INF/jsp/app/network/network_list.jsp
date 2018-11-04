@@ -62,7 +62,7 @@
 		$(function () {
 			$.get($.APP.getContextRoot("/network/list.json"), function (data) {
 				$.map(data.list, function (v, idx) {
-					$("._list").html("<div class='col-md-3'><div class='thumbnail'><a href='javascript:void(0)' target='_blank' class='_network_item' data-seq='" + v.networkSeq + "'>" +
+					$("._list").append("<div class='col-md-3'><div class='thumbnail'><a href='javascript:void(0)' target='_blank' class='_network_item' data-seq='" + v.networkSeq + "'>" +
 						"<div class='caption'><p>" + v.title + "</p></div></a></div>")
 				});
 			});
