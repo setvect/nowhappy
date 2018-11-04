@@ -21,11 +21,11 @@ public class NetworkRepositoryImpl implements NetworkRepositoryCustom {
 
 	@Override
 	public GenericPage<NetworkVo> getNetworkPagingList(final NetworkSearch pageCondition) {
-		String q = "select count(*) from KnowledgeVo b " + getArticleWhereClause(pageCondition);
+		String q = "select count(*) from NetworkVo b " + getArticleWhereClause(pageCondition);
 		Query query = em.createQuery(q);
 		int totalCount = ((Long) query.getSingleResult()).intValue();
 
-		q = "select b from KnowledgeVo b " + getArticleWhereClause(pageCondition) + " order by knowledgeSeq desc";
+		q = "select b from NetworkVo b " + getArticleWhereClause(pageCondition) + " order by networkSeq desc";
 
 		query = em.createQuery(q);
 		query.setFirstResult(pageCondition.getStartCursor());

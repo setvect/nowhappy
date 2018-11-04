@@ -32,6 +32,9 @@ public class NetworkVo {
 	@Column(name = "REG_DATE", nullable = false)
 	private Date regDate;
 
+	@Column(name = "EDIT_DATE", nullable = false)
+	private Date editDate;
+
 	@Column(name = "DELETE_F", nullable = false, length = 1)
 	@Type(type = "yes_no")
 	private boolean deleteF;
@@ -94,6 +97,21 @@ public class NetworkVo {
 	 */
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
+	}
+
+	/**
+	 * @return the editDate
+	 */
+	public Date getEditDate() {
+		return editDate;
+	}
+
+	/**
+	 * @param editDate
+	 *            the editDate to set
+	 */
+	public void setEditDate(Date editDate) {
+		this.editDate = editDate;
 	}
 
 	/**

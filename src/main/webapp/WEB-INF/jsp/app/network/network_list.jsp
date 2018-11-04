@@ -45,73 +45,34 @@
 				</button>
 				<a class="navbar-brand" href="#">복슬관계</a>
 			</div>
-
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/network/page.do" class="_add">등록</a></li>
+				</ul>
+			</div>
 		</div>
 	</nav>
-	<div class="container" style="margin-top:70px">
-		<div class="row">
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<a target="_blank">
-						<div style="width:100%;height: 100px;">&nbsp;</div>
-						<div class="caption">
-							<p>zzzz</p>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<a href="/w3images/nature.jpg" target="_blank">
-						<div style="width:100%;height: 100px;">&nbsp;</div>
-						<div class="caption">
-							<p>ㅎㅎㅎㅎ</p>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<a href="/w3images/fjords.jpg" target="_blank">
-						<div style="width:100%;height: 100px;">&nbsp;</div>
-						<div class="caption">
-							<p>ㅎㅎㅎㅎ</p>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<a href="/w3images/fjords.jpg" target="_blank">
-						<div style="width:100%;height: 100px;">&nbsp;</div>
-						<div class="caption">
-							<p>ㅎㅎㅎㅎ</p>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<a href="/w3images/fjords.jpg" target="_blank">
-						<div style="width:100%;height: 100px;">&nbsp;</div>
-						<div class="caption">
-							<p>ㅎㅎㅎㅎ</p>
-						</div>
-					</a>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="thumbnail">
-					<a href="/w3images/fjords.jpg" target="_blank">
-						<div style="width:100%;height: 100px;">&nbsp;</div>
-						<div class="caption">
-							<p>ㅎㅎㅎㅎ</p>
-						</div>
-					</a>
-				</div>
-			</div>
+	<div class="container" style="padding-top:70px">
+		<div class="row _list">
+			<!-- list -->
 		</div>
 	</div>
+
+	<script>
+		$(function () {
+			$.get($.APP.getContextRoot("/network/list.json"), function (data) {
+				$.map(data.list, function (v, idx) {
+					$("._list").html("<div class='col-md-3'><div class='thumbnail'><a href='javascript:void(0)' target='_blank' class='_network_item' data-seq='" + v.networkSeq + "'>" +
+						"<div class='caption'><p>" + v.title + "</p></div></a></div>")
+				});
+			});
+
+			$("._list").on("click", "._network_item", function (t) {
+				let networkSeq = $(t.target).parents("._network_item").attr("data-seq");
+				location.href = "/network/page.do?networkSeq=" + networkSeq;
+			});
+		});
+	</script>
 </body>
 
 </html>

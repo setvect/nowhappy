@@ -1,6 +1,5 @@
 package com.setvect.nowhappy.network.web;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
 
@@ -11,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.setvect.common.util.GenericPage;
-import com.setvect.common.util.StringUtilAd;
 import com.setvect.nowhappy.ApplicationUtil;
 import com.setvect.nowhappy.network.repository.NetworkRepository;
 import com.setvect.nowhappy.network.vo.NetworkVo;
@@ -32,7 +31,7 @@ public class NetworkController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/network/list.do")
-	public String list(HttpServletRequest request) {
+	public String listPage(HttpServletRequest request) {
 		if (!ApplicationUtil.isAdmin(request)) {
 			return null;
 		}
@@ -61,19 +60,28 @@ public class NetworkController {
 	 */
 	@RequestMapping("/network/list.json")
 	@ResponseBody
-	public GenericPage<NetworkVo> listKnowledge(HttpServletRequest request) {
-		String pg = StringUtilAd.null2str(request.getParameter("pageNumber"), "1");
-		int pageNumber = Integer.parseInt(pg);
-		String t = request.getParameter("pagePerItem");
-		int pagePerItem = StringUtils.isEmpty(t) ? PAGE_PER_ITEM : Integer.parseInt(t);
-		int startCursor = (pageNumber - 1) * pagePerItem;
-
-		NetworkSearch pageCondition = new NetworkSearch(startCursor, pagePerItem);
+	public GenericPage<NetworkVo> list(HttpServletRequest request) {
+		NetworkSearch pageCondition = new NetworkSearch(0, Integer.MAX_VALUE);
 		setSearchCondition(request, pageCondition);
 
 		GenericPage<NetworkVo> page = networkRepository.getNetworkPagingList(pageCondition);
 
 		return page;
+	}
+
+	/**
+	 * 네트워크 목록
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/network/get.json")
+	@ResponseBody
+	public NetworkVo get(@RequestParam(name = "networkSeq") int networkSeq) {
+		NetworkVo network = networkRepository.findOne(networkSeq);
+		return network;
 	}
 
 	/**
@@ -90,39 +98,25 @@ public class NetworkController {
 	/**
 	 * 네트워크 등록
 	 *
-	 * @param request
-	 * @param response
+	 * @param network
+	 *            .
 	 * @return 추가한 코멘트 아이디
 	 */
-	@RequestMapping("/network/add.do")
+	@RequestMapping("/network/save.do")
 	@ResponseBody
-	public boolean add(@ModelAttribute NetworkVo network, HttpServletRequest request)
-			throws FileNotFoundException, IOException {
-		network.setRegDate(new Date());
+	public int add(@ModelAttribute final NetworkVo network) {
+		Date date = new Date();
+		network.setEditDate(new Date());
+		if (network.getNetworkSeq() == 0) {
+			network.setRegDate(date);
+		} else {
+			NetworkVo b = networkRepository.findOne(network.getNetworkSeq());
+			network.setRegDate(b.getRegDate());
+		}
+		network.setTitle(StringUtils.defaultString(network.getTitle(), "untitle"));
 
 		networkRepository.save(network);
-		return true;
-	}
-
-	/**
-	 * 네트워크 수정
-	 *
-	 * @param request
-	 * @param response
-	 * @return 추가한 코멘트 아이디
-	 * @throws IOException
-	 * @throws FileNotFoundException
-	 */
-	@RequestMapping("/network/update.do")
-	@ResponseBody
-	public boolean update(@ModelAttribute NetworkVo param, HttpServletRequest request)
-			throws FileNotFoundException, IOException {
-
-		NetworkVo network = networkRepository.findOne(param.getNetworkSeq());
-		network.setTitle(param.getTitle());
-		network.setJsonData(param.getJsonData());
-		networkRepository.save(network);
-		return true;
+		return network.getNetworkSeq();
 	}
 
 	/**

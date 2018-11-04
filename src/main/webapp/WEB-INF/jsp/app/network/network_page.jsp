@@ -18,9 +18,16 @@
 			height: 100%;
 		}
 
+		._content {
+			padding-top: 100px;
+			margin-top: -35px;
+			height: 100%;
+		}
+
 		#mynetwork {
 			width: 100%;
 			height: 100%;
+			background-color: beige;
 		}
 	</style>
 	<script type="text/javascript" src="<c:url value='/js/jquery-1.11.2.js'/>"></script>
@@ -33,7 +40,6 @@
 </head>
 
 <body>
-	<!-- Fixed navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -47,7 +53,7 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="javascript:void(0)" class="_list" href="#">목록</a></li>
+					<li><a href="/network/list.do" class="_list">목록</a></li>
 					<li><a href="javascript:void(0)" class="_add">노드 추가</a></li>
 					<li><a href="javascript:void(0)" class="_link">연결선 추가</a></li>
 					<li><a href="javascript:void(0)" class="_edit">수정</a></li>
@@ -63,7 +69,12 @@
 			<!--/.nav-collapse -->
 		</div>
 	</nav>
-	<div id="mynetwork"></div>
+	<div class="_content">
+		<div style="background-color: blue">
+			<input type="text" name="title" class="form-control" placeholder="제목 넣어라." />
+		</div>
+		<div id="mynetwork"></div>
+	</div>
 
 	<!-- 노드 Modal -->
 	<div class="modal fade" id="addNodeModal" role="dialog">
@@ -157,8 +168,7 @@
 	<script type="text/javascript">
 		const DEFAULT_NODE_COLOR = "#ccffcc";
 		const DEFAULT_EDGE_COLOR = "#66ff66";
-
-
+		let networkSeq = 0;
 
 		function RelationNetwork(id, data) {
 			this.id = id;
@@ -222,15 +232,26 @@
 
 		$(() => {
 			let relation;
-			$.ajax({
-				url: "/delete_me/temp/test.json",
-				dataType: 'json',
-				async: false,
-				success: function (data) {
-					relation = new RelationNetwork('mynetwork', data);
-				}
-			});
+			let url = new URL(location.href);
+			networkSeq = url.searchParams.get("networkSeq");
+			networkSeq = networkSeq || 0;
+			console.log("networkSeq", networkSeq);
 
+			if (networkSeq != 0) {
+				$.ajax({
+					url: $.APP.getContextRoot("/network/get.json"),
+					data: { networkSeq: networkSeq },
+					dataType: 'json',
+					async: false,
+					success: function (data) {
+						relation = new RelationNetwork('mynetwork', JSON.parse(data.jsonData));
+					}
+				});
+			} else {
+				let data = "{\"nodes\": [{\"id\": \"1\", \"label\": \"복슬\", \"shape\": \"ellips\", \"color\": \"#22ee55\" }],\"edges\": [ ]}";
+				console.log(data);
+				relation = new RelationNetwork('mynetwork', JSON.parse(data));
+			}
 			relation.network.on("select", function (params) {
 				menuDisplay();
 			});
@@ -312,6 +333,7 @@
 				}
 				$("#addNodeModal").modal("hide");
 				menuDisplay();
+				save();
 			}
 
 			function addEdgeProc() {
@@ -335,11 +357,24 @@
 
 				$("#addEdgeModal").modal("hide");
 				menuDisplay();
+				save();
 			}
 
+			// 저장.
+			function save() {
+				let title = $("input[name='title']").val();
+				let json = relation.getJson();
 
-			$("._list").click(() => {
-				console.log("list");
+				let param = { networkSeq: networkSeq, title: title, jsonData: json };
+				console.log("Saving.", networkSeq)
+				$.post("/network/save.do", param, function (data) {
+					networkSeq = data;
+					console.log("Saved.", networkSeq)
+				});
+			}
+
+			$("input[name='title']").on("blur", () => {
+				save();
 			});
 
 			// 노드 등록
@@ -377,6 +412,7 @@
 					relation.edges.remove({ id: id });
 				});
 				menuDisplay();
+				save();
 			});
 
 			$("._json").click(() => {
