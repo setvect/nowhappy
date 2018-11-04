@@ -140,14 +140,14 @@
 					<form name="addEdgeForm" onsubmit="return false;">
 						<input type="hidden" name="id" value="" />
 						<div class="form-group">
-							<label for="text_01">시작</label>
-							<select class="form-control" name="from" id="select_01">
+							<label for="select_02">시작</label>
+							<select class="form-control" name="from" id="select_02">
 								<!--동적으로 등록-->
 							</select>
 						</div>
 						<div class="form-group">
-							<label for="text_01">끝</label>
-							<select class="form-control" name="to" id="select_01">
+							<label for="select_03">끝</label>
+							<select class="form-control" name="to" id="select_03">
 								<!--동적으로 등록-->
 							</select>
 						</div>
@@ -238,8 +238,15 @@
 
 		RelationNetwork.prototype.getJson = function () {
 			// TODO Position...
-			// this.network.getPositions()
-			var data = { nodes: this.nodes.get(), edges: this.edges.get() };
+			let position = this.network.getPositions()
+			let ndoes = this.nodes.get();
+			ndoes.forEach((v) => {
+				let p = position[v.id];
+				v["x"] = p.x;
+				v["y"] = p.y;
+			});
+
+			var data = { nodes: ndoes, edges: this.edges.get() };
 
 			var exportValue = JSON.stringify(data, undefined, 2);
 			return exportValue;
@@ -250,8 +257,6 @@
 			let url = new URL(location.href);
 			networkSeq = url.searchParams.get("networkSeq");
 			networkSeq = networkSeq || 0;
-			console.log("networkSeq", networkSeq);
-
 
 			if (networkSeq != 0) {
 				$.ajax({
@@ -292,6 +297,11 @@
 				editForm();
 			});
 
+			// 드래그 후 저장
+			relation.network.on("dragEnd", function (params) {
+				save();
+			});
+
 			// 수정, 삭제 메뉴 표시 여부
 			function menuDisplay() {
 				let isSelectObject = relation.getSelectNodeId() != null || relation.getSelectEdgeId() != null;
@@ -320,7 +330,13 @@
 				let tSelect = form.find("select[name='to']");
 				fSelect.html("");
 				tSelect.html("");
-				relation.nodes.forEach((v) => {
+				let nodes = relation.nodes.get()
+
+				nodes.sort(function (a, b) {
+					return ('' + a.label).localeCompare(b.label);
+				});
+
+				nodes.forEach((v) => {
 					fSelect.append(new Option(v.label, v.id));
 					tSelect.append(new Option(v.label, v.id));
 				});
@@ -435,7 +451,9 @@
 			});
 
 			// 노드 등록
-			$("._add").click(() => addNodeForm({ label: '', shape: 'ellipse', color: DEFAULT_NODE_COLOR }));
+			$("._add").click(() => {
+				addNodeForm({ label: '', shape: 'ellipse', color: DEFAULT_NODE_COLOR });
+			});
 			// 연결선 등록
 			$("._link").click(() => addEdgeForm({ from: relation.getSelectNodeId(), to: null, label: '', color: { "color": DEFAULT_EDGE_COLOR, "highlight": DEFAULT_EDGE_COLOR }, dashes: false }));
 
