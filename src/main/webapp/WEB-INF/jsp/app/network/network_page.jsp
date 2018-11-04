@@ -94,7 +94,7 @@
 					<h4 class="modal-title">노드 추가</h4>
 				</div>
 				<div class="modal-body">
-					<form name="addNodeForm">
+					<form name="addNodeForm" onsubmit="return false;">
 						<input type="hidden" name="id" value="" />
 						<div class="form-group">
 							<label for="text_01">레이블</label>
@@ -137,7 +137,7 @@
 					<h4 class="modal-title">연결선 추가</h4>
 				</div>
 				<div class="modal-body">
-					<form name="addEdgeForm">
+					<form name="addEdgeForm" onsubmit="return false;">
 						<input type="hidden" name="id" value="" />
 						<div class="form-group">
 							<label for="text_01">시작</label>
@@ -266,7 +266,6 @@
 				});
 			} else {
 				let data = "{\"nodes\": [{\"id\": \"1\", \"label\": \"복슬\", \"shape\": \"ellips\", \"color\": \"#22ee55\" }],\"edges\": [ ]}";
-				console.log(data);
 				relation = new RelationNetwork('mynetwork', JSON.parse(data));
 			}
 
@@ -274,15 +273,13 @@
 			$.contextMenu({
 				selector: '#mynetwork',
 				callback: function (type, options) {
-					console.log("############", type);
-					console.log("$$$$$$$$$", options);
 					$("." + type).trigger("click");
 				},
 				items: {
-					"_add": { name: "노드추가"},
+					"_add": { name: "노드추가" },
 					"_link": { name: "연결선 추가" },
-					"_edit": { name: "수정"},
-					"_remove": { name: "제거"},
+					"_edit": { name: "수정" },
+					"_remove": { name: "제거" },
 				}
 			});
 
@@ -311,6 +308,9 @@
 				form.find("select[name='shape']").val(node.shape);
 				let color = node.color || DEFAULT_NODE_COLOR;
 				form.find("input[name='color'][value='" + color + "']").prop('checked', true);
+				$('#addNodeModal').on('shown.bs.modal', function () {
+					form.find("input[name='label']").focus();
+				})
 				$("#addNodeModal").modal();
 			}
 
@@ -338,6 +338,10 @@
 				form.find("input[name='dashes'][value=" + edge.dashes + "]").prop("checked", true);
 				let color = edge.color ? edge.color.color : DEFAULT_EDGE_COLOR;
 				form.find("input[name='color'][value='" + color + "']").prop('checked', true);
+				form.find("input[name='label']").focus();
+				$('#addEdgeModal').on('shown.bs.modal', function () {
+					form.find("input[name='label']").focus();
+				})
 				$("#addEdgeModal").modal();
 			}
 
@@ -463,6 +467,18 @@
 					$.post("/network/delete.do", { networkSeq: networkSeq }, function (data) {
 						location.href = "/network/list.do";
 					});
+				}
+			});
+
+			$("#addNodeModal").keypress(function (e) {
+				if (e.keyCode == 13) {
+					$("._addNodeBtn").trigger("click")
+				}
+			});
+
+			$("#addEdgeModal").keypress(function (e) {
+				if (e.keyCode == 13) {
+					$("._addEdgeBtn").trigger("click")
 				}
 			});
 
