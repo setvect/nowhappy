@@ -73,6 +73,7 @@
 					<li><a href="javascript:void(0)" class="_remove">앞으로가기</a></li>
 					<li><a href="javascript:void(0)" class="_remove">되돌리기</a></li>
 					<li><a href="javascript:void(0)" class="_delete">삭제</a></li>
+					<li><a href="javascript:void(0)" class="_fullscreen">전체화면</a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
@@ -497,6 +498,20 @@
 			$("#addEdgeModal").keypress(function (e) {
 				if (e.keyCode == 13) {
 					$("._addEdgeBtn").trigger("click")
+				}
+			});
+
+			$("._fullscreen").click(()=>{
+				let element  = $("#mynetwork")[0];
+				
+				if (element.requestFullScreen) {
+					element.requestFullScreen();
+				} else if (element.webkitRequestFullScreen) {
+					element.webkitRequestFullScreen();
+				} else if (element.mozRequestFullScreen) {
+					element.mozRequestFullScreen();
+				} else if (element.msRequestFullscreen) {
+					element.msRequestFullscreen(); // IE
 				}
 			});
 
