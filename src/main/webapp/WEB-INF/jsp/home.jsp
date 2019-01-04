@@ -20,9 +20,9 @@
 <link href="${pageContext.request.contextPath}/css/bootswatch.min.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/jquery-ui.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/custom.css" rel="stylesheet">
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-1.11.2.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-ui.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.js"></script>

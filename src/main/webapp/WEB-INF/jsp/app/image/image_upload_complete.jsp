@@ -15,7 +15,7 @@
 <link href="<c:url value="/css/bootswatch.min.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/jquery-ui.css"/>" rel="stylesheet">
 <link href="<c:url value="/css/custom.css"/>" rel="stylesheet">
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
 
 <script type="text/javascript">
 	var ImageUpload = new Object();
