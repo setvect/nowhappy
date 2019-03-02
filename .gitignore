@@ -1,2 +1,33 @@
+!.mvn/wrapper/maven-wrapper.jar
+/bin/
+/out/
+/build/
+/.gradle/
+/gradle/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### Webpack ##
+/node_modules/
+/src/main/webapp/assets/bundle/
+
+### ETC ###
+/.vscode/
 /target/
+/logs/
+/db/
+/docs/
 /temp/
