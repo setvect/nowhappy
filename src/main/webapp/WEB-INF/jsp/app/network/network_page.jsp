@@ -103,11 +103,9 @@
 						</div>
 						<div class="form-group">
 							<label for="select_01">모양:</label>
-							<select class="form-control" name="shape" id="select_01">
-								<option value="ellipse">타원</option>
-								<option value="box">사각형</option>
-								<option value="circle">원</option>
-							</select>
+							<label><input type="radio" name="shape" value="ellipse">타원</label>
+							<label><input type="radio" name="shape" value="box">사각형</label>
+							<label><input type="radio" name="shape" value="circle">원</label>
 						</div>
 						<div class="form-group">
 							<label for="text_02">색:</label>
@@ -271,7 +269,7 @@
 					}
 				});
 			} else {
-				let data = "{\"nodes\": [{\"id\": \"1\", \"label\": \"복슬\", \"shape\": \"ellips\", \"color\": \"#22ee55\" }],\"edges\": [ ]}";
+				let data = "{\"nodes\": [{\"id\": \"1\", \"label\": \"복슬\", \"shape\": \"ellipse\", \"color\": \"#22ee55\" }],\"edges\": [ ]}";
 				relation = new RelationNetwork('mynetwork', JSON.parse(data));
 			}
 
@@ -316,7 +314,10 @@
 				let form = $("form[name='addNodeForm']");
 				form.find("input[name='id']").val(node.id);
 				form.find("input[name='label']").val(node.label);
-				form.find("select[name='shape']").val(node.shape);
+
+				let shape = node.shape || 'ellipse';
+				form.find("input[name='shape'][value='" + shape + "']").prop('checked', true);
+
 				let color = node.color || DEFAULT_NODE_COLOR;
 				form.find("input[name='color'][value='" + color + "']").prop('checked', true);
 				$('#addNodeModal').on('shown.bs.modal', function () {
@@ -370,7 +371,7 @@
 				let newNode = {
 					id: form.find("input[name='id']").val() || (Math.random() * 1e7).toString(32),
 					label: form.find("input[name='label']").val(),
-					shape: form.find("select[name='shape']").val(),
+					shape: form.find("input[name='shape']:checked").val(),
 					color: form.find("input[name='color']:checked").val(),
 				}
 				// 수정
